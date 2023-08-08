@@ -16,5 +16,6 @@ public class Thaumcraft
     public Thaumcraft()
     {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        modEventBus.addListener(Thaumcraft.proxy::init);
     }
 }
