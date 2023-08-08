@@ -5,6 +5,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
+import thaumcraft.common.config.ConfigItems;
 
 @Mod.EventBusSubscriber(modid = Thaumcraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Registrar {
@@ -14,5 +15,6 @@ public class Registrar {
     }
 
     private static void registerItems(RegisterEvent.RegisterHelper<Item> event) {
+        ConfigItems.initItems(event);
     }
 }
