@@ -1,3 +1,11 @@
 {
-
+  "crystal": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "thaumcraft:crystal",
+        "stream": false
+      }
+    ]
+  }
 }
