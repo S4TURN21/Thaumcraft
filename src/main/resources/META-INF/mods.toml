@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[43,)"
+loaderVersion="[${lang_version},)"
 license="All rights reserved"
 issueTrackerURL="https://github.com/S4TURN21/Thaumcraft/issues"
 [[mods]]
@@ -8,19 +8,26 @@ version="${file.jarVersion}"
 displayName="Thaumcraft"
 description='''Adding a touch of magic to Minecraft.'''
 logoFile="TCLogo.png"
-authors="Azanor. Port by S4TURN"
+authors="Azanor (Port by S4TURN)"
 credits="Special thanks to CovertJaguar, Dan Scott, Lorc, bonemouse, Scott Killen, Rorax and chicken_bones"
 
 [[dependencies.thaumcraft]]
     modId="forge"
     mandatory=true
-    versionRange="[43,)"
+    versionRange="[${forge_version},)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.thaumcraft]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19.2,1.20)"
+    versionRange="[1.19.2]"
     ordering="NONE"
+    side="BOTH"
+
+[[dependencies.thaumcraft]]
+    modId="codechickenlib"
+    mandatory=true
+    versionRange="${ccl_version_range}"
+    ordering="AFTER"
     side="BOTH"

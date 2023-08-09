@@ -19,14 +19,19 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
-
     mappings channel: 'parchment', version: '2022.08.14-1.19.2'
+
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     runs {
         client {
             workingDirectory project.file('run')
 
             property 'forge.logging.markers', 'REGISTRIES'
+
+            property 'mixin.env.remapRefMap', 'true'
+
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
 
             property 'forge.logging.console.level', 'debug'
 
@@ -91,8 +96,27 @@ minecraft {
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
+repositories {
+    maven { url 'https://maven.covers1624.net' }
+}
+
 dependencies {
     minecraft "net.minecraftforge:forge:${config.mc_version}-${config.forge_version}"
+    implementation fg.deobf("codechicken:CodeChickenLib:${config.mc_version}-${config.ccl_version}:universal")
+}
+
+processResources {
+    inputs.property 'mod_version', config.mod_version
+    inputs.property 'mc_version', config.mc_version
+    inputs.property 'ccl_version', config.ccl_version
+
+    filesMatching('META-INF/mods.toml') {
+        expand 'file': ['jarVersion': config.mod_version],
+                'mc_version': config.mc_version,
+                'forge_version': config.forge_version,
+                'lang_version': config.forge_version.split('\\.')[0],
+                'ccl_version_range': "[${config.ccl_version.replace(".+", "")},${config.ccl_version_max})"
+    }
 }
 
 jar {
