@@ -13,6 +13,7 @@ public class ProxyBlock {
     public static class BakeBlockEventHandler {
         @SubscribeEvent
         public static void onRegisterGeometryLoaders(ModelEvent.RegisterGeometryLoaders event) {
+            event.register("crystal", CrystalModel.Loader.INSTANCE);
         }
     }
 }
