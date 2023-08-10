@@ -1,4 +1,11 @@
 {
   "item.thaumcraft.crystal_essence": "%s Vis Crystal",
+  "block.thaumcraft.crystal_aer": "Air Crystal",
+  "block.thaumcraft.crystal_ignis": "Fire Crystal",
+  "block.thaumcraft.crystal_aqua": "Water Crystal",
+  "block.thaumcraft.crystal_terra": "Earth Crystal",
+  "block.thaumcraft.crystal_ordo": "Order Crystal",
+  "block.thaumcraft.crystal_perditio": "Entropy Crystal",
+  "block.thaumcraft.crystal_vitium": "Flux Crystal",
   "itemGroup.thaumcraft": "Thaumcraft"
 }
