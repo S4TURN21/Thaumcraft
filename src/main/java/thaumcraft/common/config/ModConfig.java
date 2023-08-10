@@ -8,8 +8,12 @@ public class ModConfig {
     private static final ForgeConfigSpec CONFIG_WORLD;
 
     public static class CONFIG_WORLD {
-        public CONFIG_WORLD(ForgeConfigSpec.Builder builder) {
+        public static ForgeConfigSpec.IntValue oreDensity;
 
+        public CONFIG_WORLD(ForgeConfigSpec.Builder builder) {
+            oreDensity = builder.comment("The % of normal ore amounts that will be spawned. For example 50 will spawn half", "the ores while 200 will spawn double. Default 100")
+                    .worldRestart()
+                    .defineInRange("oreDensity", 100, 1, 500);
         }
     }
 
