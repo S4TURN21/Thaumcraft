@@ -9,11 +9,13 @@ public class ModConfig {
 
     public static class CONFIG_WORLD {
         public static ForgeConfigSpec.IntValue oreDensity;
+        public static ForgeConfigSpec.BooleanValue generateCrystals;
 
         public CONFIG_WORLD(ForgeConfigSpec.Builder builder) {
             oreDensity = builder.comment("The % of normal ore amounts that will be spawned. For example 50 will spawn half", "the ores while 200 will spawn double. Default 100")
                     .worldRestart()
                     .defineInRange("oreDensity", 100, 1, 500);
+            generateCrystals = builder.define("generateCrystals", true);
         }
     }
 
