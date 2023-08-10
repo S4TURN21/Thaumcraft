@@ -5,9 +5,19 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
+import thaumcraft.api.aspects.Aspect;
+import thaumcraft.api.blocks.BlocksTC;
+import thaumcraft.common.blocks.world.ore.BlockCrystal;
 
 public class ConfigBlocks {
     public static void initBlocks(RegisterEvent.RegisterHelper<Block> event) {
+        BlocksTC.crystalAir = registerBlock("crystal_aer", new BlockCrystal(Aspect.AIR));
+        BlocksTC.crystalFire = registerBlock("crystal_ignis", new BlockCrystal(Aspect.FIRE));
+        BlocksTC.crystalWater = registerBlock("crystal_aqua", new BlockCrystal(Aspect.WATER));
+        BlocksTC.crystalEarth = registerBlock("crystal_terra", new BlockCrystal(Aspect.EARTH));
+        BlocksTC.crystalOrder = registerBlock("crystal_ordo", new BlockCrystal(Aspect.ORDER));
+        BlocksTC.crystalEntropy = registerBlock("crystal_perditio", new BlockCrystal(Aspect.ENTROPY));
+        BlocksTC.crystalTaint = registerBlock("crystal_vitium", new BlockCrystal(Aspect.FLUX));
     }
 
     private static Block registerBlock(String name, Block block) {
