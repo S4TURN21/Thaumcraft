@@ -1,5 +1,6 @@
 package thaumcraft;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -23,5 +24,7 @@ public class Thaumcraft
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(Thaumcraft.proxy::init);
+
+        ThaumcraftWorldGenerator.register(modEventBus);
     }
 }
