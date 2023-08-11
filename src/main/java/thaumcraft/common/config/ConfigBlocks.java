@@ -8,6 +8,7 @@ import net.minecraftforge.registries.RegisterEvent;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.blocks.BlocksTC;
 import thaumcraft.common.blocks.world.ore.BlockCrystal;
+import thaumcraft.common.blocks.world.ore.ShardType;
 
 public class ConfigBlocks {
     public static void initBlocks(RegisterEvent.RegisterHelper<Block> event) {
@@ -18,6 +19,14 @@ public class ConfigBlocks {
         BlocksTC.crystalOrder = registerBlock("crystal_ordo", new BlockCrystal(Aspect.ORDER));
         BlocksTC.crystalEntropy = registerBlock("crystal_perditio", new BlockCrystal(Aspect.ENTROPY));
         BlocksTC.crystalTaint = registerBlock("crystal_vitium", new BlockCrystal(Aspect.FLUX));
+
+        ShardType.AIR.setOre(BlocksTC.crystalAir);
+        ShardType.FIRE.setOre(BlocksTC.crystalFire);
+        ShardType.WATER.setOre(BlocksTC.crystalWater);
+        ShardType.EARTH.setOre(BlocksTC.crystalEarth);
+        ShardType.ORDER.setOre(BlocksTC.crystalOrder);
+        ShardType.ENTROPY.setOre(BlocksTC.crystalEntropy);
+        ShardType.FLUX.setOre(BlocksTC.crystalTaint);
     }
 
     private static Block registerBlock(String name, Block block) {
