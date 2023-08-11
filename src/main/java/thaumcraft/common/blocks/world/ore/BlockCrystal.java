@@ -155,6 +155,10 @@ public class BlockCrystal extends Block {
                 .setValue(WEST, this.drawAt(world, pos.west(), Direction.WEST));
     }
 
+    public BlockState getStateFromMeta(int meta) {
+        return this.defaultBlockState().setValue(BlockCrystal.SIZE, (meta & 0x3)).setValue(BlockCrystal.GENERATION, (1 + (meta >> 2 & 0x3)));
+    }
+
     public int getMetaFromState(BlockState state) {
         int i = 0;
         i |= state.getValue(BlockCrystal.SIZE);
