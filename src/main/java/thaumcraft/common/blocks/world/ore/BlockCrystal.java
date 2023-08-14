@@ -28,6 +28,10 @@ import thaumcraft.common.lib.utils.BlockUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO Spread crystal
+//TODO Crystal growth
+//TODO Fix lightmaps
+//TODO Fix overlay coordinates for block destruction progress (destroy_stage_* textures)
 public class BlockCrystal extends Block {
     public static final IntegerProperty SIZE = IntegerProperty.create("size", 0, 3);
     public static final IntegerProperty GENERATION = IntegerProperty.create("gen", 1, 4);
