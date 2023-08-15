@@ -2,6 +2,7 @@ package thaumcraft;
 
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -10,6 +11,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 import thaumcraft.common.config.ConfigBlocks;
 import thaumcraft.common.config.ConfigItems;
+import thaumcraft.common.config.ConfigRecipes;
 import thaumcraft.common.lib.SoundsTC;
 import thaumcraft.common.world.biomes.BiomeHandler;
 
@@ -19,6 +21,7 @@ public class Registrar {
     public static void onRegisterEvent(RegisterEvent event) {
         event.register(ForgeRegistries.Keys.BLOCKS, Registrar::registerBlocks);
         event.register(ForgeRegistries.Keys.ITEMS, Registrar::registerItems);
+        event.register(ForgeRegistries.Keys.RECIPE_SERIALIZERS, Registrar::registerVanillaRecipes);
         event.register(ForgeRegistries.Keys.BIOMES, Registrar::registerBiomes);
         event.register(ForgeRegistries.Keys.SOUND_EVENTS, Registrar::registerSounds);
     }
@@ -31,7 +34,9 @@ public class Registrar {
         ConfigItems.initItems(event);
         ConfigItems.initMisc();
     }
-
+    private static void registerVanillaRecipes(RegisterEvent.RegisterHelper<RecipeSerializer<?>> event) {
+        ConfigRecipes.initializeNormalRecipes(event);
+    }
     private static void registerBiomes(RegisterEvent.RegisterHelper<Biome> event) {
         BiomeHandler.registerBiomes();
     }
