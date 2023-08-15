@@ -29,6 +29,7 @@ public class Registrar {
 
     private static void registerItems(RegisterEvent.RegisterHelper<Item> event) {
         ConfigItems.initItems(event);
+        ConfigItems.initMisc();
     }
 
     private static void registerBiomes(RegisterEvent.RegisterHelper<Biome> event) {
