@@ -13,16 +13,16 @@ import thaumcraft.proxies.IProxy;
 import thaumcraft.proxies.ServerProxy;
 
 @Mod(Thaumcraft.MODID)
-public class Thaumcraft
-{
+public class Thaumcraft {
     public static final String MODID = "thaumcraft";
     public static IProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
-    public Thaumcraft()
-    {
+
+    public Thaumcraft() {
         ModLoadingContext modLoadingContext = ModLoadingContext.get();
         ModConfig.register(modLoadingContext);
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        modEventBus.addListener(Thaumcraft.proxy::preInit);
         modEventBus.addListener(Thaumcraft.proxy::init);
 
         ThaumcraftWorldGenerator.register(modEventBus);
