@@ -1,0 +1,27 @@
+{
+  "type": "thaumcraft:salismundus",
+  "ingredients": [
+    {
+      "item": "minecraft:bowl"
+    },
+    {
+      "item": "minecraft:flint"
+    },
+    {
+      "item": "minecraft:redstone"
+    },
+    {
+      "item": "thaumcraft:crystal_essence"
+    },
+    {
+      "item": "thaumcraft:crystal_essence"
+    },
+    {
+      "item": "thaumcraft:crystal_essence"
+    }
+  ],
+  "result": {
+    "item": "thaumcraft:salis_mundus",
+    "count": 1
+  }
+}
