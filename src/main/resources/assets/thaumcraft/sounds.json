@@ -7,5 +7,12 @@
         "stream": false
       }
     ]
+  },
+  "poof": {
+    "category": "ambient",
+    "sounds": [
+      "thaumcraft:poof1",
+      "thaumcraft:poof2"
+    ]
   }
 }

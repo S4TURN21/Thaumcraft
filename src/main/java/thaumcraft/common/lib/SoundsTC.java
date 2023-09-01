@@ -6,6 +6,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraftforge.registries.RegisterEvent;
 
 public class SoundsTC {
+    public static SoundEvent poof;
     public static SoundEvent crystal;
     public static SoundType CRYSTAL;
 
@@ -14,6 +15,7 @@ public class SoundsTC {
     }
 
     public static void registerSounds(RegisterEvent.RegisterHelper<SoundEvent> event) {
+        SoundsTC.poof = getRegisteredSoundEvent(event, "thaumcraft:poof");
         SoundsTC.crystal = getRegisteredSoundEvent(event, "thaumcraft:crystal");
     }
 
