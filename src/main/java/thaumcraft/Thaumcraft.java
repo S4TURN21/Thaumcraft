@@ -24,6 +24,7 @@ public class Thaumcraft {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(Thaumcraft.proxy::preInit);
         modEventBus.addListener(Thaumcraft.proxy::init);
+        modEventBus.addListener(Thaumcraft.proxy::postInit);
 
         ThaumcraftWorldGenerator.register(modEventBus);
     }

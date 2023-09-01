@@ -11,6 +11,9 @@ public class CommonProxy implements IProxy {
 
     @Override
     public void init(FMLCommonSetupEvent event) {
+    }
 
+    @Override
+    public void postInit(FMLCommonSetupEvent event) {
     }
 }
