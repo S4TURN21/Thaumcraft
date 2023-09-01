@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.registries.RegisterEvent;
 import thaumcraft.api.items.ItemsTC;
+import thaumcraft.common.items.curios.ItemThaumonomicon;
 import thaumcraft.common.items.resources.ItemCrystalEssence;
 import thaumcraft.common.items.resources.ItemMagicDust;
 import thaumcraft.common.lib.CreativeTabThaumcraft;
@@ -32,6 +33,7 @@ public class ConfigItems {
     }
 
     public static void initItems(RegisterEvent.RegisterHelper<Item> event) {
+        event.register("thaumonomicon", (ItemsTC.thaumonomicon = new ItemThaumonomicon()));
         event.register("crystal_essence", (ItemsTC.crystalEssence = new ItemCrystalEssence()));
         event.register("salis_mundus", (ItemsTC.salisMundus = new ItemMagicDust()));
     }
