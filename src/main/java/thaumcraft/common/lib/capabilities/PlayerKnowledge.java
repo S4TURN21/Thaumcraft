@@ -6,6 +6,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -14,24 +15,38 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import thaumcraft.api.capabilities.IPlayerKnowledge;
 import thaumcraft.api.capabilities.ThaumcraftCapabilities;
+import thaumcraft.api.research.ResearchCategories;
+import thaumcraft.api.research.ResearchEntry;
 import thaumcraft.common.lib.network.PacketHandler;
 import thaumcraft.common.lib.network.playerdata.PacketSyncKnowledge;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class PlayerKnowledge {
     private static class DefaultImpl implements IPlayerKnowledge {
         private final HashSet<String> research;
+        private final Map<String, Integer> stages;
 
         private DefaultImpl() {
             this.research = new HashSet<>();
+            this.stages = new HashMap<>();
         }
 
         @Override
         public void clear() {
             this.research.clear();
+        }
+
+        @Override
+        public EnumResearchStatus getResearchStatus(String res) {
+            if (!this.isResearchKnown(res)) {
+                return EnumResearchStatus.UNKNOWN;
+            }
+            ResearchEntry entry = ResearchCategories.getResearch(res);
+            if (entry == null || entry.getStages() == null || this.getResearchStage(res) > entry.getStages().length) {
+                return EnumResearchStatus.COMPLETE;
+            }
+            return EnumResearchStatus.IN_PROGRESS;
         }
 
         @Override
@@ -43,8 +58,21 @@ public class PlayerKnowledge {
                 return true;
             }
             String[] ss = res.split("@");
-//            return (ss.length <= 1 || this.getResearchStage(ss[0]) >= MathHelper.getInt(ss[1], 0)) && this.research.contains(ss[0]);
-            return this.research.contains(ss[0]);
+            return (ss.length <= 1 || this.getResearchStage(ss[0]) >= Mth.getInt(ss[1], 0)) && this.research.contains(ss[0]);
+        }
+
+        @Override
+        public boolean isResearchComplete(final String res) {
+            return this.getResearchStatus(res) == EnumResearchStatus.COMPLETE;
+        }
+
+        @Override
+        public int getResearchStage(final String res) {
+            if (res == null || !this.research.contains(res)) {
+                return -1;
+            }
+            final Integer stage = this.stages.get(res);
+            return (stage == null) ? 0 : stage;
         }
 
         @Override
@@ -63,7 +91,7 @@ public class PlayerKnowledge {
 
         @Override
         public void sync(@NotNull ServerPlayer player) {
-            PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new PacketSyncKnowledge());
+            PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new PacketSyncKnowledge(player));
         }
 
         @Override

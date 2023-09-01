@@ -17,7 +17,9 @@ public class PacketSyncKnowledge {
 
     protected CompoundTag data;
 
-    public PacketSyncKnowledge() {
+    public PacketSyncKnowledge(Player player) {
+        final IPlayerKnowledge pk = ThaumcraftCapabilities.getKnowledge(player);
+        this.data = pk.serializeNBT();
     }
 
     public PacketSyncKnowledge(FriendlyByteBuf buffer) {
