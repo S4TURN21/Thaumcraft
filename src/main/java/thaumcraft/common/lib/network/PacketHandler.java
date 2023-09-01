@@ -10,11 +10,7 @@ import thaumcraft.common.lib.network.playerdata.PacketSyncKnowledge;
 import java.util.Optional;
 
 public class PacketHandler {
-    private static final String PROTOCOL_VERSION = "1.0";
-    public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(new ResourceLocation(Thaumcraft.MODID, "thaumcraft"),
-            () -> PROTOCOL_VERSION,
-            PROTOCOL_VERSION::equals,
-            PROTOCOL_VERSION::equals);
+    public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(new ResourceLocation(Thaumcraft.MODID, "thaumcraft"), () -> "1.0", s -> true, s -> true);
 
     public static void preInit() {
         int idx = 0;
