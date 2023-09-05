@@ -1,6 +1,7 @@
 package thaumcraft.common.lib.events;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -8,7 +9,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -21,9 +24,6 @@ import thaumcraft.common.items.resources.ItemCrystalEssence;
 import thaumcraft.common.lib.capabilities.PlayerKnowledge;
 import thaumcraft.common.lib.utils.InventoryUtils;
 
-
-//TODO playerJoin sync knowledge
-//TODO cloneCapabilitiesEvent
 @Mod.EventBusSubscriber(modid = Thaumcraft.MODID)
 public class PlayerEvents {
     @SubscribeEvent
@@ -68,6 +68,27 @@ public class PlayerEvents {
     public static void attachCapabilitiesPlayer(AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof Player) {
             event.addCapability(PlayerKnowledge.Provider.NAME, new PlayerKnowledge.Provider());
+        }
+    }
+
+    @SubscribeEvent
+    public static void playerJoin(EntityJoinLevelEvent event) {
+        if (!event.getLevel().isClientSide && event.getEntity() instanceof ServerPlayer) {
+            ServerPlayer player = (ServerPlayer) event.getEntity();
+            IPlayerKnowledge pk = ThaumcraftCapabilities.getKnowledge(player);
+            if (pk != null) {
+                pk.sync(player);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void cloneCapabilitiesEvent(PlayerEvent.Clone event) {
+        try {
+            CompoundTag nbtKnowledge = ThaumcraftCapabilities.getKnowledge(event.getOriginal()).serializeNBT();
+            ThaumcraftCapabilities.getKnowledge(event.getEntity()).deserializeNBT(nbtKnowledge);
+        } catch (Exception e) {
+            Thaumcraft.log.error("Could not clone player [" + event.getOriginal().getName() + "] knowledge when changing dimensions");
         }
     }
 
