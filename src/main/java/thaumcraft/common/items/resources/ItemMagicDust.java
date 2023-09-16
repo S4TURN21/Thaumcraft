@@ -8,6 +8,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -21,6 +22,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ItemMagicDust extends ItemTCBase {
+    @Override
+    public Rarity getRarity(ItemStack pStack) {
+        return Rarity.UNCOMMON;
+    }
 
     @Override
     public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
