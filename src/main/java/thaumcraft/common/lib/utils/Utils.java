@@ -1,14 +1,17 @@
 package thaumcraft.common.lib.utils;
 
-import io.netty.buffer.ByteBufOutputStream;
-import io.netty.handler.codec.EncoderException;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtAccounter;
 import net.minecraft.network.FriendlyByteBuf;
 
-import java.io.IOException;
-
 public class Utils {
+    public static boolean getBit(int value, int bit) {
+        return (value & 1 << bit) != 0x0;
+    }
+
+    public static int setBit(int value, int bit) {
+        return value | 1 << bit;
+    }
+
     public static void writeNBTTagCompoundToBuffer(FriendlyByteBuf bb, CompoundTag nbt) {
         bb.writeNbt(nbt);
     }
