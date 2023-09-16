@@ -36,7 +36,9 @@ public class Registrar {
     }
     private static void registerVanillaRecipes(RegisterEvent.RegisterHelper<RecipeSerializer<?>> event) {
         ConfigRecipes.initializeNormalRecipes(event);
+        ConfigRecipes.initializeCompoundRecipes();
     }
+
     private static void registerBiomes(RegisterEvent.RegisterHelper<Biome> event) {
         BiomeHandler.registerBiomes();
     }
