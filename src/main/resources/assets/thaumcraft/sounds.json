@@ -1,4 +1,13 @@
 {
+  "dust": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "thaumcraft:dust",
+        "stream": false
+      }
+    ]
+  },
   "crystal": {
     "category": "block",
     "sounds": [
