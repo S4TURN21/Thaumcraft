@@ -15,6 +15,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.ForgeHooks;
 import org.jetbrains.annotations.NotNull;
 import thaumcraft.api.items.ItemsTC;
 import thaumcraft.common.items.resources.ItemCrystalEssence;
@@ -95,16 +96,17 @@ public class RecipeMagicDust extends ShapelessRecipe {
     }
 
     @Override
-    public NonNullList<ItemStack> getRemainingItems(CraftingContainer pContainer) {
-        NonNullList<ItemStack> ret = NonNullList.withSize(pContainer.getContainerSize(), ItemStack.EMPTY);
+    public NonNullList<ItemStack> getRemainingItems(CraftingContainer inv) {
+        NonNullList<ItemStack> ret = (NonNullList<ItemStack>) NonNullList.withSize(inv.getContainerSize(), ItemStack.EMPTY);
         for (int i = 0; i < ret.size(); ++i) {
-            ItemStack itemstack = pContainer.getItem(i);
-            if (!itemstack.isEmpty() && (itemstack.getItem() == Items.FLINT || itemstack.getItem() == Items.BOWL)) {
+            ItemStack itemstack = inv.getItem(i);
+            ItemStack itemstack2 = ForgeHooks.getCraftingRemainingItem(itemstack);
+            if (itemstack != null && !itemstack.isEmpty() && (itemstack.getItem() == Items.FLINT || itemstack.getItem() == Items.BOWL)) {
                 ItemStack is = itemstack.copy();
                 is.setCount(1);
-                itemstack = is;
+                itemstack2 = is;
             }
-            ret.set(i, itemstack);
+            ret.set(i, itemstack2);
         }
         return ret;
     }
