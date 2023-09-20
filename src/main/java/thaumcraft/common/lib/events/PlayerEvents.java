@@ -1,6 +1,7 @@
 package thaumcraft.common.lib.events;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -20,6 +21,7 @@ import thaumcraft.api.capabilities.IPlayerKnowledge;
 import thaumcraft.api.capabilities.ThaumcraftCapabilities;
 import thaumcraft.common.config.ConfigItems;
 import thaumcraft.common.config.ModConfig;
+import thaumcraft.common.items.curios.ItemThaumonomicon;
 import thaumcraft.common.items.resources.ItemCrystalEssence;
 import thaumcraft.common.lib.capabilities.PlayerKnowledge;
 import thaumcraft.common.lib.utils.InventoryUtils;
@@ -37,6 +39,10 @@ public class PlayerEvents {
                 if (ModConfig.CONFIG_MISC.noSleep.get() && !knowledge.isResearchKnown("!gotdream")) {
                     giveDreamJournal(event.getEntity());
                 }
+            }
+            if (event.getItem().getItem().getItem() instanceof ItemThaumonomicon && !knowledge.isResearchKnown("!gotthaumonomicon")) {
+                knowledge.addResearch("!gotthaumonomicon");
+                knowledge.sync((ServerPlayer) event.getEntity());
             }
         }
     }
