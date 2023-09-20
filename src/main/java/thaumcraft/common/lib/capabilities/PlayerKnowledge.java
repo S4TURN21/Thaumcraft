@@ -26,15 +26,18 @@ public class PlayerKnowledge {
     private static class DefaultImpl implements IPlayerKnowledge {
         private final HashSet<String> research;
         private final Map<String, Integer> stages;
+        private final Map<String, HashSet<EnumResearchFlag>> flags;
 
         private DefaultImpl() {
             this.research = new HashSet<>();
             this.stages = new HashMap<>();
+            this.flags = new HashMap<>();
         }
 
         @Override
         public void clear() {
             this.research.clear();
+            this.flags.clear();
         }
 
         @Override
@@ -67,11 +70,11 @@ public class PlayerKnowledge {
         }
 
         @Override
-        public int getResearchStage(final String res) {
+        public int getResearchStage(String res) {
             if (res == null || !this.research.contains(res)) {
                 return -1;
             }
-            final Integer stage = this.stages.get(res);
+            Integer stage = this.stages.get(res);
             return (stage == null) ? 0 : stage;
         }
 
@@ -90,6 +93,38 @@ public class PlayerKnowledge {
         }
 
         @Override
+        public boolean setResearchFlag(@NotNull String res, @NotNull EnumResearchFlag flag) {
+            HashSet<EnumResearchFlag> list = this.flags.get(res);
+            if (list == null) {
+                list = new HashSet<EnumResearchFlag>();
+                this.flags.put(res, list);
+            }
+            if (list.contains(flag)) {
+                return false;
+            }
+            list.add(flag);
+            return true;
+        }
+
+        @Override
+        public boolean clearResearchFlag(@NotNull String res, @NotNull EnumResearchFlag flag) {
+            HashSet<EnumResearchFlag> list = this.flags.get(res);
+            if (list != null) {
+                final boolean b = list.remove(flag);
+                if (list.isEmpty()) {
+                    this.flags.remove(this.research);
+                }
+                return b;
+            }
+            return false;
+        }
+
+        @Override
+        public boolean hasResearchFlag(@NotNull String res, @NotNull EnumResearchFlag flag) {
+            return this.flags.get(res) != null && this.flags.get(res).contains(flag);
+        }
+
+        @Override
         public void sync(@NotNull ServerPlayer player) {
             PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new PacketSyncKnowledge(player));
         }
@@ -101,6 +136,19 @@ public class PlayerKnowledge {
             for (String resKey : this.research) {
                 CompoundTag tag = new CompoundTag();
                 tag.putString("key", resKey);
+                if (this.flags.containsKey(resKey)) {
+                    HashSet<EnumResearchFlag> list = this.flags.get(resKey);
+                    if (list != null) {
+                        String fs = "";
+                        for (EnumResearchFlag flag : list) {
+                            if (fs.length() > 0) {
+                                fs += ",";
+                            }
+                            fs += flag.name();
+                        }
+                        tag.putString("flags", fs);
+                    }
+                }
                 researchList.add(tag);
             }
             rootTag.put("research", researchList);
@@ -118,6 +166,21 @@ public class PlayerKnowledge {
                 String know = tag.getString("key");
                 if (know != null && !this.isResearchKnown(know)) {
                     this.research.add(know);
+                    String fs = tag.getString("flags");
+                    if (fs.length() > 0) {
+                        String[] split;
+                        String[] ss = split = fs.split(",");
+                        for (String s : split) {
+                            EnumResearchFlag flag = null;
+                            try {
+                                flag = EnumResearchFlag.valueOf(s);
+                            } catch (Exception ex) {
+                            }
+                            if (flag != null) {
+                                this.setResearchFlag(know, flag);
+                            }
+                        }
+                    }
                 }
             }
         }

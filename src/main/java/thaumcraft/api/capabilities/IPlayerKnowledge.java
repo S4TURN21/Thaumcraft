@@ -23,11 +23,23 @@ public interface IPlayerKnowledge extends INBTSerializable<CompoundTag> {
     @NotNull
     Set<String> getResearchList();
 
+    boolean setResearchFlag(@NotNull String res, @NotNull EnumResearchFlag flag);
+
+    boolean clearResearchFlag(@NotNull String res, @NotNull EnumResearchFlag flag);
+
+    boolean hasResearchFlag(@NotNull String res, @NotNull EnumResearchFlag flag);
+
     void sync(ServerPlayer player);
 
     public enum EnumResearchStatus {
         UNKNOWN,
         COMPLETE,
         IN_PROGRESS;
+    }
+
+    public enum EnumResearchFlag {
+        PAGE,
+        RESEARCH,
+        POPUP;
     }
 }
