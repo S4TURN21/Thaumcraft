@@ -54,6 +54,7 @@ public class PlayerEvents {
         knowledge.addResearch("!gotdream");
         knowledge.sync((ServerPlayer) player);
         ItemStack book = ConfigItems.startBook.copy();
+        book.getTag().putString("title", I18n.get("book.start.title"));
         book.getTag().putString("author", player.getName().getString());
         if (!player.getInventory().add(book)) {
             InventoryUtils.dropItemAtEntity(player.level, book, player);

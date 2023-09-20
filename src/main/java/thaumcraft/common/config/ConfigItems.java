@@ -22,8 +22,6 @@ public class ConfigItems {
     public static void initMisc() {
         CompoundTag contents = new CompoundTag();
         contents.putInt("generation", 3);
-        contents.putString("title", "Strange Dreams");
-        ConfigItems.startBook.getOrCreateTagElement("display").putString("Name", Component.Serializer.toJson(Component.translatable("book.start.title")));
         ListTag pages = new ListTag();
         pages.add(StringTag.valueOf(Component.Serializer.toJson(Component.translatable("book.start.1"))));
         pages.add(StringTag.valueOf(Component.Serializer.toJson(Component.translatable("book.start.2"))));
