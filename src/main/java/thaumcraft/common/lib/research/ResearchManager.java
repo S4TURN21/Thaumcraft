@@ -12,6 +12,7 @@ import thaumcraft.api.internal.CommonInternals;
 import thaumcraft.api.research.ResearchCategories;
 import thaumcraft.api.research.ResearchCategory;
 import thaumcraft.api.research.ResearchEntry;
+import thaumcraft.api.research.ResearchStage;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -63,6 +64,7 @@ public class ResearchManager {
         if (entry.getKey() == null) {
             throw new Exception("Invalid key in research JSon");
         }
+        entry.setName(obj.getAsJsonPrimitive("name").getAsString());
         entry.setCategory(obj.getAsJsonPrimitive("category").getAsString());
         if (entry.getCategory() == null) {
             throw new Exception("Invalid category in research JSon");
@@ -84,6 +86,12 @@ public class ResearchManager {
                 entry.setIcons(ir);
             }
         }
+        if (obj.has("parents")) {
+            entry.setParents(arrayJsonToString(obj.get("parents").getAsJsonArray()));
+        }
+        if (obj.has("siblings")) {
+            entry.setSiblings(arrayJsonToString(obj.get("siblings").getAsJsonArray()));
+        }
         if (obj.has("meta")) {
             String[] meta = arrayJsonToString(obj.get("meta").getAsJsonArray());
             if (meta != null && meta.length > 0) {
@@ -104,6 +112,20 @@ public class ResearchManager {
                 entry.setDisplayColumn(location[0]);
                 entry.setDisplayRow(location[1]);
             }
+        }
+        JsonArray stagesJson = obj.get("stages").getAsJsonArray();
+        ArrayList<ResearchStage> stages = new ArrayList<ResearchStage>();
+        for (JsonElement element : stagesJson) {
+            JsonObject stageObj = element.getAsJsonObject();
+            ResearchStage stage = new ResearchStage();
+            stage.setText(stageObj.getAsJsonPrimitive("text").getAsString());
+            if (stage.getText() == null) {
+                throw new Exception("Illegal stage text in research JSon");
+            }
+            stages.add(stage);
+        }
+        if (stages.size() > 0) {
+            entry.setStages(stages.toArray(new ResearchStage[stages.size()]));
         }
         return entry;
     }
