@@ -11,7 +11,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.network.PacketDistributor;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import thaumcraft.api.capabilities.IPlayerKnowledge;
 import thaumcraft.api.capabilities.ThaumcraftCapabilities;
@@ -20,6 +19,7 @@ import thaumcraft.api.research.ResearchEntry;
 import thaumcraft.common.lib.network.PacketHandler;
 import thaumcraft.common.lib.network.playerdata.PacketSyncKnowledge;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 
 public class PlayerKnowledge {
@@ -79,7 +79,7 @@ public class PlayerKnowledge {
         }
 
         @Override
-        public boolean addResearch(@NotNull String res) {
+        public boolean addResearch(@Nonnull String res) {
             if (!this.isResearchKnown(res)) {
                 this.research.add(res);
                 return true;
@@ -88,12 +88,12 @@ public class PlayerKnowledge {
         }
 
         @Override
-        public @NotNull Set<String> getResearchList() {
+        public @Nonnull Set<String> getResearchList() {
             return Collections.unmodifiableSet(this.research);
         }
 
         @Override
-        public boolean setResearchFlag(@NotNull String res, @NotNull EnumResearchFlag flag) {
+        public boolean setResearchFlag(@Nonnull String res, @Nonnull EnumResearchFlag flag) {
             HashSet<EnumResearchFlag> list = this.flags.get(res);
             if (list == null) {
                 list = new HashSet<EnumResearchFlag>();
@@ -107,7 +107,7 @@ public class PlayerKnowledge {
         }
 
         @Override
-        public boolean clearResearchFlag(@NotNull String res, @NotNull EnumResearchFlag flag) {
+        public boolean clearResearchFlag(@Nonnull String res, @Nonnull EnumResearchFlag flag) {
             HashSet<EnumResearchFlag> list = this.flags.get(res);
             if (list != null) {
                 final boolean b = list.remove(flag);
@@ -120,12 +120,12 @@ public class PlayerKnowledge {
         }
 
         @Override
-        public boolean hasResearchFlag(@NotNull String res, @NotNull EnumResearchFlag flag) {
+        public boolean hasResearchFlag(@Nonnull String res, @Nonnull EnumResearchFlag flag) {
             return this.flags.get(res) != null && this.flags.get(res).contains(flag);
         }
 
         @Override
-        public void sync(@NotNull ServerPlayer player) {
+        public void sync(@Nonnull ServerPlayer player) {
             PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new PacketSyncKnowledge(player));
         }
 
@@ -204,7 +204,7 @@ public class PlayerKnowledge {
         }
 
         @Override
-        public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction facing) {
+        public @Nonnull <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing) {
             if (capability == ThaumcraftCapabilities.KNOWLEDGE) {
                 return optional.cast();
             }
