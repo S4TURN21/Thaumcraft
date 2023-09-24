@@ -22,10 +22,13 @@ public class ModConfig {
 
     public static class CONFIG_MISC {
         public static ForgeConfigSpec.BooleanValue noSleep;
+        public static ForgeConfigSpec.BooleanValue wussMode;
 
         public CONFIG_MISC(ForgeConfigSpec.Builder builder) {
             noSleep = builder.comment("Setting this to true will make you get the recipe book for salis mundus without having to sleep first.")
                     .define("noSleep", false);
+            wussMode = builder.comment("Setting this to true disables Warp, Taint spread and similar mechanics. You wuss.")
+                    .define("wussMode", false);
         }
     }
 
