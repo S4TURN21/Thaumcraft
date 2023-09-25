@@ -113,6 +113,9 @@ public class ResearchManager {
                 entry.setDisplayRow(location[1]);
             }
         }
+        if (obj.has("reward_item")) {
+            entry.setRewardItem(parseJsonItemList(entry.getKey(), arrayJsonToString(obj.get("reward_item").getAsJsonArray())));
+        }
         JsonArray stagesJson = obj.get("stages").getAsJsonArray();
         ArrayList<ResearchStage> stages = new ArrayList<ResearchStage>();
         for (JsonElement element : stagesJson) {
@@ -144,6 +147,27 @@ public class ResearchManager {
             out.add(element.getAsInt());
         }
         return (Integer[]) ((out.size() == 0) ? null : ((Integer[]) out.toArray(new Integer[out.size()])));
+    }
+
+    private static ItemStack[] parseJsonItemList(String key, String[] stacks) {
+        if (stacks == null || stacks.length == 0) {
+            return null;
+        }
+        ItemStack[] work = new ItemStack[stacks.length];
+        int idx = 0;
+        for (String s : stacks) {
+            s = s.replace("'", "\"");
+            ItemStack stack = parseJSONtoItemStack(s);
+            if (stack != null && !stack.isEmpty()) {
+                work[idx] = stack;
+                ++idx;
+            }
+        }
+        ItemStack[] out = null;
+        if (idx > 0) {
+            out = Arrays.copyOf(work, idx);
+        }
+        return out;
     }
 
     public static ItemStack parseJSONtoItemStack(String entry) {

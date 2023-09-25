@@ -1,6 +1,7 @@
 package thaumcraft.api.research;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.Arrays;
 
@@ -14,6 +15,7 @@ public class ResearchEntry {
     int displayRow;
     Object[] icons;
     EnumResearchMeta[] meta;
+    ItemStack[] rewardItem;
     ResearchStage[] stages;
 
     public String getKey() {
@@ -125,6 +127,14 @@ public class ResearchEntry {
 
     public void setStages(ResearchStage[] stages) {
         this.stages = stages;
+    }
+
+    public ItemStack[] getRewardItem() {
+        return this.rewardItem;
+    }
+
+    public void setRewardItem(ItemStack[] rewardItem) {
+        this.rewardItem = rewardItem;
     }
 
     public enum EnumResearchMeta {
