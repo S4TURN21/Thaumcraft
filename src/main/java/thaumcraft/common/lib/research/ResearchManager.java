@@ -116,6 +116,21 @@ public class ResearchManager {
         if (obj.has("reward_item")) {
             entry.setRewardItem(parseJsonItemList(entry.getKey(), arrayJsonToString(obj.get("reward_item").getAsJsonArray())));
         }
+        if (obj.has("reward_knowledge")) {
+            final String[] sl = arrayJsonToString(obj.get("reward_knowledge").getAsJsonArray());
+            if (sl != null && sl.length > 0) {
+                final ArrayList<ResearchStage.Knowledge> kl = new ArrayList<ResearchStage.Knowledge>();
+                for (final String s : sl) {
+                    final ResearchStage.Knowledge k = ResearchStage.Knowledge.parse(s);
+                    if (k != null) {
+                        kl.add(k);
+                    }
+                }
+                if (kl.size() > 0) {
+                    entry.setRewardKnow(kl.toArray(new ResearchStage.Knowledge[kl.size()]));
+                }
+            }
+        }
         JsonArray stagesJson = obj.get("stages").getAsJsonArray();
         ArrayList<ResearchStage> stages = new ArrayList<ResearchStage>();
         for (JsonElement element : stagesJson) {

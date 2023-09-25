@@ -16,6 +16,7 @@ public class ResearchEntry {
     Object[] icons;
     EnumResearchMeta[] meta;
     ItemStack[] rewardItem;
+    ResearchStage.Knowledge[] rewardKnow;
     ResearchStage[] stages;
 
     public String getKey() {
@@ -135,6 +136,14 @@ public class ResearchEntry {
 
     public void setRewardItem(ItemStack[] rewardItem) {
         this.rewardItem = rewardItem;
+    }
+
+    public ResearchStage.Knowledge[] getRewardKnow() {
+        return this.rewardKnow;
+    }
+
+    public void setRewardKnow(ResearchStage.Knowledge[] rewardKnow) {
+        this.rewardKnow = rewardKnow;
     }
 
     public enum EnumResearchMeta {
