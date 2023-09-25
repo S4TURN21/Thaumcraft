@@ -18,12 +18,14 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import thaumcraft.Thaumcraft;
 import thaumcraft.api.capabilities.IPlayerKnowledge;
+import thaumcraft.api.capabilities.IPlayerWarp;
 import thaumcraft.api.capabilities.ThaumcraftCapabilities;
 import thaumcraft.common.config.ConfigItems;
 import thaumcraft.common.config.ModConfig;
 import thaumcraft.common.items.curios.ItemThaumonomicon;
 import thaumcraft.common.items.resources.ItemCrystalEssence;
 import thaumcraft.common.lib.capabilities.PlayerKnowledge;
+import thaumcraft.common.lib.capabilities.PlayerWarp;
 import thaumcraft.common.lib.utils.InventoryUtils;
 
 @Mod.EventBusSubscriber(modid = Thaumcraft.MODID)
@@ -56,7 +58,7 @@ public class PlayerEvents {
     }
 
     private static void giveDreamJournal(Player player) {
-        final IPlayerKnowledge knowledge = ThaumcraftCapabilities.getKnowledge(player);
+        IPlayerKnowledge knowledge = ThaumcraftCapabilities.getKnowledge(player);
         knowledge.addResearch("!gotdream");
         knowledge.sync((ServerPlayer) player);
         ItemStack book = ConfigItems.startBook.copy();
@@ -75,6 +77,7 @@ public class PlayerEvents {
     public static void attachCapabilitiesPlayer(AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof Player) {
             event.addCapability(PlayerKnowledge.Provider.NAME, new PlayerKnowledge.Provider());
+            event.addCapability(PlayerWarp.Provider.NAME, new PlayerWarp.Provider());
         }
     }
 
@@ -83,8 +86,12 @@ public class PlayerEvents {
         if (!event.getLevel().isClientSide && event.getEntity() instanceof ServerPlayer) {
             ServerPlayer player = (ServerPlayer) event.getEntity();
             IPlayerKnowledge pk = ThaumcraftCapabilities.getKnowledge(player);
+            IPlayerWarp pw = ThaumcraftCapabilities.getWarp(player);
             if (pk != null) {
                 pk.sync(player);
+            }
+            if (pw != null) {
+                pw.sync(player);
             }
         }
     }
@@ -94,6 +101,8 @@ public class PlayerEvents {
         try {
             CompoundTag nbtKnowledge = ThaumcraftCapabilities.getKnowledge(event.getOriginal()).serializeNBT();
             ThaumcraftCapabilities.getKnowledge(event.getEntity()).deserializeNBT(nbtKnowledge);
+            CompoundTag nbtWarp = ThaumcraftCapabilities.getWarp(event.getOriginal()).serializeNBT();
+            ThaumcraftCapabilities.getWarp(event.getEntity()).deserializeNBT(nbtWarp);
         } catch (Exception e) {
             Thaumcraft.log.error("Could not clone player [" + event.getOriginal().getName() + "] knowledge when changing dimensions");
         }
@@ -102,5 +111,6 @@ public class PlayerEvents {
     @SubscribeEvent
     public static void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
         event.register(IPlayerKnowledge.class);
+        event.register(IPlayerWarp.class);
     }
 }

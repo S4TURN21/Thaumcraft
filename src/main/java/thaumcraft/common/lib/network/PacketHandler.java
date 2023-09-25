@@ -7,6 +7,7 @@ import net.minecraftforge.network.simple.SimpleChannel;
 import thaumcraft.Thaumcraft;
 import thaumcraft.common.lib.network.fx.PacketFXBlockBamf;
 import thaumcraft.common.lib.network.playerdata.PacketSyncKnowledge;
+import thaumcraft.common.lib.network.playerdata.PacketSyncWarp;
 
 import java.util.Optional;
 
@@ -15,6 +16,7 @@ public class PacketHandler {
 
     public static void preInit() {
         int idx = 0;
+        PacketHandler.INSTANCE.registerMessage(idx++, PacketSyncWarp.class, PacketSyncWarp::toBytes, PacketSyncWarp::fromBytes, PacketSyncWarp::onMessage, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         PacketHandler.INSTANCE.registerMessage(idx++, PacketSyncKnowledge.class, PacketSyncKnowledge::toBytes, PacketSyncKnowledge::fromBytes, PacketSyncKnowledge::onMessage, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         PacketHandler.INSTANCE.registerMessage(idx++, PacketFXBlockBamf.class, PacketFXBlockBamf::toBytes, PacketFXBlockBamf::fromBytes, PacketFXBlockBamf::onMessage, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
     }
