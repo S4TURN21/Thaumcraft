@@ -7,6 +7,7 @@ import net.minecraftforge.registries.RegisterEvent;
 
 public class SoundsTC {
     public static SoundEvent poof;
+    public static SoundEvent page;
     public static SoundEvent crystal;
     public static SoundEvent dust;
     public static SoundType CRYSTAL;
@@ -17,6 +18,7 @@ public class SoundsTC {
 
     public static void registerSounds(RegisterEvent.RegisterHelper<SoundEvent> event) {
         SoundsTC.poof = getRegisteredSoundEvent(event, "thaumcraft:poof");
+        SoundsTC.page = getRegisteredSoundEvent(event, "thaumcraft:page");
         SoundsTC.crystal = getRegisteredSoundEvent(event, "thaumcraft:crystal");
         SoundsTC.dust = getRegisteredSoundEvent(event, "thaumcraft:dust");
     }

@@ -23,5 +23,12 @@
       "thaumcraft:poof1",
       "thaumcraft:poof2"
     ]
+  },
+  "page": {
+    "category": "master",
+    "sounds": [
+      "thaumcraft:page1",
+      "thaumcraft:page2"
+    ]
   }
 }
