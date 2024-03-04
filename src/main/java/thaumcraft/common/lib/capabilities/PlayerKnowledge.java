@@ -3,7 +3,6 @@ package thaumcraft.common.lib.capabilities;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
@@ -15,6 +14,7 @@ import org.jetbrains.annotations.Nullable;
 import thaumcraft.api.capabilities.IPlayerKnowledge;
 import thaumcraft.api.capabilities.ThaumcraftCapabilities;
 import thaumcraft.api.research.ResearchCategories;
+import thaumcraft.api.research.ResearchCategory;
 import thaumcraft.api.research.ResearchEntry;
 import thaumcraft.common.lib.network.PacketHandler;
 import thaumcraft.common.lib.network.playerdata.PacketSyncKnowledge;
@@ -27,21 +27,25 @@ public class PlayerKnowledge {
         private final HashSet<String> research;
         private final Map<String, Integer> stages;
         private final Map<String, HashSet<EnumResearchFlag>> flags;
+        private final Map<String, Integer> knowledge;
 
         private DefaultImpl() {
             this.research = new HashSet<>();
             this.stages = new HashMap<>();
             this.flags = new HashMap<>();
+            this.knowledge = new HashMap<>();
         }
 
         @Override
         public void clear() {
             this.research.clear();
             this.flags.clear();
+            this.stages.clear();
+            this.knowledge.clear();
         }
 
         @Override
-        public EnumResearchStatus getResearchStatus(String res) {
+        public EnumResearchStatus getResearchStatus(@Nonnull String res) {
             if (!this.isResearchKnown(res)) {
                 return EnumResearchStatus.UNKNOWN;
             }
@@ -65,17 +69,26 @@ public class PlayerKnowledge {
         }
 
         @Override
-        public boolean isResearchComplete(final String res) {
+        public boolean isResearchComplete(String res) {
             return this.getResearchStatus(res) == EnumResearchStatus.COMPLETE;
         }
 
         @Override
-        public int getResearchStage(String res) {
+        public int getResearchStage(@Nonnull String res) {
             if (res == null || !this.research.contains(res)) {
                 return -1;
             }
             Integer stage = this.stages.get(res);
             return (stage == null) ? 0 : stage;
+        }
+
+        @Override
+        public boolean setResearchStage(String res, int stage) {
+            if (res == null || !this.research.contains(res) || stage <= 0) {
+                return false;
+            }
+            this.stages.put(res, stage);
+            return true;
         }
 
         @Override
@@ -88,7 +101,17 @@ public class PlayerKnowledge {
         }
 
         @Override
-        public @Nonnull Set<String> getResearchList() {
+        public boolean removeResearch(@Nonnull String res) {
+            if (this.isResearchKnown(res)) {
+                this.research.remove(res);
+                return true;
+            }
+            return false;
+        }
+
+        @Nonnull
+        @Override
+        public Set<String> getResearchList() {
             return Collections.unmodifiableSet(this.research);
         }
 
@@ -110,7 +133,7 @@ public class PlayerKnowledge {
         public boolean clearResearchFlag(@Nonnull String res, @Nonnull EnumResearchFlag flag) {
             HashSet<EnumResearchFlag> list = this.flags.get(res);
             if (list != null) {
-                final boolean b = list.remove(flag);
+                boolean b = list.remove(flag);
                 if (list.isEmpty()) {
                     this.flags.remove(this.research);
                 }
@@ -122,6 +145,35 @@ public class PlayerKnowledge {
         @Override
         public boolean hasResearchFlag(@Nonnull String res, @Nonnull EnumResearchFlag flag) {
             return this.flags.get(res) != null && this.flags.get(res).contains(flag);
+        }
+
+        private String getKey(EnumKnowledgeType type, ResearchCategory category) {
+            return type.getAbbreviation() + "_" + ((category == null) ? "" : category.key);
+        }
+
+        @Override
+        public boolean addKnowledge(EnumKnowledgeType type, ResearchCategory category, int amount) {
+            String key = this.getKey(type, category);
+            int c = this.getKnowledgeRaw(type, category);
+            if (c + amount < 0) {
+                return false;
+            }
+            c += amount;
+            this.knowledge.put(key, c);
+            return true;
+        }
+
+        @Override
+        public int getKnowledge(EnumKnowledgeType type, ResearchCategory category) {
+            String key = this.getKey(type, category);
+            int c = this.knowledge.containsKey(key) ? this.knowledge.get(key) : 0;
+            return (int) Math.floor(c / (double) type.getProgression());
+        }
+
+        @Override
+        public int getKnowledgeRaw(EnumKnowledgeType type, ResearchCategory category) {
+            String key = this.getKey(type, category);
+            return this.knowledge.containsKey(key) ? this.knowledge.get(key) : 0;
         }
 
         @Override
@@ -136,6 +188,9 @@ public class PlayerKnowledge {
             for (String resKey : this.research) {
                 CompoundTag tag = new CompoundTag();
                 tag.putString("key", resKey);
+                if (this.stages.containsKey(resKey)) {
+                    tag.putInt("stage", (int) this.stages.get(resKey));
+                }
                 if (this.flags.containsKey(resKey)) {
                     HashSet<EnumResearchFlag> list = this.flags.get(resKey);
                     if (list != null) {
@@ -152,6 +207,17 @@ public class PlayerKnowledge {
                 researchList.add(tag);
             }
             rootTag.put("research", researchList);
+            ListTag knowledgeList = new ListTag();
+            for (String key : this.knowledge.keySet()) {
+                Integer c = this.knowledge.get(key);
+                if (c != null && c > 0 && key != null && !key.isEmpty()) {
+                    CompoundTag tag2 = new CompoundTag();
+                    tag2.putString("key", key);
+                    tag2.putInt("amount", (int) c);
+                    knowledgeList.add(tag2);
+                }
+            }
+            rootTag.put("knowledge", knowledgeList);
             return rootTag;
         }
 
@@ -160,12 +226,17 @@ public class PlayerKnowledge {
             if (rootTag == null) {
                 return;
             }
-            ListTag researchList = rootTag.getList("research", Tag.TAG_COMPOUND);
+            this.clear();
+            ListTag researchList = rootTag.getList("research", 10);
             for (int i = 0; i < researchList.size(); ++i) {
                 CompoundTag tag = researchList.getCompound(i);
                 String know = tag.getString("key");
                 if (know != null && !this.isResearchKnown(know)) {
                     this.research.add(know);
+                    int stage = tag.getInt("stage");
+                    if (stage > 0) {
+                        this.stages.put(know, stage);
+                    }
                     String fs = tag.getString("flags");
                     if (fs.length() > 0) {
                         String[] split;
@@ -180,6 +251,24 @@ public class PlayerKnowledge {
                                 this.setResearchFlag(know, flag);
                             }
                         }
+                    }
+                }
+            }
+            ListTag knowledgeList = rootTag.getList("knowledge", 10);
+            for (int j = 0; j < knowledgeList.size(); ++j) {
+                CompoundTag tag2 = knowledgeList.getCompound(j);
+                String key = tag2.getString("key");
+                int amount = tag2.getInt("amount");
+                this.knowledge.put(key, amount);
+            }
+            this.addAutoUnlockResearch();
+        }
+
+        private void addAutoUnlockResearch() {
+            for (final ResearchCategory cat : ResearchCategories.researchCategories.values()) {
+                for (final ResearchEntry ri : cat.research.values()) {
+                    if (ri.hasMeta(ResearchEntry.EnumResearchMeta.AUTOUNLOCK)) {
+                        this.addResearch(ri.getKey());
                     }
                 }
             }
