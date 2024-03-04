@@ -9,6 +9,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkEvent;
 import thaumcraft.api.capabilities.IPlayerKnowledge;
 import thaumcraft.api.capabilities.ThaumcraftCapabilities;
+import thaumcraft.api.research.ResearchCategories;
+import thaumcraft.api.research.ResearchEntry;
+import thaumcraft.client.gui.ResearchToast;
 import thaumcraft.common.lib.utils.Utils;
 
 import java.util.function.Supplier;
@@ -18,8 +21,11 @@ public class PacketSyncKnowledge {
     protected CompoundTag data;
 
     public PacketSyncKnowledge(Player player) {
-        final IPlayerKnowledge pk = ThaumcraftCapabilities.getKnowledge(player);
+        IPlayerKnowledge pk = ThaumcraftCapabilities.getKnowledge(player);
         this.data = pk.serializeNBT();
+        for (String key : pk.getResearchList()) {
+            pk.clearResearchFlag(key, IPlayerKnowledge.EnumResearchFlag.POPUP);
+        }
     }
 
     public PacketSyncKnowledge(FriendlyByteBuf buffer) {
@@ -40,6 +46,16 @@ public class PacketSyncKnowledge {
             Player player = Minecraft.getInstance().player;
             IPlayerKnowledge pk = ThaumcraftCapabilities.getKnowledge(player);
             pk.deserializeNBT(message.data);
+            for (String key : pk.getResearchList()) {
+                if (pk.hasResearchFlag(key, IPlayerKnowledge.EnumResearchFlag.POPUP)) {
+                    ResearchEntry ri = ResearchCategories.getResearch(key);
+                    if (ri != null) {
+                        Minecraft.getInstance().getToasts().addToast(new ResearchToast(ri));
+                    }
+                }
+                pk.clearResearchFlag(key, IPlayerKnowledge.EnumResearchFlag.POPUP);
+            }
         });
+        ctx.get().setPacketHandled(true);
     }
 }
