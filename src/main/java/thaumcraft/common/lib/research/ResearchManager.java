@@ -26,11 +26,13 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ResearchManager {
     public static ConcurrentHashMap<String, Boolean> syncList = new ConcurrentHashMap<>();
     public static boolean noFlags = false;
+    public static LinkedHashSet<Integer> craftingReferences = new LinkedHashSet<>();
 
     public static boolean addKnowledge(Player player, IPlayerKnowledge.EnumKnowledgeType type, ResearchCategory category, int amount) {
         IPlayerKnowledge knowledge = ThaumcraftCapabilities.getKnowledge(player);
@@ -302,6 +304,21 @@ public class ResearchManager {
             if (stage.getText() == null) {
                 throw new Exception("Illegal stage text in research JSon");
             }
+            if (stageObj.has("required_craft")) {
+                String[] s2 = arrayJsonToString(stageObj.get("required_craft").getAsJsonArray());
+                stage.setCraft(parseJsonOreList(entry.getKey(), s2));
+                if (stage.getCraft() != null && stage.getCraft().length > 0) {
+                    int[] refs = new int[stage.getCraft().length];
+                    int q = 0;
+                    for (Object stack2 : stage.getCraft()) {
+                        int code = (stack2 instanceof ItemStack) ? createItemStackHash((ItemStack) stack2) : ("oredict:" + stack2).hashCode();
+                        ResearchManager.craftingReferences.add(code);
+                        refs[q] = code;
+                        ++q;
+                    }
+                    stage.setCraftReference(refs);
+                }
+            }
             stages.add(stage);
         }
         if (stages.size() > 0) {
@@ -330,6 +347,14 @@ public class ResearchManager {
             }
         }
         return entry;
+    }
+
+    public static int createItemStackHash(ItemStack stack) {
+        if (stack == null || stack.isEmpty()) {
+            return 0;
+        }
+        stack.setCount(1);
+        return stack.toString().hashCode();
     }
 
     private static String[] arrayJsonToString(JsonArray jsonArray) {
@@ -371,6 +396,35 @@ public class ResearchManager {
             }
         }
         ItemStack[] out = null;
+        if (idx > 0) {
+            out = Arrays.copyOf(work, idx);
+        }
+        return out;
+    }
+
+    private static Object[] parseJsonOreList(String key, String[] stacks) {
+        if (stacks == null || stacks.length == 0) {
+            return null;
+        }
+        Object[] work = new Object[stacks.length];
+        int idx = 0;
+        for (String s : stacks) {
+            s = s.replace("'", "\"");
+            if (s.startsWith("oredict:")) {
+                String[] st = s.split(":");
+                if (st.length > 1) {
+                    work[idx] = st[1];
+                    ++idx;
+                }
+            } else {
+                ItemStack stack = parseJSONtoItemStack(s);
+                if (stack != null && !stack.isEmpty()) {
+                    work[idx] = stack;
+                    ++idx;
+                }
+            }
+        }
+        Object[] out = null;
         if (idx > 0) {
             out = Arrays.copyOf(work, idx);
         }
