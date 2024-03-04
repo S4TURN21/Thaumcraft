@@ -57,7 +57,7 @@
     </tr>
     <tr>
         <td>Thaumonomicon</td>
-        <td align="center">❌</td>
+        <td align="center">🟡</td>
         <td align="center">❌</td>
         <td align="center">❌</td>
     </tr>
