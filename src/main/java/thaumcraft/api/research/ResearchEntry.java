@@ -18,6 +18,7 @@ public class ResearchEntry {
     ItemStack[] rewardItem;
     ResearchStage.Knowledge[] rewardKnow;
     ResearchStage[] stages;
+    ResearchAddendum[] addenda;
 
     public String getKey() {
         return this.key;
@@ -114,6 +115,10 @@ public class ResearchEntry {
         this.icons = icons;
     }
 
+    public EnumResearchMeta[] getMeta() {
+        return this.meta;
+    }
+
     public boolean hasMeta(EnumResearchMeta me) {
         return this.meta != null && Arrays.asList(this.meta).contains(me);
     }
@@ -144,6 +149,14 @@ public class ResearchEntry {
 
     public void setRewardKnow(ResearchStage.Knowledge[] rewardKnow) {
         this.rewardKnow = rewardKnow;
+    }
+
+    public ResearchAddendum[] getAddenda() {
+        return this.addenda;
+    }
+
+    public void setAddenda(ResearchAddendum[] addenda) {
+        this.addenda = addenda;
     }
 
     public enum EnumResearchMeta {

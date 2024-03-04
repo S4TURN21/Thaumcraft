@@ -132,7 +132,7 @@ public class ResearchManager {
             }
         }
         JsonArray stagesJson = obj.get("stages").getAsJsonArray();
-        ArrayList<ResearchStage> stages = new ArrayList<ResearchStage>();
+        ArrayList<ResearchStage> stages = new ArrayList<>();
         for (JsonElement element : stagesJson) {
             JsonObject stageObj = element.getAsJsonObject();
             ResearchStage stage = new ResearchStage();
@@ -145,20 +145,50 @@ public class ResearchManager {
         if (stages.size() > 0) {
             entry.setStages(stages.toArray(new ResearchStage[stages.size()]));
         }
+        if (obj.get("addenda") != null) {
+            JsonArray addendaJson = obj.get("addenda").getAsJsonArray();
+            ArrayList<ResearchAddendum> addenda = new ArrayList<>();
+            for (JsonElement element2 : addendaJson) {
+                JsonObject addendumObj = element2.getAsJsonObject();
+                ResearchAddendum addendum = new ResearchAddendum();
+                addendum.setText(addendumObj.getAsJsonPrimitive("text").getAsString());
+                if (addendum.getText() == null) {
+                    throw new Exception("Illegal addendum text in research JSon");
+                }
+                if (addendumObj.has("recipes")) {
+                    addendum.setRecipes(arrayJsonToResourceLocations(addendumObj.get("recipes").getAsJsonArray()));
+                }
+                if (addendumObj.has("required_research")) {
+                    addendum.setResearch(arrayJsonToString(addendumObj.get("required_research").getAsJsonArray()));
+                }
+                addenda.add(addendum);
+            }
+            if (addenda.size() > 0) {
+                entry.setAddenda(addenda.toArray(new ResearchAddendum[addenda.size()]));
+            }
+        }
         return entry;
     }
 
-    private static String[] arrayJsonToString(final JsonArray jsonArray) {
-        final ArrayList<String> out = new ArrayList<String>();
-        for (final JsonElement element : jsonArray) {
+    private static String[] arrayJsonToString(JsonArray jsonArray) {
+        ArrayList<String> out = new ArrayList<String>();
+        for (JsonElement element : jsonArray) {
             out.add(element.getAsString());
         }
         return (String[]) ((out.size() == 0) ? null : ((String[]) out.toArray(new String[out.size()])));
     }
 
-    private static Integer[] arrayJsonToInt(final JsonArray jsonArray) {
-        final ArrayList<Integer> out = new ArrayList<Integer>();
-        for (final JsonElement element : jsonArray) {
+    private static ResourceLocation[] arrayJsonToResourceLocations(JsonArray jsonArray) {
+        ArrayList<ResourceLocation> out = new ArrayList<ResourceLocation>();
+        for (JsonElement element : jsonArray) {
+            out.add(new ResourceLocation(element.getAsString()));
+        }
+        return (ResourceLocation[]) ((out.size() == 0) ? null : ((ResourceLocation[]) out.toArray(new ResourceLocation[out.size()])));
+    }
+
+    private static Integer[] arrayJsonToInt(JsonArray jsonArray) {
+        ArrayList<Integer> out = new ArrayList<Integer>();
+        for (JsonElement element : jsonArray) {
             out.add(element.getAsInt());
         }
         return (Integer[]) ((out.size() == 0) ? null : ((Integer[]) out.toArray(new Integer[out.size()])));
