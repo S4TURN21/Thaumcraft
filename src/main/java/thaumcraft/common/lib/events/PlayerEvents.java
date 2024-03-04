@@ -11,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
@@ -26,10 +27,26 @@ import thaumcraft.common.items.curios.ItemThaumonomicon;
 import thaumcraft.common.items.resources.ItemCrystalEssence;
 import thaumcraft.common.lib.capabilities.PlayerKnowledge;
 import thaumcraft.common.lib.capabilities.PlayerWarp;
+import thaumcraft.common.lib.research.ResearchManager;
 import thaumcraft.common.lib.utils.InventoryUtils;
 
 @Mod.EventBusSubscriber(modid = Thaumcraft.MODID)
 public class PlayerEvents {
+
+    @SubscribeEvent
+    public static void livingTick(LivingEvent.LivingTickEvent event) {
+        if (event.getEntity() instanceof Player) {
+            Player player = (Player) event.getEntity();
+
+            if (!player.level.isClientSide) {
+                if (player.tickCount % 20 == 0 && ResearchManager.syncList.remove(player.getName().getString()) != null) {
+                    IPlayerKnowledge knowledge = ThaumcraftCapabilities.getKnowledge(player);
+                    knowledge.sync((ServerPlayer) player);
+                }
+            }
+        }
+    }
+
     @SubscribeEvent
     public static void pickupItem(EntityItemPickupEvent event) {
         if (event.getEntity() != null && !event.getItem().level.isClientSide && event.getItem() != null && event.getItem().getItem() != null) {
