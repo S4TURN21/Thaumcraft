@@ -7,6 +7,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.blocks.BlocksTC;
+import thaumcraft.common.blocks.crafting.BlockArcaneWorkbench;
 import thaumcraft.common.blocks.world.ore.BlockCrystal;
 import thaumcraft.common.blocks.world.ore.ShardType;
 
@@ -27,6 +28,8 @@ public class ConfigBlocks {
         ShardType.ORDER.setOre(BlocksTC.crystalOrder);
         ShardType.ENTROPY.setOre(BlocksTC.crystalEntropy);
         ShardType.FLUX.setOre(BlocksTC.crystalTaint);
+
+        BlocksTC.arcaneWorkbench = registerBlock("arcane_workbench", new BlockArcaneWorkbench());
     }
 
     private static Block registerBlock(String name, Block block) {
