@@ -22,7 +22,7 @@
                 },
                 {
                     "text": "research.FIRSTSTEPS.stage.3", 
-                    "recipes": ["thaumcraft:thaumometer","thaumcraft:salismundusfake","thaumcraft:StoneArcane","thaumcraft:BrickArcane"]
+                    "recipes": ["thaumcraft:thaumometer","thaumcraft:salismundusfake","thaumcraft:stone_arcane","thaumcraft:brick_arcane"]
                 }
             ]
         },
@@ -201,7 +201,7 @@
                 },
                 {
                     "text": "research.UNLOCKARTIFICE.stage.2",
-                    "recipes": ["thaumcraft:Goggles"]
+                    "recipes": ["thaumcraft:goggles"]
                 }
             ]
         },
@@ -220,7 +220,7 @@
                 },
                 {
                     "text": "research.UNLOCKINFUSION.stage.2", 
-                    "recipes":["thaumcraft:EnchantedFabric","thaumcraft:RobeChest","thaumcraft:RobeLegs","thaumcraft:RobeBoots"]
+                    "recipes":["thaumcraft:enchanted_fabric","thaumcraft:robe_chest","thaumcraft:robe_legs","thaumcraft:robe_boots"]
                 }
             ]
         },
@@ -307,7 +307,7 @@
                 },
                 {
                     "text": "research.FLUXCLEANUP.stage.2",  
-                    "recipes": ["thaumcraft:Condenser","thaumcraft:CondenserLattice"]
+                    "recipes": ["thaumcraft:condenser","thaumcraft:condenser_lattice"]
                 }
             ]
         },
@@ -335,7 +335,7 @@
                 },
                 {
                     "text": "research.RIFTCLOSER.stage.2",  
-                    "recipes": ["thaumcraft:CausalityCollapser"]
+                    "recipes": ["thaumcraft:causality_collapser"]
                 }
             ]
         }
