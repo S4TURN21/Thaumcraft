@@ -1,5 +1,6 @@
 package thaumcraft.api.research;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import thaumcraft.api.capabilities.IPlayerKnowledge;
 
@@ -16,6 +17,9 @@ public class ResearchStage {
 
     public String getText() {
         return this.text;
+    }
+    public String getTextLocalized() {
+        return Component.translatable(getText()).getString();
     }
 
     public void setText(String text) {
