@@ -304,6 +304,12 @@ public class ResearchManager {
             if (stage.getText() == null) {
                 throw new Exception("Illegal stage text in research JSon");
             }
+            if (stageObj.has("recipes")) {
+                stage.setRecipes(arrayJsonToResourceLocations(stageObj.get("recipes").getAsJsonArray()));
+            }
+            if (stageObj.has("required_item")) {
+                stage.setObtain(parseJsonOreList(entry.getKey(), arrayJsonToString(stageObj.get("required_item").getAsJsonArray())));
+            }
             if (stageObj.has("required_craft")) {
                 String[] s2 = arrayJsonToString(stageObj.get("required_craft").getAsJsonArray());
                 stage.setCraft(parseJsonOreList(entry.getKey(), s2));
@@ -318,6 +324,43 @@ public class ResearchManager {
                     }
                     stage.setCraftReference(refs);
                 }
+            }
+            if (stageObj.has("required_knowledge")) {
+                String[] sl2 = arrayJsonToString(stageObj.get("required_knowledge").getAsJsonArray());
+                if (sl2 != null && sl2.length > 0) {
+                    ArrayList<ResearchStage.Knowledge> kl2 = new ArrayList<ResearchStage.Knowledge>();
+                    for (String s3 : sl2) {
+                        ResearchStage.Knowledge i = ResearchStage.Knowledge.parse(s3);
+                        if (i != null) {
+                            kl2.add(i);
+                        }
+                    }
+                    if (kl2.size() > 0) {
+                        stage.setKnow(kl2.toArray(new ResearchStage.Knowledge[kl2.size()]));
+                    }
+                }
+            }
+            if (stageObj.has("required_research")) {
+                stage.setResearch(arrayJsonToString(stageObj.get("required_research").getAsJsonArray()));
+                if (stage.getResearch() != null && stage.getResearch().length > 0) {
+                    String[] rKey = new String[stage.getResearch().length];
+                    String[] rIcn = new String[stage.getResearch().length];
+                    for (int a2 = 0; a2 < stage.getResearch().length; ++a2) {
+                        String[] ss = stage.getResearch()[a2].split(";");
+                        rKey[a2] = ss[0];
+                        if (ss.length > 1) {
+                            rIcn[a2] = ss[1];
+                        }
+                        else {
+                            rIcn[a2] = null;
+                        }
+                    }
+                    stage.setResearch(rKey);
+                    stage.setResearchIcon(rIcn);
+                }
+            }
+            if (stageObj.has("warp")) {
+                stage.setWarp(stageObj.getAsJsonPrimitive("warp").getAsInt());
             }
             stages.add(stage);
         }
@@ -370,7 +413,7 @@ public class ResearchManager {
         for (JsonElement element : jsonArray) {
             out.add(new ResourceLocation(element.getAsString()));
         }
-        return (ResourceLocation[]) ((out.size() == 0) ? null : ((ResourceLocation[]) out.toArray(new ResourceLocation[out.size()])));
+        return (out.size() == 0) ? null : out.toArray(new ResourceLocation[out.size()]);
     }
 
     private static Integer[] arrayJsonToInt(JsonArray jsonArray) {
