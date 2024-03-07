@@ -1,16 +1,21 @@
 package thaumcraft.common.lib.utils;
 
+import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.crafting.PartialNBTIngredient;
 import net.minecraftforge.registries.ForgeRegistries;
 import thaumcraft.api.ThaumcraftInvHelper;
 import thaumcraft.api.items.ItemsTC;
 
+import java.util.List;
 import java.util.Map;
 
 public class InventoryUtils {
@@ -135,7 +140,35 @@ public class InventoryUtils {
 
     public static ItemStack cycleItemStack(Object input, int counter) {
         ItemStack it = ItemStack.EMPTY;
-        if (input instanceof ItemStack) {
+        if (input instanceof Ingredient) {
+            boolean b = !((Ingredient) input).isSimple() && !(input instanceof PartialNBTIngredient);
+            NonNullList<ItemStack> lst = NonNullList.create();
+            for (ItemStack s : ((Ingredient) input).getItems()) {
+                if (s.isEmpty())
+                    continue;
+                if (!s.hasTag()) {
+                    s.getItem().fillItemCategory(CreativeModeTab.TAB_SEARCH, lst);
+                } else {
+                    lst.add(s);
+                }
+            }
+            input = lst.toArray(new ItemStack[lst.size()]);
+            if (b) {
+                ItemStack[] q = (ItemStack[]) input;
+                ItemStack[] r = new ItemStack[q.length];
+                for (int a = 0; a < q.length; ++a) {
+                    (r[a] = q[a].copy()).setDamageValue(r[a].getMaxDamage());
+                }
+                input = r;
+            }
+        }
+        if (input instanceof ItemStack[]) {
+            ItemStack[] q2 = (ItemStack[]) input;
+            if (q2 != null && q2.length > 0) {
+                int idx = (int) ((counter + System.currentTimeMillis() / 1000L) % q2.length);
+                it = cycleItemStack(q2[idx], counter++);
+            }
+        } else if (input instanceof ItemStack) {
             it = (ItemStack) input;
             if (it != null && !it.isEmpty() && it.getItem() != null && it.isDamageableItem() && it.getDamageValue() == Short.MAX_VALUE) {
                 int q3 = 5000 / it.getMaxDamage();
@@ -143,6 +176,12 @@ public class InventoryUtils {
                 ItemStack it2 = new ItemStack(it.getItem(), 1);
                 it2.setTag(it.getTag());
                 it = it2;
+            }
+        } else if (input instanceof List) {
+            List<ItemStack> q4 = (List<ItemStack>) input;
+            if (q4 != null && q4.size() > 0) {
+                int idx = (int) ((counter + System.currentTimeMillis() / 1000L) % q4.size());
+                it = cycleItemStack(q4.get(idx), counter++);
             }
         }
         return it;
