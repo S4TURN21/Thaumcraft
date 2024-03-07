@@ -18,6 +18,8 @@ import java.util.Iterator;
 import java.util.List;
 
 public class UtilsFX {
+    public static boolean hideStackOverlay = false;
+
     public static void drawTexturedQuadF(PoseStack poseStack, float x, float y, float uOffset, float vOffset, float uWidth, float vHeight, double zLevel) {
         var pMatrix = poseStack.last().pose();
         final float d = 0.0625f;

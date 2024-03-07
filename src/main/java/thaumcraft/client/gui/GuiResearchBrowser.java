@@ -691,8 +691,18 @@ public class GuiResearchBrowser extends Screen {
         if (!GuiResearchBrowser.searching && this.currentHighlight != null && !ThaumcraftCapabilities.knowsResearch(this.player, this.currentHighlight.getKey()) && this.canUnlockResearch(this.currentHighlight)) {
             this.updateResearch();
             PacketHandler.INSTANCE.sendToServer(new PacketSyncProgressToServer(this.currentHighlight.getKey(), true));
+            Minecraft.getInstance().setScreen(new GuiResearchPage(currentHighlight, null, guiMapX, guiMapY));
             this.popuptime = System.currentTimeMillis() + 3000L;
             this.popupmessage = Component.translatable("tc.research.popup", this.currentHighlight.getLocalizedName()).getString();
+        } else if (currentHighlight != null && ThaumcraftCapabilities.knowsResearch(player, currentHighlight.getKey())) {
+            ThaumcraftCapabilities.getKnowledge(player).clearResearchFlag(currentHighlight.getKey(), IPlayerKnowledge.EnumResearchFlag.RESEARCH);
+            ThaumcraftCapabilities.getKnowledge(player).clearResearchFlag(currentHighlight.getKey(), IPlayerKnowledge.EnumResearchFlag.PAGE);
+//            PacketHandler.INSTANCE.sendToServer(new PacketSyncResearchFlagsToServer(mc.player, currentHighlight.getKey()));
+            int stage = ThaumcraftCapabilities.getKnowledge(player).getResearchStage(currentHighlight.getKey());
+            if (stage > 1 && stage >= currentHighlight.getStages().length) {
+                PacketHandler.INSTANCE.sendToServer(new PacketSyncProgressToServer(currentHighlight.getKey(), false, true, false));
+            }
+            Minecraft.getInstance().setScreen(new GuiResearchPage(currentHighlight, null, guiMapX, guiMapY));
         } else if (GuiResearchBrowser.searching) {
             int q = 0;
             for (Pair p : this.searchResults) {
