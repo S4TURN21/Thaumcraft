@@ -8,8 +8,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.network.chat.Component;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.network.chat.FormattedText;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.gui.ScreenUtils;
 
 import java.util.ArrayList;
@@ -51,7 +52,7 @@ public class UtilsFX {
         if (!textList.isEmpty()) {
             Minecraft mc = Minecraft.getInstance();
             Window scaledresolution = mc.getWindow();
-            int sf = (int)scaledresolution.getGuiScale();
+            int sf = (int) scaledresolution.getGuiScale();
             int max = 240;
             int mx = x;
             boolean flip = false;
@@ -159,7 +160,7 @@ public class UtilsFX {
                     }
                 }
                 pPoseStack.translate(0.0, 0.0, 301.0);
-                fr.drawShadow(pPoseStack,tl3, 0.0f, shift ? 3.0f : 0.0f, -1);
+                fr.drawShadow(pPoseStack, tl3, 0.0f, shift ? 3.0f : 0.0f, -1);
                 pPoseStack.popPose();
                 if (i == 0) {
                     sY += 2;
@@ -184,5 +185,19 @@ public class UtilsFX {
         pBuilder.vertex(pMatrix, startX, startY, 300.0f).color(startRed, startGreen, startBlue, startAlpha).endVertex();
         pBuilder.vertex(pMatrix, startX, endY, 300.0f).color(endRed, endGreen, endBlue, endAlpha).endVertex();
         pBuilder.vertex(pMatrix, endX, endY, 300.0f).color(endRed, endGreen, endBlue, endAlpha).endVertex();
+    }
+
+    public static boolean renderItemStack(PoseStack pPoseStack, Minecraft mc, ItemStack itm, int x, int y, String txt) {
+        ItemRenderer itemRender = mc.getItemRenderer();
+        boolean rc = false;
+        if (itm != null && !itm.isEmpty()) {
+            rc = true;
+            pPoseStack.pushPose();
+            pPoseStack.translate(0.0f, 0.0f, 32.0f);
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+            itemRender.renderAndDecorateItem(itm, x, y);
+            pPoseStack.popPose();
+        }
+        return rc;
     }
 }
