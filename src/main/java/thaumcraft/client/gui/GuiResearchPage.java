@@ -39,6 +39,8 @@ public class GuiResearchPage extends Screen {
     ArrayList<List> reference = new ArrayList<>();
     protected int paneWidth = 256;
     protected int paneHeight = 181;
+    protected double guiMapX;
+    protected double guiMapY;
     private ResearchEntry research;
     private int currentStage = 0;
     int lastStage = 0;
@@ -77,6 +79,8 @@ public class GuiResearchPage extends Screen {
     public GuiResearchPage(ResearchEntry researchEntry, ResourceLocation recipe, double x, double y) {
         super(GameNarrator.NO_TITLE);
         this.research = researchEntry;
+        guiMapX = x;
+        guiMapY = y;
         this.minecraft = Minecraft.getInstance();
         this.playerKnowledge = ThaumcraftCapabilities.getKnowledge(this.minecraft.player);
         parsePages();
@@ -470,6 +474,20 @@ public class GuiResearchPage extends Screen {
             }
         }
         pPoseStack.popPose();
+    }
+
+    @Override
+    public boolean keyPressed(int pKeyCode, int pScanCode, int pModifiers) {
+        if (pKeyCode == minecraft.options.keyInventory.getKey().getValue() || pKeyCode == 256) {
+            if (GuiResearchPage.shownRecipe != null || showingAspects || showingKnowledge) {
+                GuiResearchPage.shownRecipe = null;
+            } else {
+                minecraft.setScreen(new GuiResearchBrowser(guiMapX, guiMapY));
+            }
+            return true;
+        } else {
+            return super.keyPressed(pKeyCode, pScanCode, pModifiers);
+        }
     }
 
     @Override
