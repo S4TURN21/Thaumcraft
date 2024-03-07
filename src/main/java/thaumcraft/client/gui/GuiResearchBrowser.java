@@ -109,6 +109,34 @@ public class GuiResearchBrowser extends Screen {
         this.player = Minecraft.getInstance().player;
     }
 
+    public GuiResearchBrowser(double x, double y) {
+        super(GameNarrator.NO_TITLE);
+        mouseX = 0;
+        mouseY = 0;
+        screenZoom = 1.0f;
+        isMouseButtonDown = 0;
+        startX = 16;
+        startY = 16;
+        research = new LinkedList<ResearchEntry>();
+        currentHighlight = null;
+        player = null;
+        popuptime = 0L;
+        popupmessage = "";
+        categoriesTC = new ArrayList<String>();
+        categoriesOther = new ArrayList<String>();
+        addonShift = 0;
+        invisible = new ArrayList<String>();
+        searchResults = new ArrayList<Pair<String, SearchResult>>();
+        tx1 = new ResourceLocation("thaumcraft", "textures/gui/gui_research_browser.png");
+        tempMapX = x;
+        guiMapX = x;
+        curMouseX = x;
+        tempMapY = y;
+        guiMapY = y;
+        curMouseY = y;
+        player = Minecraft.getInstance().player;
+    }
+
     public void updateResearch() {
         this.clearWidgets();
         this.addRenderableWidget(new GuiSearchButton(1, this.height - 17, 16, 16, Component.translatable("tc.search")));
