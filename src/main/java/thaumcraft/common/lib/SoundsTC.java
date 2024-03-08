@@ -9,6 +9,7 @@ public class SoundsTC {
     public static SoundEvent poof;
     public static SoundEvent page;
     public static SoundEvent learn;
+    public static SoundEvent write;
     public static SoundEvent crystal;
     public static SoundEvent dust;
     public static SoundType CRYSTAL;
@@ -21,6 +22,7 @@ public class SoundsTC {
         SoundsTC.poof = getRegisteredSoundEvent(event, "thaumcraft:poof");
         SoundsTC.page = getRegisteredSoundEvent(event, "thaumcraft:page");
         SoundsTC.learn = getRegisteredSoundEvent(event, "thaumcraft:learn");
+        SoundsTC.write = getRegisteredSoundEvent(event, "thaumcraft:write");
         SoundsTC.crystal = getRegisteredSoundEvent(event, "thaumcraft:crystal");
         SoundsTC.dust = getRegisteredSoundEvent(event, "thaumcraft:dust");
     }
