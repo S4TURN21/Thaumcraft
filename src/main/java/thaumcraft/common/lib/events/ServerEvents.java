@@ -82,7 +82,7 @@ public class ServerEvents {
                     } else {
                         Block tb = vs.target.getItem() instanceof BlockItem ? ((BlockItem) vs.target.getItem()).getBlock() : Blocks.AIR;
                         if (tb != null && tb != Blocks.AIR) {
-//                            world.setBlockState(vs.pos, tb.getStateFromMeta(vs.target.getItemDamage()), 3);
+                            world.setBlock(vs.pos, tb.defaultBlockState(), 1 | 2);
                         } else {
                             world.setBlock(vs.pos, Blocks.AIR.defaultBlockState(), 1 | 2);
                             EntitySpecialItem entityItem = new EntitySpecialItem(world, vs.pos.getX() + 0.5, vs.pos.getY() + 0.1, vs.pos.getZ() + 0.5, vs.target.copy());
