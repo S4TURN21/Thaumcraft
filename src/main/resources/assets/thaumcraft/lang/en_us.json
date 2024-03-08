@@ -26,6 +26,8 @@
   "tc.research.newpage": "§aNew page added§0",
   "tc.research.newresearch": "§6Newly discovered research§0",
   "tc.need.craft": "Items that need to be crafted",
+  "tc.stage.complete": "Complete",
+  "tc.stage.hold": "Completing...",
   "tc.knowledge.name": "Knowledge Totals",
   "tc.research_category.BASICS": "Fundamentals",
   "research.FIRSTSTEPS.title": "First Steps",

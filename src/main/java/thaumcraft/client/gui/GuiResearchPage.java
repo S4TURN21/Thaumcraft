@@ -26,6 +26,8 @@ import thaumcraft.api.research.*;
 import thaumcraft.client.lib.UtilsFX;
 import thaumcraft.common.config.ConfigRecipes;
 import thaumcraft.common.lib.SoundsTC;
+import thaumcraft.common.lib.network.PacketHandler;
+import thaumcraft.common.lib.network.playerdata.PacketSyncProgressToServer;
 import thaumcraft.common.lib.utils.InventoryUtils;
 
 import java.util.*;
@@ -294,7 +296,7 @@ public class GuiResearchPage extends Screen {
                 this.hrx = x + 20;
                 this.hry = y - 6;
                 if (this.hold) {
-                    String s2 = Component.translatable("tc.stage.hold").getString();
+                    String s2 = I18n.get("tc.stage.hold");
                     int m = this.minecraft.font.width(s2);
                     this.minecraft.font.drawShadow(pPoseStack, s2, x + 52 - m / 2.0f, (float) (y - 4), 0XFFFFFF);
                 } else {
@@ -305,7 +307,7 @@ public class GuiResearchPage extends Screen {
                     }
                     RenderSystem.setShaderTexture(0, this.tex1);
                     this.blit(pPoseStack, hrx, hry, 84, 216, 64, 12);
-                    String s2 = Component.translatable("tc.stage.complete").getString();
+                    String s2 = I18n.get("tc.stage.complete");
                     int m = this.minecraft.font.width(s2);
                     this.minecraft.font.drawShadow(pPoseStack, s2, x + 52 - m / 2.0f, (float) (y - 4), 0XFFFFFF);
                 }
@@ -496,6 +498,15 @@ public class GuiResearchPage extends Screen {
         int centerY = (height - paneHeight) / 2;
         double mx = pMouseX - hrx;
         double my = pMouseY - hry;
+        if (GuiResearchPage.shownRecipe == null && !hold && hasAllRequisites && mx >= 0 && my >= 0 && mx < 64 && my < 12) {
+            PacketHandler.INSTANCE.sendToServer(new PacketSyncProgressToServer(research.getKey(), false, true, true));
+            Minecraft.getInstance().player.playSound(SoundsTC.write, 0.66f, 1.0f);
+            lastCheck = 0L;
+            lastStage = currentStage;
+            hold = true;
+            keyCache.clear();
+            drilldownLists.clear();
+        }
         if (recipeLists.size() > 0) {
             int aa = 0;
             int space = Math.min(25, 200 / recipeLists.size());
@@ -782,7 +793,14 @@ public class GuiResearchPage extends Screen {
     private void checkRequisites() {
         if (this.research.getStages() != null) {
             this.isComplete = this.playerKnowledge.isResearchComplete(this.research.getKey());
-            this.hasCraft = null;
+            while (currentStage >= research.getStages().length) {
+                --currentStage;
+            }
+            if (currentStage < 0) {
+                return;
+            }
+            hasAllRequisites = true;
+            hasCraft = null;
             ResearchStage stage = this.research.getStages()[this.currentStage];
             Object[] c = stage.getCraft();
             if (c != null) {
