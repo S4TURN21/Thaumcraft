@@ -10,8 +10,10 @@ import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.RegisterEvent;
 import thaumcraft.api.ThaumcraftApi;
+import thaumcraft.api.blocks.BlocksTC;
 import thaumcraft.api.crafting.IDustTrigger;
 import thaumcraft.api.items.ItemsTC;
+import thaumcraft.common.lib.crafting.DustTriggerOre;
 import thaumcraft.common.lib.crafting.DustTriggerSimple;
 import thaumcraft.common.lib.crafting.RecipeMagicDust;
 
@@ -24,6 +26,7 @@ public class ConfigRecipes {
 
     public static void initializeCompoundRecipes() {
         IDustTrigger.registerDustTrigger(new DustTriggerSimple("!gotdream", Blocks.BOOKSHELF, new ItemStack(ItemsTC.thaumonomicon)));
+        IDustTrigger.registerDustTrigger(new DustTriggerOre("FIRSTSTEPS@1", "workbench", new ItemStack(BlocksTC.arcaneWorkbench)));
     }
 
     public static void initializeNormalRecipes(RegisterEvent.RegisterHelper<RecipeSerializer<?>> event) {
