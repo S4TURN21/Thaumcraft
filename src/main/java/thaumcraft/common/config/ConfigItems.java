@@ -13,6 +13,7 @@ import thaumcraft.api.items.ItemsTC;
 import thaumcraft.common.items.curios.ItemThaumonomicon;
 import thaumcraft.common.items.resources.ItemCrystalEssence;
 import thaumcraft.common.items.resources.ItemMagicDust;
+import thaumcraft.common.items.tools.ItemThaumometer;
 import thaumcraft.common.lib.CreativeTabThaumcraft;
 
 public class ConfigItems {
@@ -34,5 +35,6 @@ public class ConfigItems {
         event.register("thaumonomicon", (ItemsTC.thaumonomicon = new ItemThaumonomicon()));
         event.register("crystal_essence", (ItemsTC.crystalEssence = new ItemCrystalEssence()));
         event.register("salis_mundus", (ItemsTC.salisMundus = new ItemMagicDust()));
+        event.register("thaumometer", (ItemsTC.thaumometer = new ItemThaumometer()));
     }
 }

@@ -63,7 +63,7 @@
     </tr>
     <tr>
         <td>Thaumometer</td>
-        <td align="center">❌</td>
+        <td align="center">🟡</td>
         <td align="center">❌</td>
         <td align="center">❌</td>
     </tr>
