@@ -6,6 +6,7 @@
     "pane": "thaumcraft:item/scanscreen"
   },
   "flip_v": true,
+  "gui_light": "front",
   "display": {
     "firstperson_righthand": {
       "translation": [0, 0, -6.0],
