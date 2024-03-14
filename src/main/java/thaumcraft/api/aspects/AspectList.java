@@ -18,7 +18,7 @@ public class AspectList implements Serializable {
     }
 
     public Aspect[] getAspects() {
-        return this.aspects.keySet().toArray(new Aspect[0]);
+        return this.aspects.keySet().toArray(new Aspect[]{});
     }
 
     public int getAmount(final Aspect key) {
