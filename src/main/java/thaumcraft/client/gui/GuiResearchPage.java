@@ -555,7 +555,7 @@ public class GuiResearchPage extends Screen {
         UtilsFX.renderItemStack(pPoseStack, this.minecraft, itemstack, x, y, null);
         if ((GuiResearchPage.shownRecipe == null || allowWithPagePopup) && mx >= x && my >= y && mx < x + 16 && my < y + 16 && itemstack != null && !itemstack.isEmpty() && itemstack.getItem() != null) {
             if (clickthrough) {
-                List addtext = itemstack.getTooltipLines(this.minecraft.player, Minecraft.getInstance().options.advancedItemTooltips ? TooltipFlag.Default.ADVANCED : TooltipFlag.Default.NORMAL).stream().map(Component::getString).toList();
+                ArrayList<String> addtext = new ArrayList<>(itemstack.getTooltipLines(this.minecraft.player, Minecraft.getInstance().options.advancedItemTooltips ? TooltipFlag.Default.ADVANCED : TooltipFlag.Default.NORMAL).stream().map(Component::getString).toList());
                 String ref = getCraftingRecipeKey(this.minecraft.player, itemstack);
                 if (ref != null) {
                     String[] sr = ref.split(";", 2);
