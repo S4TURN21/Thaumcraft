@@ -21,6 +21,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 import thaumcraft.api.capabilities.IPlayerKnowledge;
 import thaumcraft.api.capabilities.ThaumcraftCapabilities;
+import thaumcraft.api.crafting.IArcaneRecipe;
 import thaumcraft.api.internal.CommonInternals;
 import thaumcraft.api.research.*;
 import thaumcraft.client.lib.UtilsFX;
@@ -823,7 +824,10 @@ public class GuiResearchPage extends Screen {
             recipe = CommonInternals.getCatalogRecipeFake(rk);
         }
         if (recipe == null) {
-            recipe = this.minecraft.level.getRecipeManager().byKey(rk);
+            var optional = this.minecraft.level.getRecipeManager().byKey(rk);
+            if (optional.isPresent()) {
+                recipe = optional.get();
+            }
         }
         if (recipe == null) {
             recipe = ConfigRecipes.recipeGroups.get(rk.toString());
@@ -842,6 +846,9 @@ public class GuiResearchPage extends Screen {
             }
         }
         if (recipe instanceof CraftingRecipe && ((CraftingRecipe) recipe).getResultItem().equals(stack, true)) {
+            if (recipe instanceof IArcaneRecipe && !ThaumcraftCapabilities.knowsResearchStrict(minecraft.player, ((IArcaneRecipe)recipe).getResearch())) {
+                return -99;
+            }
             return start;
         } else {
             return -1;
