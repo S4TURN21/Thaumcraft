@@ -7,9 +7,17 @@ import thaumcraft.common.lib.InternalMethodHandler;
 import thaumcraft.common.lib.network.PacketHandler;
 
 public class CommonProxy implements IProxy {
+
+    private final ProxyGUI proxyGUI;
+
+    public CommonProxy() {
+        proxyGUI = new ProxyGUI();
+    }
+
     @Override
     public void preInit(FMLCommonSetupEvent event) {
         ThaumcraftApi.internalMethods = new InternalMethodHandler();
+        proxyGUI.registerGuiHandler();
         PacketHandler.preInit();
     }
 
