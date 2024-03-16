@@ -337,6 +337,7 @@ public class GuiResearchPage extends Screen {
                     }
                     int sh = rng.nextInt(3);
                     int le = rng.nextInt(3) + (mouseInside(x + 280, y - 1, 30, 16, mx, my) ? 0 : 3);
+                    RenderSystem.enableBlend();
                     RenderSystem.setShaderTexture(0, this.tex1);
                     if (rk.equals(GuiResearchPage.shownRecipe)) {
                         RenderSystem.setShaderColor(1.0f, 0.5f, 0.5f, 1.0f);
