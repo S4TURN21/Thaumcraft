@@ -19,9 +19,13 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
+import thaumcraft.api.ThaumcraftApiHelper;
+import thaumcraft.api.aspects.Aspect;
+import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.capabilities.IPlayerKnowledge;
 import thaumcraft.api.capabilities.ThaumcraftCapabilities;
 import thaumcraft.api.crafting.IArcaneRecipe;
+import thaumcraft.api.crafting.ShapedArcaneRecipe;
 import thaumcraft.api.internal.CommonInternals;
 import thaumcraft.api.research.*;
 import thaumcraft.client.lib.UtilsFX;
@@ -382,7 +386,10 @@ public class GuiResearchPage extends Screen {
             recipe = CommonInternals.getCatalogRecipeFake(rk);
         }
         if (recipe == null) {
-            recipe = this.minecraft.level.getRecipeManager().byKey(rk);
+            var optional = this.minecraft.level.getRecipeManager().byKey(rk);
+            if (optional.isPresent()) {
+                recipe = optional.get();
+            }
         }
         if (recipe == null) {
             return;
@@ -398,7 +405,14 @@ public class GuiResearchPage extends Screen {
             }
             ArrayList list = recipeLists2.get(rkey);
             ArrayList outputs = recipeOutputs2.get(rkey);
-            if (recipe instanceof CraftingRecipe) {
+            if (recipe instanceof IArcaneRecipe) {
+                IArcaneRecipe re3 = (IArcaneRecipe) recipe;
+                ItemStack is = InventoryUtils.cycleItemStack(re3.getResultItem(), 0);
+                if (is != null && !is.isEmpty() && ThaumcraftCapabilities.knowsResearchStrict(minecraft.player, re3.getResearch())) {
+                    list.add(re3);
+                    outputs.add(re3.getResultItem());
+                }
+            } else if (recipe instanceof CraftingRecipe) {
                 CraftingRecipe re4 = (CraftingRecipe) recipe;
                 list.add(re4);
                 outputs.add(re4.getResultItem());
@@ -429,7 +443,9 @@ public class GuiResearchPage extends Screen {
             }
             Object recipe = list.get(recipePage % list.size());
             if (recipe != null) {
-                if (recipe instanceof CraftingRecipe) {
+                if (recipe instanceof IArcaneRecipe) {
+                    drawArcaneCraftingPage(pPoseStack, x + 128, y + 128, mx, my, (IArcaneRecipe) recipe);
+                } else if (recipe instanceof CraftingRecipe) {
                     drawCraftingPage(pPoseStack, x + 128, y + 128, mx, my, (CraftingRecipe) recipe);
                 }
             }
@@ -445,6 +461,62 @@ public class GuiResearchPage extends Screen {
             }
         }
         allowWithPagePopup = false;
+    }
+
+    private void drawArcaneCraftingPage(PoseStack pPoseStack, int x, int y, int mx, int my, IArcaneRecipe recipe) {
+        RenderSystem.enableBlend();
+        RenderSystem.blendFunc(GlConst.GL_SRC_ALPHA, GlConst.GL_ONE_MINUS_SRC_ALPHA);
+        pPoseStack.pushPose();
+        RenderSystem.setShaderTexture(0, tex2);
+        pPoseStack.pushPose();
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+        RenderSystem.enableBlend();
+        RenderSystem.blendFunc(GlConst.GL_SRC_ALPHA, GlConst.GL_ONE_MINUS_SRC_ALPHA);
+        pPoseStack.translate((float) x, (float) y, 0.0f);
+        pPoseStack.scale(2.0f, 2.0f, 1.0f);
+        this.blit(pPoseStack, -26, -26, 112, 15, 52, 52);
+        this.blit(pPoseStack, -8, -46, 20, 3, 16, 16);
+        pPoseStack.popPose();
+        pPoseStack.pushPose();
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 0.4f);
+        RenderSystem.enableBlend();
+        RenderSystem.blendFunc(GlConst.GL_SRC_ALPHA, GlConst.GL_ONE_MINUS_SRC_ALPHA);
+        pPoseStack.translate((float) x, (float) y, 0.0f);
+        pPoseStack.scale(2.0f, 2.0f, 1.0f);
+        this.blit(pPoseStack, -6, 40, 68, 76, 12, 12);
+        pPoseStack.popPose();
+        String text = "" + recipe.getVis();
+        int offset = minecraft.font.width(text);
+        minecraft.font.draw(pPoseStack, text, x - offset / 2, y + 90, 5263440);
+        drawPopupAt(x - offset / 2 - 15, y + 75, 30, 30, mx, my, "wandtable.text1");
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+        pPoseStack.translate(0.0, 0.0, 100.0);
+        drawStackAt(pPoseStack, InventoryUtils.cycleItemStack(recipe.getResultItem(), 0), x - 8, y - 84, mx, my, false);
+        AspectList crystals = recipe.getCrystals();
+        if (crystals != null) {
+            int a = 0;
+            int sz = crystals.size();
+            for (Aspect aspect : crystals.getAspects()) {
+                drawStackAt(pPoseStack, InventoryUtils.cycleItemStack(ThaumcraftApiHelper.makeCrystal(aspect, crystals.getAmount(aspect)), a), x + 4 - sz * 10 + a * 20, y + 59, mx, my, true);
+                ++a;
+            }
+        }
+        if (recipe != null && recipe instanceof ShapedArcaneRecipe) {
+            text = I18n.get("recipe.type.arcane");
+            offset = minecraft.font.width(text);
+            minecraft.font.draw(pPoseStack, text, x - offset / 2, y - 104, 5263440);
+            int rw = ((ShapedArcaneRecipe) recipe).getRecipeWidth();
+            int rh = ((ShapedArcaneRecipe) recipe).getRecipeHeight();
+            NonNullList<Ingredient> items = recipe.getIngredients();
+            for (int i = 0; i < rw && i < 3; ++i) {
+                for (int j = 0; j < rh && j < 3; ++j) {
+                    if (items.get(i + j * rw) != null) {
+                        drawStackAt(pPoseStack, InventoryUtils.cycleItemStack(items.get(i + j * rw), i + j * rw), x - 40 + i * 32, y - 40 + j * 32, mx, my, true);
+                    }
+                }
+            }
+        }
+        pPoseStack.popPose();
     }
 
     private void drawCraftingPage(PoseStack pPoseStack, int x, int y, int mx, int my, CraftingRecipe recipe) {
@@ -527,6 +599,25 @@ public class GuiResearchPage extends Screen {
                     break;
                 }
                 ++aa;
+            }
+        }
+        if (reference.size() > 0) {
+            for (List coords : reference) {
+                if (pMouseX >= (int) coords.get(0) && pMouseY >= (int) coords.get(1) && pMouseX < (int) coords.get(0) + 16 && pMouseY < (int) coords.get(1) + 16) {
+                    try {
+                        Minecraft.getInstance().player.playSound(SoundsTC.page, 0.66f, 1.0f);
+                    } catch (Exception ignored) {
+                    }
+                    if (GuiResearchPage.shownRecipe != null) {
+                        GuiResearchPage.history.push(new ResourceLocation(GuiResearchPage.shownRecipe.getNamespace(), GuiResearchPage.shownRecipe.getPath()));
+                    }
+                    GuiResearchPage.shownRecipe = (ResourceLocation) coords.get(2);
+                    recipePage = Integer.parseInt((String) coords.get(3));
+                    if (!drilldownLists.containsKey(GuiResearchPage.shownRecipe)) {
+                        addRecipesToList(GuiResearchPage.shownRecipe, drilldownLists, new LinkedHashMap<>(), GuiResearchPage.shownRecipe);
+                    }
+                    break;
+                }
             }
         }
         return super.mouseClicked(pMouseX, pMouseY, pButton);
@@ -846,7 +937,7 @@ public class GuiResearchPage extends Screen {
             }
         }
         if (recipe instanceof CraftingRecipe && ((CraftingRecipe) recipe).getResultItem().equals(stack, true)) {
-            if (recipe instanceof IArcaneRecipe && !ThaumcraftCapabilities.knowsResearchStrict(minecraft.player, ((IArcaneRecipe)recipe).getResearch())) {
+            if (recipe instanceof IArcaneRecipe && !ThaumcraftCapabilities.knowsResearchStrict(minecraft.player, ((IArcaneRecipe) recipe).getResearch())) {
                 return -99;
             }
             return start;
