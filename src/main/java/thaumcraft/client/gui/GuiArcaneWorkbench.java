@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -48,10 +49,11 @@ public class GuiArcaneWorkbench extends AbstractContainerScreen<ContainerArcaneW
         int centerX = (width - getXSize()) / 2;
         int centerY = (height - getYSize()) / 2;
         this.blit(pPoseStack, centerX, centerY, 0, 0, getXSize(), getYSize());
-
+        int cost = 0;
         IArcaneRecipe result = ThaumcraftCraftingManager.findMatchingArcaneRecipe(menu.blockEntity.inventoryCraft, ip.player);
         AspectList crystals = null;
         if (result != null) {
+            cost = result.getVis();
             crystals = result.getCrystals();
         }
         if (crystals != null) {
@@ -70,6 +72,18 @@ public class GuiArcaneWorkbench extends AbstractContainerScreen<ContainerArcaneW
             }
             RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
             RenderSystem.blendFunc(GlConst.GL_SRC_ALPHA, GlConst.GL_ONE_MINUS_SRC_ALPHA);
+        }
+        String text;
+        int ll;
+        if (cost > 0) {
+            pPoseStack.pushPose();
+            pPoseStack.translate((float) (centerX + 168), (float) (centerY + 38), 0.0f);
+            pPoseStack.scale(0.5f, 0.5f, 0.0f);
+            text = cost + " " + I18n.get("workbench.cost");
+            ll = font.width(text) / 2;
+            font.draw(pPoseStack,text, -ll, 0, 0XC0FFFF);
+            pPoseStack.scale(1.0f, 1.0f, 1.0f);
+            pPoseStack.popPose();
         }
     }
 }
