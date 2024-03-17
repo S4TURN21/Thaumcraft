@@ -23,7 +23,6 @@ import thaumcraft.api.crafting.ContainerDummy;
 import thaumcraft.api.crafting.IArcaneRecipe;
 import thaumcraft.common.blocks.tiles.crafting.BlockEntityArcaneWorkbench;
 import thaumcraft.common.blocks.world.ore.ShardType;
-import thaumcraft.common.container.InventoryArcaneWorkbench;
 import thaumcraft.common.container.slot.SlotCraftingArcaneWorkbench;
 import thaumcraft.common.container.slot.SlotCrystal;
 import thaumcraft.common.lib.crafting.ThaumcraftCraftingManager;
@@ -37,7 +36,6 @@ public class ContainerArcaneWorkbench extends AbstractContainerMenu {
     public ResultContainer craftResult;
     public final BlockEntityArcaneWorkbench blockEntity;
     private final Level level;
-    private CraftingContainer inventoryCraft;
 
     public ContainerArcaneWorkbench(int id, Inventory inv, FriendlyByteBuf extraData) {
         this(id, inv, inv.player.level.getBlockEntity(extraData.readBlockPos()));
@@ -49,16 +47,16 @@ public class ContainerArcaneWorkbench extends AbstractContainerMenu {
         blockEntity = (BlockEntityArcaneWorkbench) entity;
         this.level = inv.player.level;
         this.ip = inv;
-        this.inventoryCraft = new InventoryArcaneWorkbench(blockEntity,this);
-        this.addSlot(new SlotCraftingArcaneWorkbench(blockEntity, inv.player, inventoryCraft, craftResult, 15, 160, 64));
+        this.blockEntity.inventoryCraft.menu = this;
+        this.addSlot(new SlotCraftingArcaneWorkbench(blockEntity, inv.player, blockEntity.inventoryCraft, craftResult, 15, 160, 64));
         for (int i = 0; i < 3; ++i) {
             for (int k = 0; k < 3; ++k) {
-                this.addSlot(new Slot(inventoryCraft, k + i * 3, 40 + k * 24, 40 + i * 24));
+                this.addSlot(new Slot(blockEntity.inventoryCraft, k + i * 3, 40 + k * 24, 40 + i * 24));
             }
         }
         for (ShardType st : ShardType.values()) {
             if (st.getMetadata() < 6) {
-                this.addSlot(new SlotCrystal(st.getAspect(), inventoryCraft, st.getMetadata() + 9, ContainerArcaneWorkbench.xx[st.getMetadata()], ContainerArcaneWorkbench.yy[st.getMetadata()]));
+                this.addSlot(new SlotCrystal(st.getAspect(), blockEntity.inventoryCraft, st.getMetadata() + 9, ContainerArcaneWorkbench.xx[st.getMetadata()], ContainerArcaneWorkbench.yy[st.getMetadata()]));
             }
         }
         for (int i = 0; i < 3; ++i) {
@@ -69,16 +67,16 @@ public class ContainerArcaneWorkbench extends AbstractContainerMenu {
         for (int i = 0; i < 9; ++i) {
             this.addSlot(new Slot(inv, i, 16 + i * 18, 209));
         }
-        slotsChanged(inventoryCraft);
+        slotsChanged(blockEntity.inventoryCraft);
     }
 
     public void slotsChanged(Container pInventory) {
-        IArcaneRecipe recipe = ThaumcraftCraftingManager.findMatchingArcaneRecipe(inventoryCraft, ip.player);
+        IArcaneRecipe recipe = ThaumcraftCraftingManager.findMatchingArcaneRecipe(blockEntity.inventoryCraft, ip.player);
         boolean hasVis = true;
         boolean hasCrystals = true;
 
         if (hasVis && hasCrystals) {
-            slotChangedCraftingGrid(blockEntity.getLevel(), ip.player, inventoryCraft, craftResult);
+            slotChangedCraftingGrid(blockEntity.getLevel(), ip.player, blockEntity.inventoryCraft, craftResult);
         }
         super.broadcastChanges();
     }
@@ -114,7 +112,8 @@ public class ContainerArcaneWorkbench extends AbstractContainerMenu {
     public void removed(Player pPlayer) {
         super.removed(pPlayer);
         if (!blockEntity.getLevel().isClientSide) {
-            this.clearContainer(pPlayer, inventoryCraft);
+            blockEntity.inventoryCraft.menu = new ContainerDummy();
+            blockEntity.setChanged();
         }
     }
 
