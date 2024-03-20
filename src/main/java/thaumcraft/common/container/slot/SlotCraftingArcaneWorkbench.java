@@ -89,9 +89,15 @@ public class SlotCraftingArcaneWorkbench extends Slot {
             nonnulllist = pPlayer.level.getRecipeManager().getRemainingItemsFor(RecipeType.CRAFTING, ic, pPlayer.level);
         }
         ForgeHooks.setCraftingPlayer(null);
+        int vis = 0;
         AspectList crystals = null;
         if (recipe != null) {
+            vis = recipe.getVis();
             crystals = recipe.getCrystals();
+            if (vis > 0) {
+                blockEntity.getAura();
+                blockEntity.spendAura(vis);
+            }
         }
         for (int i = 0; i < Math.min(9, nonnulllist.size()); ++i) {
             ItemStack itemstack = ic.getItem(i);

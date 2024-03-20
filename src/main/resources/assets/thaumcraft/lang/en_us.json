@@ -12,6 +12,7 @@
   "item.thaumcraft.thaumometer": "Thaumometer",
   "block.thaumcraft.arcane_workbench": "Arcane Workbench",
   "research.complete": "Research Completed!",
+  "workbench.available": "available",
   "workbench.cost": "vis",
   "recipe.clickthrough": "Click for recipe",
   "recipe.type.workbenchshapeless": "Workbench (Shapeless)",

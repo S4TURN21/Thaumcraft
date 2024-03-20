@@ -73,15 +73,33 @@ public class GuiArcaneWorkbench extends AbstractContainerScreen<ContainerArcaneW
             RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
             RenderSystem.blendFunc(GlConst.GL_SRC_ALPHA, GlConst.GL_ONE_MINUS_SRC_ALPHA);
         }
-        String text;
-        int ll;
+        RenderSystem.disableBlend();
+        pPoseStack.pushPose();
+        pPoseStack.translate((float) (centerX + 168), (float) (centerY + 46), 0.0f);
+        pPoseStack.scale(0.5f, 0.5f, 0.0f);
+        String text = menu.getAuraVisClient() + " " + I18n.get("workbench.available");
+        int ll = font.width(text) / 2;
+        font.draw(pPoseStack, text, -ll, 0, (menu.getAuraVisClient() < cost) ? 0XEE6E6E : 0X6E6EEE);
+        pPoseStack.scale(1.0f, 1.0f, 1.0f);
+        pPoseStack.popPose();
         if (cost > 0) {
+            if (menu.getAuraVisClient() < cost) {
+                pPoseStack.pushPose();
+                float rgb = 0.33f;
+                RenderSystem.setShaderColor(rgb, rgb, rgb, 0.66f);
+                RenderSystem.enableCull();
+                RenderSystem.enableBlend();
+                itemRenderer.renderGuiItem(result.getResultItem(), centerX + 160, centerY + 64);
+                itemRenderer.renderGuiItemDecorations(minecraft.font, result.getResultItem(), centerX + 160, centerY + 64, "");
+                RenderSystem.enableDepthTest();
+                pPoseStack.popPose();
+            }
             pPoseStack.pushPose();
             pPoseStack.translate((float) (centerX + 168), (float) (centerY + 38), 0.0f);
             pPoseStack.scale(0.5f, 0.5f, 0.0f);
             text = cost + " " + I18n.get("workbench.cost");
             ll = font.width(text) / 2;
-            font.draw(pPoseStack,text, -ll, 0, 0XC0FFFF);
+            font.draw(pPoseStack, text, -ll, 0, 0XC0FFFF);
             pPoseStack.scale(1.0f, 1.0f, 1.0f);
             pPoseStack.popPose();
         }

@@ -1,5 +1,6 @@
 package thaumcraft.client.gui;
 
+import net.minecraft.core.Direction;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
 import net.minecraft.resources.ResourceLocation;
@@ -7,10 +8,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.CraftingContainer;
-import net.minecraft.world.inventory.ResultContainer;
-import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -19,6 +17,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
 import thaumcraft.Thaumcraft;
+import thaumcraft.api.ThaumcraftApiHelper;
+import thaumcraft.api.ThaumcraftInvHelper;
+import thaumcraft.api.aspects.Aspect;
+import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.crafting.ContainerDummy;
 import thaumcraft.api.crafting.IArcaneRecipe;
 import thaumcraft.common.blocks.tiles.crafting.BlockEntityArcaneWorkbench;
@@ -35,19 +37,22 @@ public class ContainerArcaneWorkbench extends AbstractContainerMenu {
     private final Inventory ip;
     public ResultContainer craftResult;
     public final BlockEntityArcaneWorkbench blockEntity;
-    private final Level level;
+    private final ContainerData data;
+    private int lastVis = -1;
+    private long lastCheck = 0L;
 
     public ContainerArcaneWorkbench(int id, Inventory inv, FriendlyByteBuf extraData) {
-        this(id, inv, inv.player.level.getBlockEntity(extraData.readBlockPos()));
+        this(id, inv, inv.player.level.getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(2));
     }
 
-    public ContainerArcaneWorkbench(int id, Inventory inv, BlockEntity entity) {
+    public ContainerArcaneWorkbench(int id, Inventory inv, BlockEntity entity, ContainerData pData) {
         super(ForgeRegistries.MENU_TYPES.getValue(new ResourceLocation(Thaumcraft.MODID, "arcane_workbench")), id);
         craftResult = new ResultContainer();
         blockEntity = (BlockEntityArcaneWorkbench) entity;
-        this.level = inv.player.level;
-        this.ip = inv;
+        this.data = pData;
         this.blockEntity.inventoryCraft.menu = this;
+        this.ip = inv;
+        blockEntity.getAura();
         this.addSlot(new SlotCraftingArcaneWorkbench(blockEntity, inv.player, blockEntity.inventoryCraft, craftResult, 15, 160, 64));
         for (int i = 0; i < 3; ++i) {
             for (int k = 0; k < 3; ++k) {
@@ -68,13 +73,48 @@ public class ContainerArcaneWorkbench extends AbstractContainerMenu {
             this.addSlot(new Slot(inv, i, 16 + i * 18, 209));
         }
         slotsChanged(blockEntity.inventoryCraft);
+        addDataSlots(pData);
+    }
+
+    @Override
+    public void broadcastChanges() {
+        super.broadcastChanges();
+        long t = System.currentTimeMillis();
+        if (t > lastCheck) {
+            lastCheck = t + 500L;
+            blockEntity.getAura();
+        }
+        if (lastVis != getAuraVisServer()) {
+            slotsChanged(blockEntity.inventoryCraft);
+        }
+
+        if (lastVis != getAuraVisServer()) {
+            data.set(0, getAuraVisServer());
+        }
+
+        lastVis = getAuraVisServer();
     }
 
     public void slotsChanged(Container pInventory) {
         IArcaneRecipe recipe = ThaumcraftCraftingManager.findMatchingArcaneRecipe(blockEntity.inventoryCraft, ip.player);
         boolean hasVis = true;
         boolean hasCrystals = true;
-
+        if (recipe != null) {
+            int vis = 0;
+            AspectList crystals = null;
+            vis = recipe.getVis();
+            crystals = recipe.getCrystals();
+            blockEntity.getAura();
+            hasVis = (blockEntity.getLevel().isClientSide ? (getAuraVisClient() >= vis) : (getAuraVisServer() >= vis));
+            if (crystals != null && crystals.size() > 0) {
+                for (Aspect aspect : crystals.getAspects()) {
+                    if (ThaumcraftInvHelper.countTotalItemsIn(ThaumcraftInvHelper.wrapInventory(blockEntity.inventoryCraft, Direction.UP), ThaumcraftApiHelper.makeCrystal(aspect, crystals.getAmount(aspect)), ThaumcraftInvHelper.InvFilter.STRICT) < crystals.getAmount(aspect)) {
+                        hasCrystals = false;
+                        break;
+                    }
+                }
+            }
+        }
         if (hasVis && hasCrystals) {
             slotChangedCraftingGrid(blockEntity.getLevel(), ip.player, blockEntity.inventoryCraft, craftResult);
         }
@@ -174,5 +214,13 @@ public class ContainerArcaneWorkbench extends AbstractContainerMenu {
     @Override
     public boolean canTakeItemForPickAll(ItemStack pStack, Slot pSlot) {
         return pSlot.container != craftResult && super.canTakeItemForPickAll(pStack, pSlot);
+    }
+
+    public int getAuraVisClient() {
+        return this.data.get(0);
+    }
+
+    public int getAuraVisServer() {
+        return this.data.get(1);
     }
 }
