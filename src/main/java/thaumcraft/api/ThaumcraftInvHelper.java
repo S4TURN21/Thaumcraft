@@ -1,7 +1,14 @@
 package thaumcraft.api;
 
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.Container;
+import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.InvWrapper;
+import net.minecraftforge.items.wrapper.SidedInvWrapper;
+import thaumcraft.common.lib.utils.InventoryUtils;
 
 import java.util.List;
 
@@ -29,6 +36,10 @@ public class ThaumcraftInvHelper {
         public static InvFilter BASEORE = new InvFilter(false, false, true, false);
     }
 
+    public static IItemHandler wrapInventory(Container inventory, Direction side) {
+        return inventory instanceof WorldlyContainer ? new SidedInvWrapper((WorldlyContainer) inventory, side) : new InvWrapper(inventory);
+    }
+
     public static boolean areItemStackTagsEqualRelaxed(final ItemStack prime, final ItemStack other) {
         return (prime.isEmpty() && other.isEmpty()) || (!prime.isEmpty() && !other.isEmpty() && (prime.getTag() == null || compareTagsRelaxed(prime.getTag(), other.getTag())));
     }
@@ -51,5 +62,17 @@ public class ThaumcraftInvHelper {
             }
         }
         return false;
+    }
+
+    public static int countTotalItemsIn(IItemHandler inventory, ItemStack stack, InvFilter filter) {
+        int count = 0;
+        if (inventory != null) {
+            for (int a = 0; a < inventory.getSlots(); a++) {
+                if (InventoryUtils.areItemStacksEqual(stack, inventory.getStackInSlot(a), filter)) {
+                    count += inventory.getStackInSlot(a).getCount();
+                }
+            }
+        }
+        return count;
     }
 }
