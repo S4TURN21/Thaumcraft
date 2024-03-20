@@ -21,6 +21,21 @@ public class BiomeHandler {
         BiomeHandler.biomeInfo.put(type, Arrays.asList(auraLevel, tag, greatwood, greatwoodchance));
     }
 
+    public static float getBiomeAuraModifier(Holder<Biome> biome) {
+        try {
+            Set<TagKey<Biome>> types = biome.tags().collect(Collectors.toSet());
+            float average = 0.0f;
+            int count = 0;
+            for (TagKey<Biome> type : types) {
+                average += (float) BiomeHandler.biomeInfo.get(type).get(0);
+                ++count;
+            }
+            return average / count;
+        } catch (Exception ex) {
+            return 0.5f;
+        }
+    }
+
     public static Aspect getRandomBiomeTag(Holder<Biome> biome, RandomSource random) {
         try {
             Set<TagKey<Biome>> types = biome.tags().collect(Collectors.toSet());
