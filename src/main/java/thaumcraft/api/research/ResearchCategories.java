@@ -1,5 +1,6 @@
 package thaumcraft.api.research;
 
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.resources.ResourceLocation;
 import thaumcraft.api.aspects.AspectList;
 
@@ -11,6 +12,10 @@ public class ResearchCategories {
 
     public static ResearchCategory getResearchCategory(final String key) {
         return ResearchCategories.researchCategories.get(key);
+    }
+
+    public static String getCategoryName(String key) {
+        return I18n.get("tc.research_category." + key);
     }
 
     public static ResearchEntry getResearch(final String key) {
