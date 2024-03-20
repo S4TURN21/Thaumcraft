@@ -29,6 +29,7 @@ import thaumcraft.api.crafting.ShapedArcaneRecipe;
 import thaumcraft.api.internal.CommonInternals;
 import thaumcraft.api.research.*;
 import thaumcraft.client.lib.UtilsFX;
+import thaumcraft.client.lib.events.HudHandler;
 import thaumcraft.common.config.ConfigRecipes;
 import thaumcraft.common.lib.SoundsTC;
 import thaumcraft.common.lib.network.PacketHandler;
@@ -81,6 +82,7 @@ public class GuiResearchPage extends Screen {
     boolean isComplete = false;
     boolean hasAllRequisites = false;
     boolean[] hasCraft = null;
+    boolean[] hasKnow = null;
     public HashMap<Integer, String> keyCache = new HashMap<>();
 
     public GuiResearchPage(ResearchEntry researchEntry, ResourceLocation recipe, double x, double y) {
@@ -283,12 +285,72 @@ public class GuiResearchPage extends Screen {
                     if (hasCraft[idx2]) {
                         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
                         RenderSystem.setShaderTexture(0, this.tex1);
+                        RenderSystem.enableBlend();
                         RenderSystem.disableDepthTest();
                         this.blit(pPoseStack, x - 15 + shift + 8, y, 159, 207, 10, 10);
                         RenderSystem.enableDepthTest();
                     }
                 }
                 shift += ss2;
+            }
+        }
+        if (stage.getKnow() != null) {
+            y -= 18;
+            b = true;
+            int shift = 24;
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 0.25f);
+            RenderSystem.setShaderTexture(0, tex1);
+            RenderSystem.enableBlend();
+            this.blit(pPoseStack, x - 12, y - 1, 200, 184, 56, 16);
+            drawPopupAt(x - 15, y, mx, my, "tc.need.know");
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+            if (hasKnow != null) {
+                if (hasKnow.length != stage.getKnow().length) {
+                    hasKnow = new boolean[stage.getKnow().length];
+                }
+                int ss2 = 18;
+                if (stage.getKnow().length > 6) {
+                    ss2 = 110 / stage.getKnow().length;
+                }
+                for (int idx2 = 0; idx2 < stage.getKnow().length; ++idx2) {
+                    ResearchStage.Knowledge kn = stage.getKnow()[idx2];
+                    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+                    pPoseStack.pushPose();
+                    RenderSystem.setShaderTexture(0, HudHandler.KNOW_TYPE[kn.type.ordinal()]);
+                    pPoseStack.translate((float) (x - 15 + shift), (float) y, 0.0f);
+                    pPoseStack.scale(0.0625F, 0.0625F, 0.0625F);
+                    blit(pPoseStack, 0, 0, 0, 0, 255, 255);
+                    if (kn.type.hasFields() && kn.category != null) {
+                        RenderSystem.setShaderTexture(0, kn.category.icon);
+                        pPoseStack.translate(32.0f, 32.0f, 1.0f);
+                        pPoseStack.pushPose();
+                        pPoseStack.scale(0.75F, 0.75F, 0.75F);
+                        blit(pPoseStack, 0, 0, 0, 0, 255, 255);
+                        pPoseStack.popPose();
+                    }
+                    pPoseStack.popPose();
+                    String am = "" + (hasKnow[idx2] ? "" : ChatFormatting.RED) + kn.amount;
+                    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+                    pPoseStack.pushPose();
+                    pPoseStack.translate((float) (x - 15 + shift + 16 - minecraft.font.width(am) / 2), (float) (y + 12), 5.0f);
+                    pPoseStack.scale(0.5F, 0.5F, 0.5F);
+                    minecraft.font.drawShadow(pPoseStack, am, 0.0f, 0.0f, 0XFFFFFF);
+                    pPoseStack.popPose();
+                    if (hasKnow[idx2]) {
+                        pPoseStack.pushPose();
+                        pPoseStack.translate(0.0f, 0.0f, 1.0f);
+                        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+                        RenderSystem.setShaderTexture(0, tex1);
+                        blit(pPoseStack, x - 15 + shift + 8, y, 159, 207, 10, 10);
+                        pPoseStack.popPose();
+                    }
+                    String s = I18n.get("tc.type." + kn.type.toString().toLowerCase());
+                    if (kn.type.hasFields() && kn.category != null) {
+                        s = s + ": " + ResearchCategories.getCategoryName(kn.category.key);
+                    }
+                    drawPopupAt(x - 15 + shift, y, mx, my, s);
+                    shift += ss2;
+                }
             }
         }
         if (b) {
@@ -813,6 +875,10 @@ public class GuiResearchPage extends Screen {
                 heightRemaining -= 18;
                 dividerSpace = 15;
             }
+            if (stage.getKnow() != null) {
+                heightRemaining -= 18;
+                dividerSpace = 15;
+            }
         }
         heightRemaining -= dividerSpace;
         Page page1 = new Page();
@@ -894,6 +960,7 @@ public class GuiResearchPage extends Screen {
             }
             hasAllRequisites = true;
             hasCraft = null;
+            hasKnow = null;
             ResearchStage stage = this.research.getStages()[this.currentStage];
             Object[] c = stage.getCraft();
             if (c != null) {
@@ -904,6 +971,19 @@ public class GuiResearchPage extends Screen {
                         this.hasCraft[a2] = false;
                     } else {
                         this.hasCraft[a2] = true;
+                    }
+                }
+            }
+            ResearchStage.Knowledge[] k = stage.getKnow();
+            if (k != null) {
+                hasKnow = new boolean[k.length];
+                for (int a4 = 0; a4 < k.length; ++a4) {
+                    int pk = playerKnowledge.getKnowledge(k[a4].type, k[a4].category);
+                    if (pk < k[a4].amount) {
+                        hasAllRequisites = false;
+                        hasKnow[a4] = false;
+                    } else {
+                        hasKnow[a4] = true;
                     }
                 }
             }
