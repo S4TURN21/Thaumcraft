@@ -20,6 +20,20 @@ import java.util.List;
 public class UtilsFX {
     public static boolean hideStackOverlay = false;
 
+    public static void drawTexturedQuad(PoseStack poseStack, float x, float y, float uOffset, float vOffset, float uWidth, float vHeight, double zLevel) {
+        float var7 = 0.00390625f;
+        float var8 = 0.00390625f;
+        Matrix4f pMatrix = poseStack.last().pose();
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
+        bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        bufferbuilder.vertex(pMatrix, x + 0.0f, y + vHeight, (float) zLevel).uv((uOffset + 0.0f) * var7, (vOffset + vHeight) * var8).endVertex();
+        bufferbuilder.vertex(pMatrix, x + uWidth, y + vHeight, (float) zLevel).uv((uOffset + uWidth) * var7, (vOffset + vHeight) * var8).endVertex();
+        bufferbuilder.vertex(pMatrix, x + uWidth, y + 0.0f, (float) zLevel).uv((uOffset + uWidth) * var7, (vOffset + 0.0f) * var8).endVertex();
+        bufferbuilder.vertex(pMatrix, x + 0.0f, y + 0.0f, (float) zLevel).uv((uOffset + 0.0f) * var7, (vOffset + 0.0f) * var8).endVertex();
+        BufferUploader.drawWithShader(bufferbuilder.end());
+    }
+
     public static void drawTexturedQuadF(PoseStack poseStack, float x, float y, float uOffset, float vOffset, float uWidth, float vHeight, double zLevel) {
         var pMatrix = poseStack.last().pose();
         final float d = 0.0625f;
