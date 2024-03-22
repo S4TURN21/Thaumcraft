@@ -152,7 +152,7 @@ public class InventoryUtils {
                     lst.add(s);
                 }
             }
-            input = lst.toArray(new ItemStack[lst.size()]);
+            input = getMatchingStacks((Ingredient) input);
             if (b) {
                 ItemStack[] q = (ItemStack[]) input;
                 ItemStack[] r = new ItemStack[q.length];
@@ -185,5 +185,19 @@ public class InventoryUtils {
             }
         }
         return it;
+    }
+
+    public static ItemStack[] getMatchingStacks(Ingredient ingredient) {
+        NonNullList<ItemStack> lst = NonNullList.create();
+        for (ItemStack s : ingredient.getItems()) {
+            if (s.isEmpty())
+                continue;
+            if (!s.hasTag()) {
+                s.getItem().fillItemCategory(CreativeModeTab.TAB_SEARCH, lst);
+            } else {
+                lst.add(s);
+            }
+        }
+        return lst.toArray(new ItemStack[lst.size()]);
     }
 }
