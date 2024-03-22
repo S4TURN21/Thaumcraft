@@ -25,4 +25,12 @@ public class CommonInternals {
         String ss = sc.serializeNBT().toString();
         return ss.hashCode();
     }
+
+    public static int generateUniqueItemstackIdStripped(ItemStack stack) {
+        ItemStack sc = stack.copy();
+        sc.setCount(1);
+        sc.setTag(null);
+        String ss = sc.serializeNBT().toString();
+        return ss.hashCode();
+    }
 }
