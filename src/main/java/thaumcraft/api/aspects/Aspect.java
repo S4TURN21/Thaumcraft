@@ -82,7 +82,15 @@ public class Aspect {
         return this.tag;
     }
 
-    public static Aspect getAspect(final String tag) {
+    public Aspect[] getComponents() {
+        return components;
+    }
+
+    public static Aspect getAspect(String tag) {
         return Aspect.aspects.get(tag);
+    }
+
+    public boolean isPrimal() {
+        return getComponents() == null || getComponents().length != 2;
     }
 }
