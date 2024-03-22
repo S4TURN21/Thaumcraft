@@ -7,14 +7,30 @@ import java.io.Serializable;
 import java.util.LinkedHashMap;
 
 public class AspectList implements Serializable {
-    public LinkedHashMap<Aspect, Integer> aspects;
+    public LinkedHashMap<Aspect, Integer> aspects = new LinkedHashMap<>();
 
     public AspectList() {
-        this.aspects = new LinkedHashMap<>();
+    }
+
+    public AspectList copy() {
+        AspectList out = new AspectList();
+        for (Aspect a : getAspects())
+            out.add(a, getAmount(a));
+        return out;
     }
 
     public int size() {
         return this.aspects.size();
+    }
+
+    public int visSize() {
+        int q = 0;
+
+        for (Aspect as : aspects.keySet()) {
+            q += getAmount(as);
+        }
+
+        return q;
     }
 
     public Aspect[] getAspects() {
@@ -25,12 +41,46 @@ public class AspectList implements Serializable {
         return (this.aspects.get(key) == null) ? 0 : this.aspects.get(key);
     }
 
+    public boolean reduce(Aspect key, int amount) {
+        if (getAmount(key) >= amount) {
+            int am = getAmount(key) - amount;
+            aspects.put(key, am);
+            return true;
+        }
+        return false;
+    }
+
+    public AspectList remove(Aspect key, int amount) {
+        int am = getAmount(key) - amount;
+        if (am <= 0) {
+            aspects.remove(key);
+        } else {
+            aspects.put(key, am);
+        }
+        return this;
+    }
+
+    public AspectList remove(Aspect key) {
+        aspects.remove(key);
+        return this;
+    }
+
     public AspectList add(Aspect aspect, int amount) {
         if (this.aspects.containsKey(aspect)) {
             int oldamount = this.aspects.get(aspect);
             amount += oldamount;
         }
         this.aspects.put(aspect, amount);
+        return this;
+    }
+
+    public AspectList merge(Aspect aspect, int amount) {
+        if (aspects.containsKey(aspect)) {
+            int oldamount = aspects.get(aspect);
+            if (amount < oldamount) amount = oldamount;
+
+        }
+        aspects.put(aspect, amount);
         return this;
     }
 
