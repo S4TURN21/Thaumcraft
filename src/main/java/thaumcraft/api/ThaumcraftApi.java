@@ -1,6 +1,11 @@
 package thaumcraft.api;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import thaumcraft.api.aspects.AspectEventProxy;
+import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.internal.CommonInternals;
 import thaumcraft.api.internal.DummyInternalMethodHandler;
 import thaumcraft.api.internal.IInternalMethodHandler;
@@ -22,5 +27,38 @@ public class ThaumcraftApi {
 
     public static void addFakeCraftingRecipe(ResourceLocation registry, Object recipe) {
         getCraftingRecipesFake().put(registry, recipe);
+    }
+
+    public static boolean exists(ItemStack item) {
+        ItemStack stack = item.copy();
+        stack.setCount(1);
+        AspectList tmp = CommonInternals.objectTags.get(stack.serializeNBT().toString());
+        if (tmp == null) {
+            try {
+                stack.setDamageValue(Short.MAX_VALUE);
+                tmp = CommonInternals.objectTags.get(stack.serializeNBT().toString());
+                if (item.getDamageValue() == Short.MAX_VALUE && tmp == null) {
+                    int index = 0;
+                    do {
+                        stack.setDamageValue(index);
+                        tmp = CommonInternals.objectTags.get(stack.serializeNBT().toString());
+                        index++;
+                    } while (index < 16 && tmp == null);
+                }
+                if (tmp == null) return false;
+            } catch (Exception e) {
+            }
+        }
+
+        return true;
+    }
+
+    public static void registerObjectTag(ItemStack item, AspectList aspects) {
+        (new AspectEventProxy()).registerObjectTag(item, aspects);
+    }
+
+    @Deprecated
+    public static void registerObjectTag(TagKey<Item> oreDict, AspectList aspects) {
+        (new AspectEventProxy()).registerObjectTag(oreDict, aspects);
     }
 }
