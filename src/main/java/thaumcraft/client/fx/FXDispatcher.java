@@ -190,4 +190,37 @@ public class FXDispatcher {
         fb2.setRotationSpeed(this.getWorld().random.nextFloat(), this.getWorld().random.nextBoolean() ? (-2.0f - this.getWorld().random.nextFloat() * 2.0f) : (2.0f + this.getWorld().random.nextFloat() * 2.0f));
         Minecraft.getInstance().particleEngine.add(fb2);
     }
+
+    public void scanHighlight(BlockPos p) {
+        AABB bb = getWorld().getBlockState(p).getShape(getWorld(), p).bounds();
+        bb = bb.move(p);
+        scanHighlight(bb);
+    }
+
+    public void scanHighlight(AABB bb) {
+        int num = Mth.ceil(bb.getSize() * 2.0);
+        double ax = (bb.minX + bb.maxX) / 2.0;
+        double ay = (bb.minY + bb.maxY) / 2.0;
+        double az = (bb.minZ + bb.maxZ) / 2.0;
+        for (Direction face : Direction.values()) {
+            double mx = 0.5 + face.getStepX() * 0.51;
+            double my = 0.5 + face.getStepY() * 0.51;
+            double mz = 0.5 + face.getStepZ() * 0.51;
+            for (int a = 0; a < num * 2; ++a) {
+                double x = mx;
+                double y = my;
+                double z = mz;
+                x += getWorld().random.nextGaussian() * (bb.maxX - bb.minX);
+                y += getWorld().random.nextGaussian() * (bb.maxY - bb.minY);
+                z += getWorld().random.nextGaussian() * (bb.maxZ - bb.minZ);
+                x = Mth.clamp(x, bb.minX - ax, bb.maxX - ax);
+                y = Mth.clamp(y, bb.minY - ay, bb.maxY - ay);
+                z = Mth.clamp(z, bb.minZ - az, bb.maxZ - az);
+                float r = getWorld().random.nextInt(16,32) / 255.0f;
+                float g = getWorld().random.nextInt( 132, 165) / 255.0f;
+                float b = getWorld().random.nextInt( 223, 239) / 255.0f;
+                drawSimpleSparkle(getWorld().random, ax + x, ay + y, az + z, 0.0, 0.0, 0.0, 0.4f + (float) getWorld().random.nextGaussian() * 0.1f, r, g, b, getWorld().random.nextInt(10), 1.0f, 0.0f, 4);
+            }
+        }
+    }
 }
