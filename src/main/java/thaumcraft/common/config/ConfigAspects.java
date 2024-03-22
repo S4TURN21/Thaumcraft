@@ -1,0 +1,18 @@
+package thaumcraft.common.config;
+
+import net.minecraft.tags.ItemTags;
+import thaumcraft.api.ThaumcraftApi;
+import thaumcraft.api.aspects.Aspect;
+import thaumcraft.api.aspects.AspectList;
+import thaumcraft.api.internal.CommonInternals;
+
+public class ConfigAspects {
+    public static void postInit() {
+        CommonInternals.objectTags.clear();
+        registerItemAspects();
+    }
+
+    private static void registerItemAspects() {
+        ThaumcraftApi.registerObjectTag(ItemTags.SAND, new AspectList().add(Aspect.EARTH, 5).add(Aspect.ENTROPY, 5));
+    }
+}
