@@ -3,10 +3,13 @@ package thaumcraft.common.lib;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.PacketDistributor;
+import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.capabilities.IPlayerWarp;
 import thaumcraft.api.capabilities.ThaumcraftCapabilities;
 import thaumcraft.api.internal.IInternalMethodHandler;
+import thaumcraft.common.lib.crafting.ThaumcraftCraftingManager;
 import thaumcraft.common.lib.network.PacketHandler;
 import thaumcraft.common.lib.network.playerdata.PacketWarpMessage;
 import thaumcraft.common.lib.research.ResearchManager;
@@ -45,5 +48,10 @@ public class InternalMethodHandler implements IInternalMethodHandler {
     @Override
     public boolean completeResearch(Player player, final String researchkey) {
         return researchkey != null && !player.level.isClientSide && ResearchManager.completeResearch(player, researchkey);
+    }
+
+    @Override
+    public AspectList getObjectAspects(ItemStack is) {
+        return ThaumcraftCraftingManager.getObjectTags(is);
     }
 }
