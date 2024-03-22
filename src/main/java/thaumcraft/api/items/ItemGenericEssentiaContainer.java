@@ -8,13 +8,17 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
+import thaumcraft.api.aspects.IEssentiaContainerItem;
 
-public class ItemGenericEssentiaContainer extends Item {
+public class ItemGenericEssentiaContainer extends Item implements IEssentiaContainerItem {
     protected int base;
+
     public ItemGenericEssentiaContainer(Item.Properties pProperties, int base) {
         super(pProperties);
         this.base = base;
     }
+
+    @Override
     public AspectList getAspects(ItemStack itemstack) {
         if (itemstack.hasTag()) {
             AspectList aspects = new AspectList();
@@ -23,11 +27,18 @@ public class ItemGenericEssentiaContainer extends Item {
         }
         return null;
     }
+
+    @Override
     public void setAspects(ItemStack itemstack, AspectList aspects) {
         if (!itemstack.hasTag()) {
             itemstack.setTag(new CompoundTag());
         }
         aspects.writeToNBT(itemstack.getTag());
+    }
+
+    @Override
+    public boolean ignoreContainedAspects() {
+        return false;
     }
 
     @Override
