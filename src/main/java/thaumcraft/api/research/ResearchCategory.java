@@ -1,6 +1,8 @@
 package thaumcraft.api.research;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 
 import java.util.HashMap;
@@ -37,5 +39,19 @@ public class ResearchCategory {
         this.background = background;
         this.background2 = background2;
         this.formula = formula;
+    }
+
+    public int applyFormula(AspectList as) {
+        return applyFormula(as, 1);
+    }
+
+    public int applyFormula(AspectList as, double mod) {
+        if (formula == null) return 0;
+        double total = 0;
+        for (Aspect aspect : formula.getAspects()) {
+            total += (mod * mod) * as.getAmount(aspect) * (formula.getAmount(aspect) / 10d);
+        }
+        if (total > 0) total = Math.sqrt(total);
+        return Mth.ceil(total);
     }
 }
