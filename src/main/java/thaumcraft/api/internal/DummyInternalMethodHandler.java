@@ -26,4 +26,9 @@ public class DummyInternalMethodHandler implements IInternalMethodHandler {
     public AspectList getObjectAspects(ItemStack is) {
         return null;
     }
+
+    @Override
+    public boolean progressResearch(Player player, String researchkey) {
+        return false;
+    }
 }

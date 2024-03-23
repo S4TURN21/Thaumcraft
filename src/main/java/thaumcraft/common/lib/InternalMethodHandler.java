@@ -53,6 +53,11 @@ public class InternalMethodHandler implements IInternalMethodHandler {
     }
 
     @Override
+    public boolean progressResearch(Player player, String researchkey) {
+        return researchkey != null && !player.level.isClientSide && ResearchManager.progressResearch(player, researchkey);
+    }
+
+    @Override
     public boolean completeResearch(Player player, final String researchkey) {
         return researchkey != null && !player.level.isClientSide && ResearchManager.completeResearch(player, researchkey);
     }
