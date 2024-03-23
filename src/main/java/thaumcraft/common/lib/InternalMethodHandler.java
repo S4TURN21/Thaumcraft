@@ -6,15 +6,22 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.PacketDistributor;
 import thaumcraft.api.aspects.AspectList;
+import thaumcraft.api.capabilities.IPlayerKnowledge;
 import thaumcraft.api.capabilities.IPlayerWarp;
 import thaumcraft.api.capabilities.ThaumcraftCapabilities;
 import thaumcraft.api.internal.IInternalMethodHandler;
+import thaumcraft.api.research.ResearchCategory;
 import thaumcraft.common.lib.crafting.ThaumcraftCraftingManager;
 import thaumcraft.common.lib.network.PacketHandler;
 import thaumcraft.common.lib.network.playerdata.PacketWarpMessage;
 import thaumcraft.common.lib.research.ResearchManager;
 
 public class InternalMethodHandler implements IInternalMethodHandler {
+    @Override
+    public boolean addKnowledge(Player player, IPlayerKnowledge.EnumKnowledgeType type, ResearchCategory field, int amount) {
+        return amount != 0 && !player.level.isClientSide && ResearchManager.addKnowledge(player, type, field, amount);
+    }
+
     @Override
     public void addWarpToPlayer(Player player, int amount, IPlayerWarp.EnumWarpType type) {
         if (amount == 0 || player.level.isClientSide) {
