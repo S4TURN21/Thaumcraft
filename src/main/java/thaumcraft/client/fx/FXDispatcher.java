@@ -10,6 +10,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import thaumcraft.client.fx.particles.FXBlockRunes;
 import thaumcraft.client.fx.particles.FXGeneric;
 import thaumcraft.common.lib.SoundsTC;
 
@@ -222,5 +223,11 @@ public class FXDispatcher {
                 drawSimpleSparkle(getWorld().random, ax + x, ay + y, az + z, 0.0, 0.0, 0.0, 0.4f + (float) getWorld().random.nextGaussian() * 0.1f, r, g, b, getWorld().random.nextInt(10), 1.0f, 0.0f, 4);
             }
         }
+    }
+
+    public void blockRunes(double x, double y, double z, float r, float g, float b, int dur, float grav) {
+        FXBlockRunes fb = new FXBlockRunes(getWorld(), x + 0.5, y + 0.5, z + 0.5, r, g, b, dur);
+        fb.setGravity(grav);
+        Minecraft.getInstance().particleEngine.add(fb);
     }
 }

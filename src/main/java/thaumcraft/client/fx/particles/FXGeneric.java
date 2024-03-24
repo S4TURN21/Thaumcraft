@@ -126,7 +126,7 @@ public class FXGeneric extends TextureSheetParticle {
         }
     }
 
-    public class ParticleLayer implements ParticleRenderType {
+    public static class ParticleLayer implements ParticleRenderType {
         private final int layer;
 
         public ParticleLayer(int layer) {
@@ -142,8 +142,7 @@ public class FXGeneric extends TextureSheetParticle {
 
             switch (layer) {
                 case 0 -> RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-                case 1 ->
-                        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+                case 1 -> RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
             }
 
             pBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);

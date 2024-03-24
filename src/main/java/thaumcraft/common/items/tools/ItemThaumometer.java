@@ -1,7 +1,10 @@
 package thaumcraft.common.items.tools;
 
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -13,12 +16,23 @@ import net.minecraftforge.network.PacketDistributor;
 import thaumcraft.api.research.ScanningManager;
 import thaumcraft.client.fx.FXDispatcher;
 import thaumcraft.common.items.ItemTCBase;
+import thaumcraft.common.lib.SoundsTC;
 import thaumcraft.common.lib.network.PacketHandler;
 import thaumcraft.common.lib.network.misc.PacketAuraToClient;
 import thaumcraft.common.world.aura.AuraChunk;
 import thaumcraft.common.world.aura.AuraHandler;
 
 public class ItemThaumometer extends ItemTCBase {
+
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
+        if (pLevel.isClientSide) {
+            drawFX(pLevel, pPlayer);
+            pPlayer.level.playLocalSound(pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundsTC.scan, SoundSource.PLAYERS, 0.5f, 1.0f, false);
+        }
+        return InteractionResultHolder.consume(pPlayer.getItemInHand(pUsedHand));
+    }
+
     @Override
     public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
         boolean held = pIsSelected || pSlotId == 0;
@@ -55,6 +69,15 @@ public class ItemThaumometer extends ItemTCBase {
         AuraChunk ac = AuraHandler.getAuraChunk(world.dimension(), player.getOnPos().getX() >> 4, player.getOnPos().getZ() >> 4);
         if (ac != null) {
             PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new PacketAuraToClient(ac));
+        }
+    }
+
+    private void drawFX(Level worldIn, Player playerIn) {
+        BlockHitResult mop = getPlayerPOVHitResult(worldIn, playerIn, ClipContext.Fluid.ANY);
+        if (mop != null && mop.getBlockPos() != null) {
+            for (int a2 = 0; a2 < 10; ++a2) {
+                FXDispatcher.INSTANCE.blockRunes(mop.getBlockPos().getX(), mop.getBlockPos().getY() + 0.25, mop.getBlockPos().getZ(), 0.3f + worldIn.random.nextFloat() * 0.7f, 0.0f, 0.3f + worldIn.random.nextFloat() * 0.7f, 15, 0.03f);
+            }
         }
     }
 }

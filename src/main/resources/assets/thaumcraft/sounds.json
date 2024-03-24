@@ -46,5 +46,14 @@
       "thaumcraft:write1",
       "thaumcraft:write2"
     ]
+  },
+  "scan": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "thaumcraft:scan",
+        "stream": false
+      }
+    ]
   }
 }

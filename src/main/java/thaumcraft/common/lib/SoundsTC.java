@@ -11,6 +11,7 @@ public class SoundsTC {
     public static SoundEvent learn;
     public static SoundEvent write;
     public static SoundEvent crystal;
+    public static SoundEvent scan;
     public static SoundEvent dust;
     public static SoundType CRYSTAL;
 
@@ -24,6 +25,7 @@ public class SoundsTC {
         SoundsTC.learn = getRegisteredSoundEvent(event, "thaumcraft:learn");
         SoundsTC.write = getRegisteredSoundEvent(event, "thaumcraft:write");
         SoundsTC.crystal = getRegisteredSoundEvent(event, "thaumcraft:crystal");
+        SoundsTC.scan = getRegisteredSoundEvent(event, "thaumcraft:scan");
         SoundsTC.dust = getRegisteredSoundEvent(event, "thaumcraft:dust");
     }
 
