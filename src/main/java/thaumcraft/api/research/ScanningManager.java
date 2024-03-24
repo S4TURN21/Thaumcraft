@@ -1,6 +1,9 @@
 package thaumcraft.api.research;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -10,6 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.capabilities.ThaumcraftCapabilities;
 
 import java.util.ArrayList;
@@ -19,6 +23,29 @@ public class ScanningManager {
 
     public static void addScannableThing(IScanThing obj) {
         things.add(obj);
+    }
+
+    public static void scanTheThing(Player player, Object object) {
+        boolean found = false;
+        boolean suppress = false;
+        for (IScanThing thing : things) {
+            if (thing.checkThing(player, object)) {
+                if (thing.getResearchKey(player, object) == null || thing.getResearchKey(player, object).isEmpty() ||
+                        ThaumcraftApi.internalMethods.progressResearch(player, thing.getResearchKey(player, object))) {
+                    if (thing.getResearchKey(player, object) == null || thing.getResearchKey(player, object).isEmpty())
+                        suppress = true;
+                    found = true;
+                    thing.onSuccess(player, object);
+                }
+            }
+        }
+        if (!suppress) {
+            if (!found) {
+                ((ServerPlayer) player).sendSystemMessage(Component.translatable("tc.unknownobject").withStyle(ChatFormatting.DARK_PURPLE).withStyle(ChatFormatting.ITALIC), true);
+            } else {
+                ((ServerPlayer) player).sendSystemMessage(Component.translatable("tc.knownobject").withStyle(ChatFormatting.GREEN).withStyle(ChatFormatting.ITALIC), true);
+            }
+        }
     }
 
     public static boolean isThingStillScannable(Player player, Object object) {
