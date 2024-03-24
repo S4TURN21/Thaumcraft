@@ -6,4 +6,8 @@ public interface IScanThing {
     boolean checkThing(Player player, Object obj);
 
     String getResearchKey(Player player, Object object);
+
+    default void onSuccess(Player player, Object object) {
+
+    }
 }
