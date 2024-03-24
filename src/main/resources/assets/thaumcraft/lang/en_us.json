@@ -25,6 +25,8 @@
   "book.start.1": "I had the strangest dream last night.\n\nIn the dream, I took three of those strange crystals I've been finding and ground them with a handful of redstone in a bowl, using a piece of flint.",
   "book.start.2": "The crystals had to be of different types, but if I did it properly then the result was a strange, glowing dust.\n\nIn the dream, I took the dust and sprinkled it on a bookcase, but the dream ended before I saw what happened.",
   "book.start.3": "I wonder, should I do what the dream showed?\n\nI have the impression the dust was going to reveal something wondrous, but dangerous.",
+  "tc.unknownobject": "Nothing new can be learned from this.",
+  "tc.knownobject": "You have learned something new.",
   "tc.researchmissing": "Missing required research",
   "tc.search": "Search",
   "tc.search.more": "...too many results found. Refine your search",

@@ -29,6 +29,8 @@ public class ItemThaumometer extends ItemTCBase {
         if (pLevel.isClientSide) {
             drawFX(pLevel, pPlayer);
             pPlayer.level.playLocalSound(pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundsTC.scan, SoundSource.PLAYERS, 0.5f, 1.0f, false);
+        } else {
+            doScan(pLevel, pPlayer);
         }
         return InteractionResultHolder.consume(pPlayer.getItemInHand(pUsedHand));
     }
@@ -77,6 +79,17 @@ public class ItemThaumometer extends ItemTCBase {
         if (mop != null && mop.getBlockPos() != null) {
             for (int a2 = 0; a2 < 10; ++a2) {
                 FXDispatcher.INSTANCE.blockRunes(mop.getBlockPos().getX(), mop.getBlockPos().getY() + 0.25, mop.getBlockPos().getZ(), 0.3f + worldIn.random.nextFloat() * 0.7f, 0.0f, 0.3f + worldIn.random.nextFloat() * 0.7f, 15, 0.03f);
+            }
+        }
+    }
+
+    public void doScan(Level worldIn, Player playerIn) {
+        if (!worldIn.isClientSide) {
+            BlockHitResult mop = getRayTraceResultFromPlayerWild(worldIn, playerIn, true);
+            if (mop != null && mop.getBlockPos() != null) {
+                ScanningManager.scanTheThing(playerIn, mop.getBlockPos());
+            } else {
+                ScanningManager.scanTheThing(playerIn, null);
             }
         }
     }
