@@ -75,6 +75,7 @@ public class SlotCraftingArcaneWorkbench extends Slot {
 
     @Override
     public void onTake(Player pPlayer, ItemStack pStack) {
+        checkTakeAchievements(pStack);
         IArcaneRecipe recipe = ThaumcraftCraftingManager.findMatchingArcaneRecipe(craftMatrix, pPlayer);
         CraftingContainer ic = craftMatrix;
         ForgeHooks.setCraftingPlayer(pPlayer);
