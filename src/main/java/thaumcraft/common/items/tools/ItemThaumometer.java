@@ -1,5 +1,7 @@
 package thaumcraft.common.items.tools;
 
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -13,12 +15,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PacketDistributor;
+import thaumcraft.api.capabilities.ThaumcraftCapabilities;
 import thaumcraft.api.research.ScanningManager;
 import thaumcraft.client.fx.FXDispatcher;
 import thaumcraft.common.items.ItemTCBase;
 import thaumcraft.common.lib.SoundsTC;
 import thaumcraft.common.lib.network.PacketHandler;
 import thaumcraft.common.lib.network.misc.PacketAuraToClient;
+import thaumcraft.common.lib.research.ResearchManager;
 import thaumcraft.common.world.aura.AuraChunk;
 import thaumcraft.common.world.aura.AuraHandler;
 
@@ -70,6 +74,10 @@ public class ItemThaumometer extends ItemTCBase {
     private void updateAura(ItemStack stack, Level world, ServerPlayer player) {
         AuraChunk ac = AuraHandler.getAuraChunk(world.dimension(), player.getOnPos().getX() >> 4, player.getOnPos().getZ() >> 4);
         if (ac != null) {
+            if ((ac.getFlux() > ac.getVis() || ac.getFlux() > ac.getBase() / 3) && !ThaumcraftCapabilities.knowsResearch(player, "FLUX")) {
+                ResearchManager.startResearchWithPopup(player, "FLUX");
+                player.sendSystemMessage(Component.translatable("research.FLUX.warn").withStyle(ChatFormatting.DARK_PURPLE), true);
+            }
             PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new PacketAuraToClient(ac));
         }
     }
