@@ -1,6 +1,9 @@
 package thaumcraft.common.lib.research;
 
-import com.google.gson.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -66,6 +69,16 @@ public class ResearchManager {
         boolean b = false;
         while (progressResearch(player, researchkey, true)) {
             b = true;
+        }
+        return b;
+    }
+
+    public static boolean startResearchWithPopup(Player player, String researchkey) {
+        boolean b = progressResearch(player, researchkey, true);
+        if (b) {
+            IPlayerKnowledge knowledge = ThaumcraftCapabilities.getKnowledge(player);
+            knowledge.setResearchFlag(researchkey, IPlayerKnowledge.EnumResearchFlag.POPUP);
+            knowledge.setResearchFlag(researchkey, IPlayerKnowledge.EnumResearchFlag.RESEARCH);
         }
         return b;
     }
@@ -350,8 +363,7 @@ public class ResearchManager {
                         rKey[a2] = ss[0];
                         if (ss.length > 1) {
                             rIcn[a2] = ss[1];
-                        }
-                        else {
+                        } else {
                             rIcn[a2] = null;
                         }
                     }
