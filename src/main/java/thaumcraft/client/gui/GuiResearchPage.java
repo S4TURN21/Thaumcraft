@@ -252,8 +252,97 @@ public class GuiResearchPage extends Screen {
         if (this.page == 0 && side == 0 && !this.isComplete) {
             this.drawRequirements(pPoseStack, x, mx, my, stage);
         }
+        if (playerKnowledge.isResearchComplete("KNOWLEDGETYPES") && research.getKey().equals("KNOWLEDGETYPES")) {
+            drawKnowledges(pPoseStack, x, (height - paneHeight) / 2 - 16 + 210, mx, my, true);
+        }
+        if (showingKnowledge) {
+            drawKnowledgesInsert(pPoseStack, mx, my);
+        }
         if (GuiResearchPage.shownRecipe != null) {
             drawRecipe(pPoseStack, mx, my);
+        }
+    }
+
+    private void drawKnowledgesInsert(PoseStack pPoseStack, int mx, int my) {
+        allowWithPagePopup = true;
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+        RenderSystem.setShaderTexture(0, tex4);
+        int x = (width - 256) / 2;
+        int y = (height - 256) / 2;
+        RenderSystem.disableDepthTest();
+        blit(pPoseStack, x, y, 0, 0, 255, 255);
+        RenderSystem.enableDepthTest();
+        pPoseStack.pushPose();
+        drawKnowledges(pPoseStack, x + 60, (height - paneHeight) / 2 + 75, mx, my, false);
+        pPoseStack.popPose();
+        RenderSystem.setShaderTexture(0, tex1);
+        allowWithPagePopup = false;
+    }
+
+    private void drawKnowledges(PoseStack pPoseStack, int x, int y, int mx, int my, boolean inpage) {
+        y -= 18;
+        boolean drewSomething = false;
+        int amt = 0;
+        int par = 0;
+        int tc = 0;
+        int ka = ResearchCategories.researchCategories.values().size();
+        for (IPlayerKnowledge.EnumKnowledgeType type : IPlayerKnowledge.EnumKnowledgeType.values()) {
+            int fc = 0;
+            int hs = (int) (164.0f / ka);
+            boolean b = false;
+            for (ResearchCategory category : ResearchCategories.researchCategories.values()) {
+                if (!type.hasFields() && category != null) {
+                    continue;
+                }
+                amt = playerKnowledge.getKnowledge(type, category);
+                par = playerKnowledge.getKnowledgeRaw(type, category) % type.getProgression();
+                if (amt <= 0 && par <= 0) {
+                    continue;
+                }
+                drewSomething = true;
+                RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+                pPoseStack.pushPose();
+                RenderSystem.setShaderTexture(0, HudHandler.KNOW_TYPE[type.ordinal()]);
+                pPoseStack.translate((float) (x - 10 + (inpage ? 18 : hs) * fc), (float) (y - tc * (inpage ? 20 : 28)), 0.0f);
+                pPoseStack.scale(0.0625f, 0.0625f, 0.0625f);
+                blit(pPoseStack, 0, 0, 0, 0, 255, 255);
+                if (type.hasFields() && category != null) {
+                    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 0.75f);
+                    RenderSystem.setShaderTexture(0, category.icon);
+                    pPoseStack.translate(0.0f, 0.0f, 1.0f);
+                    pPoseStack.scale(0.66f, 0.66f, 0.66f);
+                    blit(pPoseStack, 66, 66, 0, 0, 255, 255);
+                }
+                pPoseStack.popPose();
+                RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+                pPoseStack.translate(0.0f, 0.0f, 5.0f);
+                String s = "" + amt;
+                int m = minecraft.font.width(s);
+                minecraft.font.drawShadow(pPoseStack, s, (float) (x - 10 + 16 - m + (inpage ? 18 : hs) * fc), (float) (y - tc * (inpage ? 20 : 28) + 8), 16777215);
+                s = I18n.get("tc.type." + type.toString().toLowerCase());
+                if (type.hasFields() && category != null) {
+                    s = s + ": " + ResearchCategories.getCategoryName(category.key);
+                }
+                drawPopupAt(x - 10 + (inpage ? 18 : hs) * fc, y - tc * (inpage ? 20 : 28), mx, my, s);
+                if (par > 0) {
+                    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 0.75f);
+                    RenderSystem.setShaderTexture(0, tex1);
+                    int l = (int) (par / (float) type.getProgression() * 16.0f);
+                    blit(pPoseStack, x - 10 + (inpage ? 18 : hs) * fc, y + 17 - tc * (inpage ? 20 : 28), 0, 232, l, 2);
+                    blit(pPoseStack, x - 10 + (inpage ? 18 : hs) * fc + l, y + 17 - tc * (inpage ? 20 : 28), l, 234, 16 - l, 2);
+                }
+                pPoseStack.translate(0.0f, 0.0f, -5.0f);
+                ++fc;
+                b = true;
+            }
+            if (b) {
+                ++tc;
+            }
+        }
+        if (inpage && drewSomething) {
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+            RenderSystem.setShaderTexture(0, tex1);
+            blit(pPoseStack, x + 4, y - tc * (inpage ? 20 : 28) + 12, 24, 184, 96, 8);
         }
     }
 
@@ -642,6 +731,17 @@ public class GuiResearchPage extends Screen {
             hold = true;
             keyCache.clear();
             drilldownLists.clear();
+        }
+        if (playerKnowledge.isResearchComplete("KNOWLEDGETYPES") && !research.getKey().equals("KNOWLEDGETYPES")) {
+            mx = pMouseX - (centerX - 48);
+            my = pMouseY - (centerY + 31);
+            if (mx >= 0 && my >= 0 && mx < 25 && my < 16) {
+                GuiResearchPage.shownRecipe = null;
+                showingAspects = false;
+                showingKnowledge = !showingKnowledge;
+                GuiResearchPage.history.clear();
+                Minecraft.getInstance().player.playSound(SoundsTC.page, 0.7f, 0.9f);
+            }
         }
         if (recipeLists.size() > 0) {
             int aa = 0;
