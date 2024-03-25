@@ -13,7 +13,7 @@ public class ConfigAspects {
     }
 
     private static void registerItemAspects() {
-        ThaumcraftApi.registerObjectTag(ItemTags.SAND, new AspectList().add(Aspect.EARTH, 5).add(Aspect.ENTROPY, 5));
+        ThaumcraftApi.registerObjectTag(BlockTags.BASE_STONE_OVERWORLD, new AspectList().add(Aspect.EARTH, 5));
         ThaumcraftApi.registerObjectTag(BlockTags.SAND, new AspectList().add(Aspect.EARTH, 5).add(Aspect.ENTROPY, 5));
     }
 }
