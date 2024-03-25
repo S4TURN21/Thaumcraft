@@ -1,6 +1,6 @@
 package thaumcraft.common.config;
 
-import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.BlockTags;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
@@ -14,5 +14,6 @@ public class ConfigAspects {
 
     private static void registerItemAspects() {
         ThaumcraftApi.registerObjectTag(ItemTags.SAND, new AspectList().add(Aspect.EARTH, 5).add(Aspect.ENTROPY, 5));
+        ThaumcraftApi.registerObjectTag(BlockTags.SAND, new AspectList().add(Aspect.EARTH, 5).add(Aspect.ENTROPY, 5));
     }
 }
