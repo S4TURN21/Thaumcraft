@@ -2,6 +2,8 @@ package thaumcraft.api.aspects;
 
 import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.lang3.text.WordUtils;
+import thaumcraft.api.research.ScanAspect;
+import thaumcraft.api.research.ScanningManager;
 
 import java.util.LinkedHashMap;
 
@@ -60,6 +62,7 @@ public class Aspect {
         this.color = color;
         this.image = image;
         Aspect.aspects.put(tag, this);
+        ScanningManager.addScannableThing(new ScanAspect("!"+tag,this));
     }
 
     public Aspect(String tag, int color, Aspect[] components) {
