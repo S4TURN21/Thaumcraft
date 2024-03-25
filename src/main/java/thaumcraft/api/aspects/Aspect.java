@@ -62,7 +62,7 @@ public class Aspect {
         this.color = color;
         this.image = image;
         Aspect.aspects.put(tag, this);
-        ScanningManager.addScannableThing(new ScanAspect("!"+tag,this));
+        ScanningManager.addScannableThing(new ScanAspect("!" + tag, this));
     }
 
     public Aspect(String tag, int color, Aspect[] components) {
@@ -87,6 +87,10 @@ public class Aspect {
 
     public Aspect[] getComponents() {
         return components;
+    }
+
+    public ResourceLocation getImage() {
+        return image;
     }
 
     public static Aspect getAspect(String tag) {
