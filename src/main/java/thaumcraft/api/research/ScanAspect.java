@@ -34,7 +34,7 @@ public class ScanAspect implements IScanThing {
             is = ((ItemEntity) obj).getItem();
         if (obj instanceof BlockPos) {
             Block b = player.level.getBlockState((BlockPos) obj).getBlock();
-            is = new ItemStack(b, 1, NbtUtils.writeBlockState(player.level.getBlockState((BlockPos) obj)));
+            is = new ItemStack(b, 1);
         }
 
         if (is != null) {
