@@ -85,7 +85,7 @@ public class ItemThaumometer extends ItemTCBase {
 
     public void doScan(Level worldIn, Player playerIn) {
         if (!worldIn.isClientSide) {
-            BlockHitResult mop = getRayTraceResultFromPlayerWild(worldIn, playerIn, true);
+            BlockHitResult mop = getPlayerPOVHitResult(worldIn, playerIn, ClipContext.Fluid.ANY);
             if (mop != null && mop.getBlockPos() != null) {
                 ScanningManager.scanTheThing(playerIn, mop.getBlockPos());
             } else {
