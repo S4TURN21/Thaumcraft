@@ -37,6 +37,29 @@ public class AspectList implements Serializable {
         return this.aspects.keySet().toArray(new Aspect[]{});
     }
 
+    public Aspect[] getAspectsSortedByName() {
+        try {
+            Aspect[] out = aspects.keySet().toArray(new Aspect[]{});
+            boolean change = false;
+            do {
+                change = false;
+                for (int a = 0; a < out.length - 1; a++) {
+                    Aspect e1 = out[a];
+                    Aspect e2 = out[a + 1];
+                    if (e1 != null && e2 != null && e1.getTag().compareTo(e2.getTag()) > 0) {
+                        out[a] = e2;
+                        out[a + 1] = e1;
+                        change = true;
+                        break;
+                    }
+                }
+            } while (change == true);
+            return out;
+        } catch (Exception e) {
+            return getAspects();
+        }
+    }
+
     public int getAmount(final Aspect key) {
         return (this.aspects.get(key) == null) ? 0 : this.aspects.get(key);
     }
