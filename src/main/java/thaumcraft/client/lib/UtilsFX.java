@@ -1,5 +1,6 @@
 package thaumcraft.client.lib;
 
+import com.mojang.blaze3d.platform.GlConst;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -9,15 +10,22 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.gui.ScreenUtils;
+import thaumcraft.api.aspects.Aspect;
+import thaumcraft.client.fx.ParticleEngine;
+import thaumcraft.common.config.ModConfig;
 
+import java.awt.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class UtilsFX {
+    static DecimalFormat myFormatter = new DecimalFormat("#######.##");
     public static boolean hideStackOverlay = false;
 
     public static void drawTexturedQuad(PoseStack poseStack, float x, float y, float uOffset, float vOffset, float uWidth, float vHeight, double zLevel) {
@@ -186,6 +194,86 @@ public class UtilsFX {
             pPoseStack.popPose();
             Minecraft.getInstance().getItemRenderer().blitOffset = 0.0f;
         }
+    }
+
+    public static void drawTag(PoseStack pPoseStack, int x, int y, Aspect aspect, float amt, int bonus, double z) {
+        drawTag(pPoseStack, x, y, aspect, amt, bonus, z, GlConst.GL_ONE_MINUS_SRC_ALPHA, 1.0f, false);
+    }
+
+    public static void drawTag(PoseStack pPoseStack, int x, int y, Aspect aspect, float amount, int bonus, double z, int blend, float alpha, boolean bw) {
+        drawTag(pPoseStack, x, (double) y, aspect, amount, bonus, z, blend, alpha, bw);
+    }
+
+    public static void drawTag(PoseStack pPoseStack, double x, double y, Aspect aspect, float amount, int bonus, double z, int blend, float alpha, boolean bw) {
+        if (aspect == null) {
+            return;
+        }
+        Minecraft mc = Minecraft.getInstance();
+        Color color = new Color(aspect.getColor());
+        pPoseStack.pushPose();
+        RenderSystem.enableBlend();
+        RenderSystem.blendFunc(GlConst.GL_SRC_ALPHA, blend);
+        pPoseStack.pushPose();
+        RenderSystem.setShaderTexture(0, aspect.getImage());
+        if (!bw) {
+            RenderSystem.setShaderColor(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, alpha);
+        } else {
+            RenderSystem.setShaderColor(0.1f, 0.1f, 0.1f, alpha * 0.8f);
+        }
+        BufferBuilder buffer = Tesselator.getInstance().getBuilder();
+        buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
+        var matrix = pPoseStack.last().pose();
+        if (!bw) {
+            buffer.vertex(matrix, (float) (x + 0.0), (float) (y + 16.0), (float) z).uv(0.0f, 1.0f).color(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, alpha).endVertex();
+            buffer.vertex(matrix, (float) (x + 16.0), (float) (y + 16.0), (float) z).uv(1.0f, 1.0f).color(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, alpha).endVertex();
+            buffer.vertex(matrix, (float) (x + 16.0), (float) (y + 0.0), (float) z).uv(1.0f, 0.0f).color(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, alpha).endVertex();
+            buffer.vertex(matrix, (float) (x + 0.0), (float) (y + 0.0), (float) z).uv(0.0f, 0.0f).color(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, alpha).endVertex();
+        } else {
+            buffer.vertex(matrix, (float) (x + 0.0), (float) (y + 16.0), (float) z).uv(0.0f, 1.0f).color(0.1f, 0.1f, 0.1f, alpha * 0.8f).endVertex();
+            buffer.vertex(matrix, (float) (x + 16.0), (float) (y + 16.0), (float) z).uv(1.0f, 1.0f).color(0.1f, 0.1f, 0.1f, alpha * 0.8f).endVertex();
+            buffer.vertex(matrix, (float) (x + 16.0), (float) (y + 0.0), (float) z).uv(1.0f, 0.0f).color(0.1f, 0.1f, 0.1f, alpha * 0.8f).endVertex();
+            buffer.vertex(matrix, (float) (x + 0.0), (float) (y + 0.0), (float) z).uv(0.0f, 0.0f).color(0.1f, 0.1f, 0.1f, alpha * 0.8f).endVertex();
+        }
+        BufferUploader.drawWithShader(buffer.end());
+        pPoseStack.popPose();
+        if (amount > 0.0f) {
+            pPoseStack.pushPose();
+            float q = 0.5f;
+            if (!ModConfig.CONFIG_GRAPHICS.largeTagText.get()) {
+                pPoseStack.scale(0.5f, 0.5f, 0.5f);
+                q = 1.0f;
+            }
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+            String am = UtilsFX.myFormatter.format(amount);
+            int sw = mc.font.width(am);
+            for (Direction e : Direction.Plane.HORIZONTAL) {
+                mc.font.draw(pPoseStack, am, (32 - sw + (int) x * 2) * q + e.getStepX(), (32 - mc.font.lineHeight + (int) y * 2) * q + e.getStepZ(), 0);
+            }
+            mc.font.draw(pPoseStack, am, (32 - sw + (int) x * 2) * q, (32 - mc.font.lineHeight + (int) y * 2) * q, 0XFFFFFF);
+            pPoseStack.popPose();
+        }
+        if (bonus > 0) {
+            pPoseStack.pushPose();
+            RenderSystem.setShaderTexture(0, ParticleEngine.particleTexture);
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+            int px = 16 * (mc.player.tickCount % 16);
+            drawTexturedQuad(pPoseStack, (float) ((int) x - 4), (float) ((int) y - 4), (float) px, 80.0f, 16.0f, 16.0f, z);
+            if (bonus > 1) {
+                float q2 = 0.5f;
+                if (!ModConfig.CONFIG_GRAPHICS.largeTagText.get()) {
+                    pPoseStack.scale(0.5f, 0.5f, 0.5f);
+                    q2 = 1.0f;
+                }
+                String am2 = "" + bonus;
+                int sw2 = mc.font.width(am2) / 2;
+                pPoseStack.translate(0.0, 0.0, -1.0);
+                mc.font.drawShadow(pPoseStack, am2, (8 - sw2 + (int) x * 2) * q2, (15 - mc.font.lineHeight + (int) y * 2) * q2, 0XFFFFFF);
+            }
+            pPoseStack.popPose();
+        }
+        RenderSystem.blendFunc(GlConst.GL_SRC_ALPHA, GlConst.GL_ONE_MINUS_SRC_ALPHA);
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+        pPoseStack.popPose();
     }
 
     public static void drawGradientRect(Matrix4f pMatrix, BufferBuilder pBuilder, int startX, int startY, int endX, int endY, int startColor, int endColor) {
