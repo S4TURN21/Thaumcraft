@@ -270,6 +270,7 @@ public class GuiResearchPage extends Screen {
         int x = (width - 256) / 2;
         int y = (height - 256) / 2;
         RenderSystem.disableDepthTest();
+        RenderSystem.enableBlend();
         blit(pPoseStack, x, y, 0, 0, 255, 255);
         RenderSystem.enableDepthTest();
         pPoseStack.pushPose();
@@ -300,6 +301,7 @@ public class GuiResearchPage extends Screen {
                     continue;
                 }
                 drewSomething = true;
+                RenderSystem.enableBlend();
                 RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
                 pPoseStack.pushPose();
                 RenderSystem.setShaderTexture(0, HudHandler.KNOW_TYPE[type.ordinal()]);
