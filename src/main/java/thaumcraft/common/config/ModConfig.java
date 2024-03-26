@@ -13,6 +13,8 @@ public class ModConfig {
         public static ForgeConfigSpec.BooleanValue largeTagText;
 
         public CONFIG_GRAPHICS(ForgeConfigSpec.Builder builder) {
+            largeTagText = builder.comment("Setting this to true will make the amount text in aspect tags twice as large. Useful for certain resolutions and custom fonts.")
+                    .define("largeTagText", false);
         }
     }
 
