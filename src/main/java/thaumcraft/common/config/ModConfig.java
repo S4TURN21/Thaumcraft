@@ -5,8 +5,16 @@ import net.minecraftforge.fml.ModLoadingContext;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class ModConfig {
+    private static final ForgeConfigSpec CONFIG_GRAPHICS;
     private static final ForgeConfigSpec CONFIG_WORLD;
     private static final ForgeConfigSpec CONFIG_MISC;
+
+    public static class CONFIG_GRAPHICS {
+        public static ForgeConfigSpec.BooleanValue largeTagText;
+
+        public CONFIG_GRAPHICS(ForgeConfigSpec.Builder builder) {
+        }
+    }
 
     public static class CONFIG_WORLD {
         public static ForgeConfigSpec.IntValue oreDensity;
@@ -33,11 +41,14 @@ public class ModConfig {
     }
 
     public static void register(ModLoadingContext context) {
+        context.registerConfig(net.minecraftforge.fml.config.ModConfig.Type.CLIENT, CONFIG_GRAPHICS, "thaumcraft_graphics.toml");
         context.registerConfig(net.minecraftforge.fml.config.ModConfig.Type.COMMON, CONFIG_WORLD, "thaumcraft_world.toml");
         context.registerConfig(net.minecraftforge.fml.config.ModConfig.Type.COMMON, CONFIG_MISC, "thaumcraft_misc.toml");
     }
 
     static {
+        Pair<CONFIG_GRAPHICS, ForgeConfigSpec> graphics_pair = new ForgeConfigSpec.Builder().configure(CONFIG_GRAPHICS::new);
+        CONFIG_GRAPHICS = graphics_pair.getRight();
         Pair<CONFIG_WORLD, ForgeConfigSpec> world_pair = new ForgeConfigSpec.Builder().configure(CONFIG_WORLD::new);
         CONFIG_WORLD = world_pair.getRight();
         Pair<CONFIG_MISC, ForgeConfigSpec> misc_pair = new ForgeConfigSpec.Builder().configure(CONFIG_MISC::new);
