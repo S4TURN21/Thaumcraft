@@ -1,6 +1,7 @@
 package thaumcraft.client.gui;
 
 import com.mojang.blaze3d.platform.GlConst;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -14,6 +15,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -42,6 +44,7 @@ import java.util.*;
 public class GuiResearchPage extends Screen {
     public static LinkedList<ResourceLocation> history = new LinkedList<>();
     static ResourceLocation shownRecipe;
+    private static int aspectsPage = 0;
     static boolean cycleMultiblockLines = false;
     private static final PageImage PILINE = PageImage.parse("thaumcraft:textures/gui/gui_researchbook.png:24:184:95:6:1");
     private static final PageImage PIDIV = PageImage.parse("thaumcraft:textures/gui/gui_researchbook.png:28:192:140:6:1");
@@ -56,6 +59,8 @@ public class GuiResearchPage extends Screen {
     boolean hold = false;
     private int page = 0;
     private int maxPages = 0;
+    private int maxAspectPages = 0;
+    AspectList knownPlayerAspects = new AspectList();
     IPlayerKnowledge playerKnowledge;
     int rhash = 0;
     float transX = 0.0f;
@@ -64,7 +69,9 @@ public class GuiResearchPage extends Screen {
     float pt;
     ResourceLocation tex1 = new ResourceLocation("thaumcraft", "textures/gui/gui_researchbook.png");
     ResourceLocation tex2 = new ResourceLocation("thaumcraft", "textures/gui/gui_researchbook_overlay.png");
+    ResourceLocation tex3 = new ResourceLocation("thaumcraft", "textures/aspects/_back.png");
     ResourceLocation tex4 = new ResourceLocation("thaumcraft", "textures/gui/paper.png");
+    ResourceLocation dummyResearch = new ResourceLocation("thaumcraft", "textures/aspects/_unknown.png");
     int hrx = 0;
     int hry = 0;
     int recipePage = 0;
@@ -94,6 +101,12 @@ public class GuiResearchPage extends Screen {
         this.minecraft = Minecraft.getInstance();
         this.playerKnowledge = ThaumcraftCapabilities.getKnowledge(this.minecraft.player);
         parsePages();
+        for (Aspect a : Aspect.aspects.values()) {
+            if (ThaumcraftCapabilities.knowsResearch(minecraft.player, "!" + a.getTag().toLowerCase())) {
+                knownPlayerAspects.add(a, 1);
+            }
+        }
+        maxAspectPages = ((knownPlayerAspects != null) ? Mth.ceil(knownPlayerAspects.size() / 5.0f) : 0);
         if (recipe != null) {
             GuiResearchPage.shownRecipe = recipe;
         }
@@ -256,7 +269,9 @@ public class GuiResearchPage extends Screen {
         if (playerKnowledge.isResearchComplete("KNOWLEDGETYPES") && research.getKey().equals("KNOWLEDGETYPES")) {
             drawKnowledges(pPoseStack, x, (height - paneHeight) / 2 - 16 + 210, mx, my, true);
         }
-        if (showingKnowledge) {
+        if (showingAspects) {
+            drawAspectsInsert(pPoseStack, mx, my);
+        } else if (showingKnowledge) {
             drawKnowledgesInsert(pPoseStack, mx, my);
         }
         if (GuiResearchPage.shownRecipe != null) {
@@ -321,7 +336,7 @@ public class GuiResearchPage extends Screen {
                 pPoseStack.translate(0.0f, 0.0f, 5.0f);
                 String s = "" + amt;
                 int m = minecraft.font.width(s);
-                minecraft.font.drawShadow(pPoseStack, s, (float) (x - 10 + 16 - m + (inpage ? 18 : hs) * fc), (float) (y - tc * (inpage ? 20 : 28) + 8), 16777215);
+                minecraft.font.drawShadow(pPoseStack, s, (float) (x - 10 + 16 - m + (inpage ? 18 : hs) * fc), (float) (y - tc * (inpage ? 20 : 28) + 8), 0XFFFFFF);
                 s = I18n.get("tc.type." + type.toString().toLowerCase());
                 if (type.hasFields() && category != null) {
                     s = s + ": " + ResearchCategories.getCategoryName(category.key);
@@ -618,6 +633,121 @@ public class GuiResearchPage extends Screen {
         allowWithPagePopup = false;
     }
 
+    private void drawAspectsInsert(PoseStack pPoseStack, int mx, int my) {
+        allowWithPagePopup = true;
+        RenderSystem.enableBlend();
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+        RenderSystem.setShaderTexture(0, tex4);
+        int x = (width - 256) / 2;
+        int y = (height - 256) / 2;
+        RenderSystem.disableDepthTest();
+        blit(pPoseStack, x, y, 0, 0, 255, 255);
+        RenderSystem.enableDepthTest();
+        drawAspectPage(pPoseStack, x + 60, y + 24, mx, my);
+        allowWithPagePopup = false;
+    }
+
+    private void drawAspectPage(PoseStack pPoseStack, int x, int y, int mx, int my) {
+        if (knownPlayerAspects != null && knownPlayerAspects.size() > 0) {
+            pPoseStack.pushPose();
+            int mposx = mx;
+            int mposy = my;
+            int count = -1;
+            int start = GuiResearchPage.aspectsPage * 5;
+            for (Aspect aspect : knownPlayerAspects.getAspectsSortedByName()) {
+                if (++count >= start) {
+                    if (count > start + 4) {
+                        break;
+                    }
+                    if (aspect.getImage() != null) {
+                        int tx = x;
+                        int ty = y + count % 5 * 40;
+                        if (mposx >= tx && mposy >= ty && mposx < tx + 40 && mposy < ty + 40) {
+                            RenderSystem.setShaderTexture(0, tex3);
+                            pPoseStack.pushPose();
+                            RenderSystem.enableBlend();
+                            RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+                            pPoseStack.translate(x - 2, y + count % 5 * 40 - 2, 0.0);
+                            pPoseStack.scale(2.0f, 2.0f, 0.0f);
+                            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 0.5f);
+                            blit(pPoseStack, 0, 0, 0, 0, 16, 16, 16, 16);
+                            pPoseStack.popPose();
+                        }
+                        pPoseStack.pushPose();
+                        pPoseStack.translate(x + 2, y + 2 + count % 5 * 40, 0.0);
+                        pPoseStack.scale(1.5f, 1.5f, 1.5f);
+                        UtilsFX.drawTag(pPoseStack, 0, 0, aspect, 0.0f, 0, getBlitOffset());
+                        pPoseStack.popPose();
+                        pPoseStack.pushPose();
+                        pPoseStack.translate(x + 16, y + 29 + count % 5 * 40, 0.0);
+                        pPoseStack.scale(0.5f, 0.5f, 0.5f);
+                        String text = aspect.getName();
+                        int offset = minecraft.font.width(text) / 2;
+                        minecraft.font.draw(pPoseStack, text, -offset, 0, 0x505050);
+                        pPoseStack.popPose();
+                        if (aspect.getComponents() != null) {
+                            pPoseStack.pushPose();
+                            pPoseStack.translate(x + 60, y + 4 + count % 5 * 40, 0.0);
+                            pPoseStack.scale(1.25f, 1.25f, 1.25f);
+                            if (playerKnowledge.isResearchKnown("!" + aspect.getComponents()[0].getTag().toLowerCase())) {
+                                UtilsFX.drawTag(pPoseStack, 0, 0, aspect.getComponents()[0], 0.0f, 0, getBlitOffset());
+                            } else {
+                                RenderSystem.setShaderTexture(0, dummyResearch);
+                                RenderSystem.setShaderColor(0.8f, 0.8f, 0.8f, 1.0f);
+                                RenderSystem.enableBlend();
+                                blit(pPoseStack, 0, 0, 0, 0, 16, 16, 16, 16);
+                            }
+                            pPoseStack.popPose();
+                            pPoseStack.pushPose();
+                            pPoseStack.translate(x + 102, y + 4 + count % 5 * 40, 0.0);
+                            pPoseStack.scale(1.25f, 1.25f, 1.25f);
+                            if (playerKnowledge.isResearchKnown("!" + aspect.getComponents()[1].getTag().toLowerCase())) {
+                                UtilsFX.drawTag(pPoseStack, 0, 0, aspect.getComponents()[1], 0.0f, 0, getBlitOffset());
+                            } else {
+                                RenderSystem.setShaderTexture(0, dummyResearch);
+                                RenderSystem.setShaderColor(0.8f, 0.8f, 0.8f, 1.0f);
+                                RenderSystem.enableBlend();
+                                blit(pPoseStack, 0, 0, 0, 0, 16, 16, 16, 16);
+                            }
+                            pPoseStack.popPose();
+                            if (playerKnowledge.isResearchKnown("!" + aspect.getComponents()[0].getTag().toLowerCase())) {
+                                text = aspect.getComponents()[0].getName();
+                                offset = minecraft.font.width(text) / 2;
+                                pPoseStack.pushPose();
+                                pPoseStack.translate(x + 22 + 50, y + 29 + count % 5 * 40, 0.0);
+                                pPoseStack.scale(0.5f, 0.5f, 0.5f);
+                                minecraft.font.draw(pPoseStack, text, -offset, 0, 5263440);
+                                pPoseStack.popPose();
+                            }
+                            if (playerKnowledge.isResearchKnown("!" + aspect.getComponents()[1].getTag().toLowerCase())) {
+                                text = aspect.getComponents()[1].getName();
+                                offset = minecraft.font.width(text) / 2;
+                                pPoseStack.pushPose();
+                                pPoseStack.translate(x + 22 + 92, y + 29 + count % 5 * 40, 0.0);
+                                pPoseStack.scale(0.5f, 0.5f, 0.5f);
+                                minecraft.font.draw(pPoseStack, text, -offset, 0, 5263440);
+                                pPoseStack.popPose();
+                            }
+                            minecraft.font.draw(pPoseStack, "=", x + 9 + 32, y + 12 + count % 5 * 40, 10066329);
+                            minecraft.font.draw(pPoseStack, "+", x + 10 + 79, y + 12 + count % 5 * 40, 10066329);
+                        } else {
+                            minecraft.font.draw(pPoseStack, I18n.get("tc.aspect.primal"), x + 54, y + 12 + count % 5 * 40, 0x777777);
+                        }
+                    }
+                }
+            }
+            RenderSystem.setShaderTexture(0, tex1);
+            float bob = Mth.sin(minecraft.player.tickCount / 3.0f) * 0.2f + 0.1f;
+            if (GuiResearchPage.aspectsPage > 0) {
+                drawTexturedModalRectScaled(pPoseStack, x - 20, y + 208, 0, 184, 12, 8, bob);
+            }
+            if (GuiResearchPage.aspectsPage < maxAspectPages - 1) {
+                drawTexturedModalRectScaled(pPoseStack, x + 144, y + 208, 12, 184, 12, 8, bob);
+            }
+            pPoseStack.popPose();
+        }
+    }
+
     private void drawArcaneCraftingPage(PoseStack pPoseStack, int x, int y, int mx, int my, IArcaneRecipe recipe) {
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlConst.GL_SRC_ALPHA, GlConst.GL_ONE_MINUS_SRC_ALPHA);
@@ -737,6 +867,20 @@ public class GuiResearchPage extends Screen {
             hold = true;
             keyCache.clear();
             drilldownLists.clear();
+        }
+        if (knownPlayerAspects != null && playerKnowledge.isResearchComplete("FIRSTSTEPS")) {
+            mx = pMouseX - (centerX - 48);
+            my = pMouseY - (centerY + 8);
+            if (mx >= 0 && my >= 0 && mx < 25 && my < 16) {
+                GuiResearchPage.shownRecipe = null;
+                showingKnowledge = false;
+                showingAspects = !showingAspects;
+                GuiResearchPage.history.clear();
+                if (GuiResearchPage.aspectsPage > maxAspectPages) {
+                    GuiResearchPage.aspectsPage = 0;
+                }
+                Minecraft.getInstance().player.playSound(SoundsTC.page, 0.7f, 0.9f);
+            }
         }
         if (playerKnowledge.isResearchComplete("KNOWLEDGETYPES") && !research.getKey().equals("KNOWLEDGETYPES")) {
             mx = pMouseX - (centerX - 48);
