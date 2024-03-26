@@ -1,6 +1,7 @@
 package thaumcraft.client.gui;
 
 import com.mojang.blaze3d.platform.GlConst;
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.ChatFormatting;
@@ -707,9 +708,12 @@ public class GuiResearchPage extends Screen {
 
     @Override
     public boolean keyPressed(int pKeyCode, int pScanCode, int pModifiers) {
-        if (pKeyCode == minecraft.options.keyInventory.getKey().getValue() || pKeyCode == 256) {
+        if (pKeyCode == minecraft.options.keyInventory.getKey().getValue() || pKeyCode == InputConstants.KEY_ESCAPE) {
             if (GuiResearchPage.shownRecipe != null || showingAspects || showingKnowledge) {
                 GuiResearchPage.shownRecipe = null;
+                showingAspects = false;
+                showingKnowledge = false;
+                Minecraft.getInstance().player.playSound(SoundsTC.page, 0.4f, 1.1f);
             } else {
                 minecraft.setScreen(new GuiResearchBrowser(guiMapX, guiMapY));
             }
