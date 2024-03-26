@@ -30,6 +30,11 @@ import thaumcraft.common.world.aura.AuraHandler;
 public class ItemThaumometer extends ItemTCBase {
 
     @Override
+    public int getMaxStackSize(ItemStack stack) {
+        return 1;
+    }
+
+    @Override
     public Rarity getRarity(ItemStack pStack) {
         return Rarity.UNCOMMON;
     }
