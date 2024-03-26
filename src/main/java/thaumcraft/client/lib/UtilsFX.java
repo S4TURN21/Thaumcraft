@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Matrix4f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.entity.ItemRenderer;
@@ -213,6 +214,7 @@ public class UtilsFX {
         pPoseStack.pushPose();
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlConst.GL_SRC_ALPHA, blend);
+
         pPoseStack.pushPose();
         RenderSystem.setShaderTexture(0, aspect.getImage());
         if (!bw) {
@@ -220,22 +222,9 @@ public class UtilsFX {
         } else {
             RenderSystem.setShaderColor(0.1f, 0.1f, 0.1f, alpha * 0.8f);
         }
-        BufferBuilder buffer = Tesselator.getInstance().getBuilder();
-        buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
-        var matrix = pPoseStack.last().pose();
-        if (!bw) {
-            buffer.vertex(matrix, (float) (x + 0.0), (float) (y + 16.0), (float) z).uv(0.0f, 1.0f).color(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, alpha).endVertex();
-            buffer.vertex(matrix, (float) (x + 16.0), (float) (y + 16.0), (float) z).uv(1.0f, 1.0f).color(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, alpha).endVertex();
-            buffer.vertex(matrix, (float) (x + 16.0), (float) (y + 0.0), (float) z).uv(1.0f, 0.0f).color(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, alpha).endVertex();
-            buffer.vertex(matrix, (float) (x + 0.0), (float) (y + 0.0), (float) z).uv(0.0f, 0.0f).color(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, alpha).endVertex();
-        } else {
-            buffer.vertex(matrix, (float) (x + 0.0), (float) (y + 16.0), (float) z).uv(0.0f, 1.0f).color(0.1f, 0.1f, 0.1f, alpha * 0.8f).endVertex();
-            buffer.vertex(matrix, (float) (x + 16.0), (float) (y + 16.0), (float) z).uv(1.0f, 1.0f).color(0.1f, 0.1f, 0.1f, alpha * 0.8f).endVertex();
-            buffer.vertex(matrix, (float) (x + 16.0), (float) (y + 0.0), (float) z).uv(1.0f, 0.0f).color(0.1f, 0.1f, 0.1f, alpha * 0.8f).endVertex();
-            buffer.vertex(matrix, (float) (x + 0.0), (float) (y + 0.0), (float) z).uv(0.0f, 0.0f).color(0.1f, 0.1f, 0.1f, alpha * 0.8f).endVertex();
-        }
-        BufferUploader.drawWithShader(buffer.end());
+        GuiComponent.blit(pPoseStack, 0, 0, 0, 0, 16, 16, 16, 16);
         pPoseStack.popPose();
+
         if (amount > 0.0f) {
             pPoseStack.pushPose();
             float q = 0.5f;
