@@ -7,12 +7,13 @@ import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.*;
+import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+import thaumcraft.client.fx.ParticleEngine;
 
 public class FXGeneric extends TextureSheetParticle {
     boolean doneFrames;
@@ -137,12 +138,13 @@ public class FXGeneric extends TextureSheetParticle {
         @Override
         public void begin(BufferBuilder pBuilder, @NotNull TextureManager pTextureManager) {
             RenderSystem.depthMask(false);
-            RenderSystem.setShaderTexture(0, new ResourceLocation("thaumcraft", "textures/misc/particles.png"));
+            RenderSystem.setShaderTexture(0, ParticleEngine.particleTexture);
             RenderSystem.enableBlend();
 
             switch (layer) {
                 case 0 -> RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-                case 1 -> RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+                case 1 ->
+                        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
             }
 
             pBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);

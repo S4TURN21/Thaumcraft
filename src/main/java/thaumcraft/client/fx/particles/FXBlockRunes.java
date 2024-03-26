@@ -10,9 +10,9 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
+import thaumcraft.client.fx.ParticleEngine;
 
 
 public class FXBlockRunes extends TextureSheetParticle {
@@ -116,7 +116,7 @@ public class FXBlockRunes extends TextureSheetParticle {
         return new ParticleRenderType() {
             public void begin(BufferBuilder p_107455_, TextureManager p_107456_) {
                 RenderSystem.depthMask(false);
-                RenderSystem.setShaderTexture(0, new ResourceLocation("thaumcraft", "textures/misc/particles.png"));
+                RenderSystem.setShaderTexture(0, ParticleEngine.particleTexture);
                 RenderSystem.enableBlend();
                 RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
                 p_107455_.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
