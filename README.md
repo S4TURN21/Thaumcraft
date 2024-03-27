@@ -26,7 +26,7 @@
     </thead>
     <tbody>
     <tr>
-        <td rowspan="3">
+        <td rowspan="5">
             <strong>Blocks</strong>
         </td>
         <td>Crystal Block</td>
@@ -43,6 +43,18 @@
     <tr>
         <td>Arcane Stone</td>
         <td align="center">✅</td>
+        <td align="center">❌</td>
+        <td align="center">❌</td>
+    </tr>
+    <tr>
+        <td>Arcane Stone Bricks</td>
+        <td align="center">✅</td>
+        <td align="center">❌</td>
+        <td align="center">❌</td>
+    </tr>
+    <tr>
+        <td>Wood Table</td>
+        <td align="center">🟡</td>
         <td align="center">❌</td>
         <td align="center">❌</td>
     </tr>
