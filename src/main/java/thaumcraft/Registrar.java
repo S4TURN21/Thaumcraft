@@ -1,8 +1,6 @@
 package thaumcraft;
 
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.inventory.MenuType;
@@ -23,28 +21,21 @@ import thaumcraft.common.config.ConfigEntities;
 import thaumcraft.common.config.ConfigItems;
 import thaumcraft.common.config.ConfigRecipes;
 import thaumcraft.common.lib.SoundsTC;
+import thaumcraft.common.lib.crafting.RecipeMagicDust;
 import thaumcraft.common.world.biomes.BiomeHandler;
-
-import java.util.function.Consumer;
 
 @Mod.EventBusSubscriber(modid = Thaumcraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Registrar {
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();
-        generator.addProvider(true, new RecipeProvider(generator) {
-            @Override
-            protected void buildCraftingRecipes(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
-                ConfigRecipes.initializeArcaneRecipes(pFinishedRecipeConsumer);
-            }
-        });
+        generator.addProvider(true, new ConfigRecipes(generator));
     }
 
     @SubscribeEvent
     public static void onRegisterEvent(RegisterEvent event) {
         event.register(ForgeRegistries.Keys.BLOCKS, Registrar::registerBlocks);
         event.register(ForgeRegistries.Keys.ITEMS, Registrar::registerItems);
-        event.register(ForgeRegistries.Keys.RECIPE_SERIALIZERS, Registrar::registerVanillaRecipes);
         event.register(ForgeRegistries.Keys.BIOMES, Registrar::registerBiomes);
         event.register(ForgeRegistries.Keys.SOUND_EVENTS, Registrar::registerSounds);
         event.register(ForgeRegistries.Keys.ENTITY_TYPES, Registrar::registerEntities);
@@ -57,6 +48,9 @@ public class Registrar {
     }
 
     private static void registerRecipeSerializers(RegisterEvent.RegisterHelper<RecipeSerializer<?>> event) {
+        ConfigRecipes.initializeFakeRecipes();
+        ConfigRecipes.initializeCompoundRecipes();
+        event.register("salismundus", RecipeMagicDust.Serializer.INSTANCE);
         event.register("arcane_shaped", new ShapedArcaneRecipe.Serializer());
     }
 
@@ -72,11 +66,6 @@ public class Registrar {
 
     private static void registerEntities(RegisterEvent.RegisterHelper<EntityType<?>> event) {
         ConfigEntities.initEntities(event);
-    }
-
-    private static void registerVanillaRecipes(RegisterEvent.RegisterHelper<RecipeSerializer<?>> event) {
-        ConfigRecipes.initializeNormalRecipes(event);
-        ConfigRecipes.initializeCompoundRecipes();
     }
 
     private static void registerBiomes(RegisterEvent.RegisterHelper<Biome> event) {

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "item": "thaumcraft:crystal_essence"
+    },
+    "K": {
+      "item": "minecraft:stone"
+    }
+  },
+  "pattern": [
+    "KKK",
+    "KCK",
+    "KKK"
+  ],
+  "result": {
+    "count": 9,
+    "item": "thaumcraft:stone_arcane"
+  }
+}

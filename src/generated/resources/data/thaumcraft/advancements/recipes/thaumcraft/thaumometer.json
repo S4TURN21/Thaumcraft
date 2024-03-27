@@ -1,4 +1,21 @@
 {
-  "criteria": {},
-  "requirements": []
+  "criteria": {
+    "has_arcane_workbench": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "thaumcraft:arcane_workbench"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_arcane_workbench"
+    ]
+  ]
 }

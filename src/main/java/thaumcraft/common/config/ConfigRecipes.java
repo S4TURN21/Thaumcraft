@@ -1,15 +1,16 @@
 package thaumcraft.common.config;
 
 import net.minecraft.core.NonNullList;
+import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.registries.RegisterEvent;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
@@ -19,19 +20,32 @@ import thaumcraft.api.crafting.ShapedArcaneRecipeBuilder;
 import thaumcraft.api.items.ItemsTC;
 import thaumcraft.common.lib.crafting.DustTriggerOre;
 import thaumcraft.common.lib.crafting.DustTriggerSimple;
-import thaumcraft.common.lib.crafting.RecipeMagicDust;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
-public class ConfigRecipes {
+public class ConfigRecipes extends RecipeProvider {
     static ResourceLocation defaultGroup = new ResourceLocation("");
     public static HashMap<String, ArrayList<ResourceLocation>> recipeGroups = new HashMap<>();
+
+    public ConfigRecipes(DataGenerator pGenerator) {
+        super(pGenerator);
+    }
 
     public static void initializeCompoundRecipes() {
         IDustTrigger.registerDustTrigger(new DustTriggerSimple("!gotdream", Blocks.BOOKSHELF, new ItemStack(ItemsTC.thaumonomicon)));
         IDustTrigger.registerDustTrigger(new DustTriggerOre("FIRSTSTEPS@1", "workbench", new ItemStack(BlocksTC.arcaneWorkbench)));
+    }
+
+    public static void initializeFakeRecipes() {
+        ThaumcraftApi.addFakeCraftingRecipe(new ResourceLocation("thaumcraft:salismundusfake"), new ShapelessRecipe(ConfigRecipes.defaultGroup, "", new ItemStack(ItemsTC.salisMundus), NonNullList.of(Ingredient.EMPTY, Ingredient.of(Items.FLINT), Ingredient.of(Items.BOWL), Ingredient.of(Items.REDSTONE), Ingredient.of(new ItemStack(ItemsTC.crystalEssence, 1)), Ingredient.of(new ItemStack(ItemsTC.crystalEssence, 1)), Ingredient.of(new ItemStack(ItemsTC.crystalEssence, 1)))));
+    }
+
+    @Override
+    protected void buildCraftingRecipes(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
+        ConfigRecipes.initializeNormalRecipes(pFinishedRecipeConsumer);
+        ConfigRecipes.initializeArcaneRecipes(pFinishedRecipeConsumer);
     }
 
     public static void initializeArcaneRecipes(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
@@ -44,11 +58,18 @@ public class ConfigRecipes {
                 .pattern(" I ")
                 .define('I', Items.GOLD_INGOT)
                 .define('G', Blocks.GLASS_PANE)
+                .unlockedBy("has_arcane_workbench", has(BlocksTC.arcaneWorkbench))
                 .save(pFinishedRecipeConsumer);
     }
 
-    public static void initializeNormalRecipes(RegisterEvent.RegisterHelper<RecipeSerializer<?>> event) {
-        event.register("salismundus", RecipeMagicDust.Serializer.INSTANCE);
-        ThaumcraftApi.addFakeCraftingRecipe(new ResourceLocation("thaumcraft:salismundusfake"), new ShapelessRecipe(ConfigRecipes.defaultGroup, "", new ItemStack(ItemsTC.salisMundus), NonNullList.of(Ingredient.EMPTY, Ingredient.of(Items.FLINT), Ingredient.of(Items.BOWL), Ingredient.of(Items.REDSTONE), Ingredient.of(new ItemStack(ItemsTC.crystalEssence, 1)), Ingredient.of(new ItemStack(ItemsTC.crystalEssence, 1)), Ingredient.of(new ItemStack(ItemsTC.crystalEssence, 1)))));
+    public static void initializeNormalRecipes(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
+        ShapedRecipeBuilder.shaped(BlocksTC.stoneArcane, 9)
+                .pattern("KKK")
+                .pattern("KCK")
+                .pattern("KKK")
+                .define('K', Items.STONE)
+                .define('C', ItemsTC.crystalEssence)
+                .unlockedBy("has_crystal", has(ItemsTC.crystalEssence))
+                .save(pFinishedRecipeConsumer);
     }
 }
