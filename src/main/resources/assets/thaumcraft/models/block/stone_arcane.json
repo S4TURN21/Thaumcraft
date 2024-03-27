@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "thaumcraft:block/arcane_stone_1",
+    "up": "thaumcraft:block/arcane_stone_1",
+    "down": "thaumcraft:block/arcane_stone_1",
+    "east": "thaumcraft:block/arcane_stone_2",
+    "west": "thaumcraft:block/arcane_stone_2",
+    "north": "thaumcraft:block/arcane_stone_3",
+    "south": "thaumcraft:block/arcane_stone_3"
+  }
+}

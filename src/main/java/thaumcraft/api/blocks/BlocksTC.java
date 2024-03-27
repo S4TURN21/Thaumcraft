@@ -3,6 +3,7 @@ package thaumcraft.api.blocks;
 import net.minecraft.world.level.block.Block;
 
 public class BlocksTC {
+    public static Block stoneArcane;
     public static Block crystalAir;
     public static Block crystalFire;
     public static Block crystalWater;
