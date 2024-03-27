@@ -16,6 +16,7 @@
   "workbench.available": "available",
   "workbench.cost": "vis",
   "recipe.clickthrough": "Click for recipe",
+  "recipe.type.workbench": "Workbench",
   "recipe.type.workbenchshapeless": "Workbench (Shapeless)",
   "recipe.type.arcane": "Arcane Workbench",
   "wandtable.text1": "Vis Cost",

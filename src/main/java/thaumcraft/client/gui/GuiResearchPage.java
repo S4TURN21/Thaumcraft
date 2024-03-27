@@ -21,6 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.aspects.Aspect;
@@ -822,6 +823,21 @@ public class GuiResearchPage extends Screen {
         this.blit(pPoseStack, -8, -46, 20, 3, 16, 16);
         pPoseStack.popPose();
         drawStackAt(pPoseStack, InventoryUtils.cycleItemStack(recipe.getResultItem(), 0), x - 8, y - 84, mx, my, false);
+        if (recipe != null && recipe instanceof ShapedRecipe) {
+            String text = I18n.get("recipe.type.workbench");
+            int offset = minecraft.font.width(text);
+            minecraft.font.draw(pPoseStack, text, x - offset / 2, y - 104, 5263440);
+            int rw = ((ShapedRecipe) recipe).getRecipeWidth();
+            int rh = ((ShapedRecipe) recipe).getRecipeHeight();
+            NonNullList<Ingredient> items = recipe.getIngredients();
+            for (int i = 0; i < rw && i < 3; ++i) {
+                for (int j = 0; j < rh && j < 3; ++j) {
+                    if (items.get(i + j * rw) != null) {
+                        drawStackAt(pPoseStack, InventoryUtils.cycleItemStack(items.get(i + j * rw), i + j * rw), x - 40 + i * 32, y - 40 + j * 32, mx, my, true);
+                    }
+                }
+            }
+        }
         if (recipe != null && recipe instanceof ShapelessRecipe) {
             String text = I18n.get("recipe.type.workbenchshapeless");
             int offset = minecraft.font.width(text);
