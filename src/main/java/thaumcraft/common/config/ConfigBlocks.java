@@ -33,6 +33,7 @@ public class ConfigBlocks {
         ShardType.FLUX.setOre(BlocksTC.crystalTaint);
 
         BlocksTC.stoneArcane = registerBlock("stone_arcane", new BlockStoneTC());
+        BlocksTC.stoneArcaneBrick = registerBlock("stone_arcane_brick", new BlockStoneTC());
         BlocksTC.arcaneWorkbench = registerBlock("arcane_workbench", new BlockArcaneWorkbench());
     }
 

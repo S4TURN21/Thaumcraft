@@ -22,7 +22,7 @@
                 },
                 {
                     "text": "research.FIRSTSTEPS.stage.3", 
-                    "recipes": ["thaumcraft:thaumometer","thaumcraft:salismundusfake","thaumcraft:stone_arcane","thaumcraft:brick_arcane"]
+                    "recipes": ["thaumcraft:thaumometer","thaumcraft:salismundusfake","thaumcraft:stone_arcane","thaumcraft:stone_arcane_brick"]
                 }
             ]
         },

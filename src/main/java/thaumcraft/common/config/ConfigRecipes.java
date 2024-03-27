@@ -63,13 +63,7 @@ public class ConfigRecipes extends RecipeProvider {
     }
 
     public static void initializeNormalRecipes(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
-        ShapedRecipeBuilder.shaped(BlocksTC.stoneArcane, 9)
-                .pattern("KKK")
-                .pattern("KCK")
-                .pattern("KKK")
-                .define('K', Items.STONE)
-                .define('C', ItemsTC.crystalEssence)
-                .unlockedBy("has_crystal", has(ItemsTC.crystalEssence))
-                .save(pFinishedRecipeConsumer);
+        ShapedRecipeBuilder.shaped(BlocksTC.stoneArcane, 9).pattern("KKK").pattern("KCK").pattern("KKK").define('K', Items.STONE).define('C', ItemsTC.crystalEssence).unlockedBy("has_crystal", has(ItemsTC.crystalEssence)).save(pFinishedRecipeConsumer);
+        ShapedRecipeBuilder.shaped(BlocksTC.stoneArcaneBrick, 4).pattern("KK").pattern("KK").define('K', BlocksTC.stoneArcane).unlockedBy("has_stone_arcane", has(BlocksTC.stoneArcane)).save(pFinishedRecipeConsumer);
     }
 }
