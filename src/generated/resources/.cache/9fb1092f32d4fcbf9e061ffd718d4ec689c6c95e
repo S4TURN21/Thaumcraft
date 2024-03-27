@@ -1,7 +1,9 @@
-// 1.19.2	2024-03-27T16:42:31.7472967	Recipes
+// 1.19.2	2024-03-28T01:02:34.8921838	Recipes
 956600b21df3b20dbd4d20cb119bff1a0c9b19d4 data/thaumcraft/advancements/recipes/thaumcraft/stone_arcane.json
 b951efa85b939940c37acfd85f841b36bd44af6e data/thaumcraft/advancements/recipes/thaumcraft/stone_arcane_brick.json
+51a2d3cb42460d613402ec68bfa0275a2a775cfa data/thaumcraft/advancements/recipes/thaumcraft/table_wood.json
 54eaf73dbc166642eedf157ccf929680beed1b4f data/thaumcraft/advancements/recipes/thaumcraft/thaumometer.json
 8926683139a12f0dc1e24a623b28ce70b81ce0c9 data/thaumcraft/recipes/stone_arcane.json
 9d5833c14623b4a87dda42c9223d59cf5d1b5c27 data/thaumcraft/recipes/stone_arcane_brick.json
+988ec2e314a70173097a2502b11f0da68dba7b95 data/thaumcraft/recipes/table_wood.json
 c274841627f36a8cea87943161c4cf0452c3b104 data/thaumcraft/recipes/thaumometer.json

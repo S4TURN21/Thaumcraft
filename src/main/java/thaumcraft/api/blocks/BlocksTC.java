@@ -12,5 +12,6 @@ public class BlocksTC {
     public static Block crystalOrder;
     public static Block crystalEntropy;
     public static Block crystalTaint;
+    public static Block tableWood;
     public static Block arcaneWorkbench;
 }
