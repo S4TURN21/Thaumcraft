@@ -289,6 +289,9 @@ public class UtilsFX {
             pPoseStack.translate(0.0f, 0.0f, 32.0f);
             RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
             itemRender.renderAndDecorateItem(itm, x, y);
+            if (!UtilsFX.hideStackOverlay) {
+                itemRender.renderGuiItemDecorations(mc.font, itm, x, y, txt);
+            }
             pPoseStack.popPose();
         }
         return rc;
