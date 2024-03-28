@@ -10,7 +10,6 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
@@ -29,14 +28,8 @@ import thaumcraft.common.world.aura.AuraHandler;
 
 public class ItemThaumometer extends ItemTCBase {
 
-    @Override
-    public int getMaxStackSize(ItemStack stack) {
-        return 1;
-    }
-
-    @Override
-    public Rarity getRarity(ItemStack pStack) {
-        return Rarity.UNCOMMON;
+    public ItemThaumometer(Properties pProperties) {
+        super(pProperties);
     }
 
     @Override

@@ -8,7 +8,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -22,9 +21,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ItemMagicDust extends ItemTCBase {
-    @Override
-    public Rarity getRarity(ItemStack pStack) {
-        return Rarity.UNCOMMON;
+    public ItemMagicDust(Properties pProperties) {
+        super(pProperties);
     }
 
     @Override
@@ -48,7 +46,7 @@ public class ItemMagicDust extends ItemTCBase {
         for (IDustTrigger trigger : IDustTrigger.triggers) {
             IDustTrigger.Placement place = trigger.getValidFace(world, player, pos, side);
             if (place != null) {
-                if(!player.isCreative()) {
+                if (!player.isCreative()) {
                     player.getItemInHand(hand).grow(-1);
                 }
                 trigger.execute(world, player, pos, place, side);
@@ -76,7 +74,7 @@ public class ItemMagicDust extends ItemTCBase {
 
             FXDispatcher.INSTANCE.drawSimpleSparkle(world.random, v1.x, v1.y, v1.z, v2.x / 6.0 + world.random.nextGaussian() * 0.05, v2.y / 6.0 + world.random.nextGaussian() * 0.05 + (floaty ? 0.05 : 0.15), v2.z / 6.0 + world.random.nextGaussian() * 0.05, 0.5f, r, g, b, world.random.nextInt(5), floaty ? (0.3f + world.random.nextFloat() * 0.5f) : 0.85f, floaty ? 0.2f : 0.5f, 16);
         }
-        world.playLocalSound((double)pos.getX(), (double)pos.getY(), (double)pos.getZ(), SoundsTC.dust, SoundSource.PLAYERS, 0.33f, 1.0f + (float)world.random.nextGaussian() * 0.05f, false);
+        world.playLocalSound((double) pos.getX(), (double) pos.getY(), (double) pos.getZ(), SoundsTC.dust, SoundSource.PLAYERS, 0.33f, 1.0f + (float) world.random.nextGaussian() * 0.05f, false);
         List<BlockPos> sparkles = Arrays.asList(pos);
         if (sparkles != null) {
             var offset = pos.offset((double) hitX, (double) hitY, (double) hitZ);

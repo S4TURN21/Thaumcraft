@@ -4,10 +4,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import net.minecraftforge.registries.RegisterEvent;
 import thaumcraft.api.items.ItemsTC;
 import thaumcraft.common.items.curios.ItemThaumonomicon;
@@ -32,9 +29,9 @@ public class ConfigItems {
     }
 
     public static void initItems(RegisterEvent.RegisterHelper<Item> event) {
-        event.register("thaumonomicon", (ItemsTC.thaumonomicon = new ItemThaumonomicon()));
+        event.register("thaumonomicon", (ItemsTC.thaumonomicon = new ItemThaumonomicon(new Item.Properties().stacksTo(1))));
+        event.register("salis_mundus", (ItemsTC.salisMundus = new ItemMagicDust(new Item.Properties().rarity(Rarity.UNCOMMON))));
         event.register("crystal_essence", (ItemsTC.crystalEssence = new ItemCrystalEssence()));
-        event.register("salis_mundus", (ItemsTC.salisMundus = new ItemMagicDust()));
-        event.register("thaumometer", (ItemsTC.thaumometer = new ItemThaumometer()));
+        event.register("thaumometer", (ItemsTC.thaumometer = new ItemThaumometer(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))));
     }
 }

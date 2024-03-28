@@ -4,7 +4,7 @@ import net.minecraft.world.item.Item;
 import thaumcraft.common.config.ConfigItems;
 
 public class ItemTCBase extends Item {
-    public ItemTCBase() {
-        super(new Item.Properties().tab(ConfigItems.TABTC));
+    public ItemTCBase(Properties pProperties) {
+        super(pProperties.tab(ConfigItems.TABTC));
     }
 }

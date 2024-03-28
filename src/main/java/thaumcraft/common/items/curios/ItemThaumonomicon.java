@@ -23,9 +23,8 @@ import thaumcraft.common.lib.research.ResearchManager;
 import java.util.Collection;
 
 public class ItemThaumonomicon extends ItemTCBase {
-    @Override
-    public int getMaxStackSize(ItemStack stack) {
-        return 1;
+    public ItemThaumonomicon(Properties pProperties) {
+        super(pProperties);
     }
 
     @Override
@@ -46,7 +45,7 @@ public class ItemThaumonomicon extends ItemTCBase {
             }
             ThaumcraftCapabilities.getKnowledge(player).sync((ServerPlayer) player);
         } else {
-            world.playLocalSound(player.getX(),player.getY(),player.getZ(), SoundsTC.page, SoundSource.PLAYERS, 1.0f, 1.0f, false);
+            world.playLocalSound(player.getX(), player.getY(), player.getZ(), SoundsTC.page, SoundSource.PLAYERS, 1.0f, 1.0f, false);
         }
 
         if (world.isClientSide) {
