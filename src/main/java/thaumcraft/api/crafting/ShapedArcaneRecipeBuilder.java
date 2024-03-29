@@ -95,7 +95,7 @@ public class ShapedArcaneRecipeBuilder implements RecipeBuilder {
     }
 
     @Override
-    public RecipeBuilder group(@Nullable String pGroupName) {
+    public ShapedArcaneRecipeBuilder group(@Nullable String pGroupName) {
         this.group = pGroupName;
         return this;
     }
