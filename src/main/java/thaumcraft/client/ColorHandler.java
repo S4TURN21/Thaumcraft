@@ -61,5 +61,14 @@ public class ColorHandler {
         itemColors.register(itemCrystalPlanterColourHandler, new Block[] { BlocksTC.crystalEntropy });
         itemColors.register(itemCrystalPlanterColourHandler, new Block[] { BlocksTC.crystalOrder });
         itemColors.register(itemCrystalPlanterColourHandler, new Block[] { BlocksTC.crystalTaint });
+
+        ItemColor itemEssentiaAltColourHandler = (stack, tintIndex) -> {
+            ItemGenericEssentiaContainer item = (ItemGenericEssentiaContainer)stack.getItem();
+            if (item.getAspects(stack) != null && tintIndex == 1) {
+                return item.getAspects(stack).getAspects()[0].getColor();
+            }
+            return 0xFFFFFF;
+        };
+        itemColors.register(itemEssentiaAltColourHandler, ItemsTC.phial);
     }
 }

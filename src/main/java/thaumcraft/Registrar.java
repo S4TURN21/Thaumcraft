@@ -12,9 +12,11 @@ import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 import thaumcraft.api.crafting.ShapedArcaneRecipe;
+import thaumcraft.client.ItemPropertiesHandler;
 import thaumcraft.client.gui.ContainerArcaneWorkbench;
 import thaumcraft.common.config.ConfigBlocks;
 import thaumcraft.common.config.ConfigEntities;
@@ -30,6 +32,11 @@ public class Registrar {
     public static void gatherData(GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();
         generator.addProvider(true, new ConfigRecipes(generator));
+    }
+
+    @SubscribeEvent
+    public static void clientSetup(FMLClientSetupEvent event) {
+        ItemPropertiesHandler.registerItemProperties();
     }
 
     @SubscribeEvent

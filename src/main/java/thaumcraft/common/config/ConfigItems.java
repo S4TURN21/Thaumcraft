@@ -7,6 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
 import net.minecraftforge.registries.RegisterEvent;
 import thaumcraft.api.items.ItemsTC;
+import thaumcraft.common.items.consumables.ItemPhial;
 import thaumcraft.common.items.curios.ItemThaumonomicon;
 import thaumcraft.common.items.resources.ItemCrystalEssence;
 import thaumcraft.common.items.resources.ItemMagicDust;
@@ -32,6 +33,7 @@ public class ConfigItems {
         event.register("thaumonomicon", (ItemsTC.thaumonomicon = new ItemThaumonomicon(new Item.Properties().stacksTo(1))));
         event.register("salis_mundus", (ItemsTC.salisMundus = new ItemMagicDust(new Item.Properties().rarity(Rarity.UNCOMMON))));
         event.register("crystal_essence", (ItemsTC.crystalEssence = new ItemCrystalEssence()));
+        event.register("phial", (ItemsTC.phial = new ItemPhial()));
         event.register("thaumometer", (ItemsTC.thaumometer = new ItemThaumometer(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))));
     }
 }

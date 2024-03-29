@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "thaumcraft:item/phial",
+    "layer1": "thaumcraft:item/phial_overlay"
+  }
+}
