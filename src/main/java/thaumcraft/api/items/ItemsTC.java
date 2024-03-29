@@ -7,6 +7,7 @@ public class ItemsTC {
     public static Item crystalEssence;
     public static Item salisMundus;
     public static Item phial;
+    public static Item scribingTools;
     public static Item thaumometer;
     public static Item enchantedPlaceholder;
 }

@@ -59,7 +59,7 @@
         <td align="center">❌</td>
     </tr>
     <tr>
-        <td rowspan="4">
+        <td rowspan="6">
             <strong>Items</strong>
         </td>
         <td>Vis Crystal</td>
@@ -82,6 +82,18 @@
     <tr>
         <td>Thaumometer</td>
         <td align="center">🟡</td>
+        <td align="center">❌</td>
+        <td align="center">❌</td>
+    </tr>
+    <tr>
+        <td>Glass Phial</td>
+        <td align="center">🟡</td>
+        <td align="center">❌</td>
+        <td align="center">❌</td>
+    </tr>
+    <tr>
+        <td>Scribing Tools</td>
+        <td align="center">✅</td>
         <td align="center">❌</td>
         <td align="center">❌</td>
     </tr>
