@@ -17,7 +17,7 @@ import thaumcraft.api.crafting.ContainerDummy;
 import thaumcraft.api.crafting.IArcaneRecipe;
 import thaumcraft.api.crafting.ShapedArcaneRecipe;
 import thaumcraft.api.items.ItemsTC;
-import thaumcraft.common.blocks.tiles.crafting.BlockEntityArcaneWorkbench;
+import thaumcraft.common.blockentities.crafting.BlockEntityArcaneWorkbench;
 import thaumcraft.common.lib.crafting.ThaumcraftCraftingManager;
 
 public class SlotCraftingArcaneWorkbench extends Slot {

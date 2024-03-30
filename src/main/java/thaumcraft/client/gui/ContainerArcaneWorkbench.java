@@ -23,7 +23,7 @@ import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.crafting.ContainerDummy;
 import thaumcraft.api.crafting.IArcaneRecipe;
-import thaumcraft.common.blocks.tiles.crafting.BlockEntityArcaneWorkbench;
+import thaumcraft.common.blockentities.crafting.BlockEntityArcaneWorkbench;
 import thaumcraft.common.blocks.world.ore.ShardType;
 import thaumcraft.common.container.slot.SlotCraftingArcaneWorkbench;
 import thaumcraft.common.container.slot.SlotCrystal;

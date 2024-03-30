@@ -1,4 +1,4 @@
-package thaumcraft.common.blocks.tiles.crafting;
+package thaumcraft.common.blockentities.crafting;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;

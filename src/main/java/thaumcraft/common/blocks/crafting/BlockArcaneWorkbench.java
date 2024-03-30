@@ -15,7 +15,7 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
-import thaumcraft.common.blocks.tiles.crafting.BlockEntityArcaneWorkbench;
+import thaumcraft.common.blockentities.crafting.BlockEntityArcaneWorkbench;
 
 public class BlockArcaneWorkbench extends BaseEntityBlock {
     public BlockArcaneWorkbench() {
