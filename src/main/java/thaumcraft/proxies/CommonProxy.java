@@ -1,5 +1,6 @@
 package thaumcraft.proxies;
 
+import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.common.config.ConfigResearch;
@@ -29,5 +30,10 @@ public class CommonProxy implements IProxy {
     @Override
     public void postInit(FMLCommonSetupEvent event) {
         ConfigResearch.postInit();
+    }
+
+    @Override
+    public Level getClientWorld() {
+        return null;
     }
 }

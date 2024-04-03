@@ -16,4 +16,10 @@ public class ClientProxy extends CommonProxy {
         ColorHandler.registerColourHandlers();
         this.proxyEntities.setupEntityRenderers();
     }
+
+    @Override
+    public Level getClientWorld() {
+        return Minecraft.getInstance().level;
+    }
+
 }
