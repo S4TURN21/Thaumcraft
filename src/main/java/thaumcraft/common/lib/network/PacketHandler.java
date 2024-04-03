@@ -6,6 +6,7 @@ import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 import thaumcraft.Thaumcraft;
 import thaumcraft.common.lib.network.blockentities.PacketBlockEntityToClient;
+import thaumcraft.common.lib.network.blockentities.PacketBlockEntityToServer;
 import thaumcraft.common.lib.network.fx.PacketFXBlockBamf;
 import thaumcraft.common.lib.network.misc.PacketAuraToClient;
 import thaumcraft.common.lib.network.misc.PacketKnowledgeGain;
@@ -22,6 +23,7 @@ public class PacketHandler {
     public static void preInit() {
         int idx = 0;
         PacketHandler.INSTANCE.registerMessage(idx++, PacketKnowledgeGain.class, PacketKnowledgeGain::toBytes, PacketKnowledgeGain::fromBytes, PacketKnowledgeGain::onMessage, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        PacketHandler.INSTANCE.registerMessage(idx++, PacketBlockEntityToServer.class, PacketBlockEntityToServer::toBytes, PacketBlockEntityToServer::fromBytes, PacketBlockEntityToServer::onMessage, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         PacketHandler.INSTANCE.registerMessage(idx++, PacketBlockEntityToClient.class, PacketBlockEntityToClient::toBytes, PacketBlockEntityToClient::fromBytes, PacketBlockEntityToClient::onMessage, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         PacketHandler.INSTANCE.registerMessage(idx++, PacketAuraToClient.class, PacketAuraToClient::toBytes, PacketAuraToClient::fromBytes, PacketAuraToClient::onMessage, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         PacketHandler.INSTANCE.registerMessage(idx++, PacketSyncWarp.class, PacketSyncWarp::toBytes, PacketSyncWarp::fromBytes, PacketSyncWarp::onMessage, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
