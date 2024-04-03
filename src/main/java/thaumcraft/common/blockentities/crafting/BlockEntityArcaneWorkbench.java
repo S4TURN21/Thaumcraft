@@ -12,17 +12,17 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import thaumcraft.api.crafting.ContainerDummy;
 import thaumcraft.client.gui.ContainerArcaneWorkbench;
+import thaumcraft.common.blockentities.BlockEntityThaumcraft;
 import thaumcraft.common.container.InventoryArcaneWorkbench;
 import thaumcraft.common.world.aura.AuraHandler;
 
-public class BlockEntityArcaneWorkbench extends BlockEntity implements MenuProvider {
+public class BlockEntityArcaneWorkbench extends BlockEntityThaumcraft implements MenuProvider {
     public InventoryArcaneWorkbench inventoryCraft;
     private int auraVisServer;
     private int auraVisClient;
@@ -58,6 +58,17 @@ public class BlockEntityArcaneWorkbench extends BlockEntity implements MenuProvi
         inventoryCraft = new InventoryArcaneWorkbench(this, new ContainerDummy());
     }
 
+    @Nullable
+    @Override
+    public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
+        return new ContainerArcaneWorkbench(pContainerId, pPlayerInventory, this, this.dataAccess);
+    }
+
+    @Override
+    public @NotNull Component getDisplayName() {
+        return Component.empty();
+    }
+
     @Override
     public void load(CompoundTag pTag) {
         super.load(pTag);
@@ -78,15 +89,13 @@ public class BlockEntityArcaneWorkbench extends BlockEntity implements MenuProvi
         ContainerHelper.saveAllItems(pTag, stacks);
     }
 
-    @Nullable
     @Override
-    public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
-        return new ContainerArcaneWorkbench(pContainerId, pPlayerInventory, this, this.dataAccess);
+    public void readSyncNBT(CompoundTag nbt) {
     }
 
     @Override
-    public @NotNull Component getDisplayName() {
-        return Component.empty();
+    public CompoundTag writeSyncNBT(CompoundTag nbt) {
+        return nbt;
     }
 
     public void getAura() {
