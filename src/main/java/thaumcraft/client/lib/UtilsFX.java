@@ -11,8 +11,11 @@ import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.FormattedText;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.gui.ScreenUtils;
 import thaumcraft.api.aspects.Aspect;
@@ -295,5 +298,91 @@ public class UtilsFX {
             pPoseStack.popPose();
         }
         return rc;
+    }
+
+    public static void renderItemIn2D(PoseStack pPoseStack, ResourceLocation sprite, float thickness) {
+        renderItemIn2D(pPoseStack, Minecraft.getInstance().getModelManager().getAtlas(TextureAtlas.LOCATION_BLOCKS).getSprite(sprite), thickness);
+    }
+
+    public static void renderItemIn2D(PoseStack pPoseStack, TextureAtlasSprite icon, float thickness) {
+        pPoseStack.pushPose();
+        float minu = icon.getU0();
+        float minv = icon.getV0();
+        float maxu = icon.getU1();
+        float maxv = icon.getV1();
+        RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS);
+        renderTextureIn3D(pPoseStack, maxu, maxv, minu, minv, 16, 16, thickness);
+        pPoseStack.popPose();
+    }
+
+    public static void renderTextureIn3D(PoseStack pPoseStack, float maxu, float maxv, float minu, float minv, int width, int height, float thickness) {
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+
+        Matrix4f matrix = pPoseStack.last().pose();
+
+        BufferBuilder bufferBuilder = Tesselator.getInstance().getBuilder();
+
+        bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR_NORMAL);
+        bufferBuilder.vertex(matrix, 0, 0, 0).uv(maxu, maxv).color(0xFFFFFF).normal(0, 0, 1).endVertex();
+        bufferBuilder.vertex(matrix, 1, 0, 0).uv(minu, maxv).color(0xFFFFFF).normal(0, 0, 1).endVertex();
+        bufferBuilder.vertex(matrix, 1, 1, 0).uv(minu, minv).color(0xFFFFFF).normal(0, 0, 1).endVertex();
+        bufferBuilder.vertex(matrix, 0, 1, 0).uv(maxu, minv).color(0xFFFFFF).normal(0, 0, 1).endVertex();
+        BufferUploader.drawWithShader(bufferBuilder.end());
+
+        bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR_NORMAL);
+        bufferBuilder.vertex(matrix, 0, 1, 0 - thickness).uv(maxu, minv).color(0xFFFFFF).normal(0, 0, -1).endVertex();
+        bufferBuilder.vertex(matrix, 1, 1, 0 - thickness).uv(minu, minv).color(0xFFFFFF).normal(0, 0, -1).endVertex();
+        bufferBuilder.vertex(matrix, 1, 0, 0 - thickness).uv(minu, maxv).color(0xFFFFFF).normal(0, 0, -1).endVertex();
+        bufferBuilder.vertex(matrix, 0, 0, 0 - thickness).uv(maxu, maxv).color(0xFFFFFF).normal(0, 0, -1).endVertex();
+        BufferUploader.drawWithShader(bufferBuilder.end());
+
+        float f5 = 0.5f * (maxu - minu) / width;
+        float f6 = 0.5f * (maxv - minv) / height;
+
+        bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR_NORMAL);
+        for (int k = 0; k < width; ++k) {
+            float f7 = k / (float) width;
+            float f8 = maxu + (minu - maxu) * f7 - f5;
+            bufferBuilder.vertex(matrix, f7, 0.0F, 0.0f - thickness).uv(f8, maxv).color(0xFFFFFF).normal(-1.0f, 0.0f, 0.0f).endVertex();
+            bufferBuilder.vertex(matrix, f7, 0.0F, 0.0F).uv(f8, maxv).color(0xFFFFFF).normal(-1.0f, 0.0f, 0.0f).endVertex();
+            bufferBuilder.vertex(matrix, f7, 1.0F, 0.0F).uv(f8, minv).color(0xFFFFFF).normal(-1.0f, 0.0f, 0.0f).endVertex();
+            bufferBuilder.vertex(matrix, f7, 1.0F, 0.0f - thickness).uv(f8, minv).color(0xFFFFFF).normal(-1.0f, 0.0f, 0.0f).endVertex();
+        }
+        BufferUploader.drawWithShader(bufferBuilder.end());
+
+        bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR_NORMAL);
+        for (int k = 0; k < width; ++k) {
+            float f7 = k / (float) width;
+            float f8 = maxu + (minu - maxu) * f7 - f5;
+            float f9 = f7 + 1.0f / width;
+            bufferBuilder.vertex(matrix, f9, 1.0F, 0.0f - thickness).uv(f8, minv).color(0xFFFFFF).normal(1.0f, 0.0f, 0.0f).endVertex();
+            bufferBuilder.vertex(matrix, f9, 1.0F, 0.0F).uv(f8, minv).color(0xFFFFFF).normal(1.0f, 0.0f, 0.0f).endVertex();
+            bufferBuilder.vertex(matrix, f9, 0.0F, 0.0F).uv(f8, maxv).color(0xFFFFFF).normal(1.0f, 0.0f, 0.0f).endVertex();
+            bufferBuilder.vertex(matrix, f9, 0.0F, 0.0f - thickness).uv(f8, maxv).color(0xFFFFFF).normal(1.0f, 0.0f, 0.0f).endVertex();
+        }
+        BufferUploader.drawWithShader(bufferBuilder.end());
+
+        bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR_NORMAL);
+        for (int k = 0; k < height; ++k) {
+            float f7 = k / (float) height;
+            float f8 = maxv + (minv - maxv) * f7 - f6;
+            float f9 = f7 + 1.0f / height;
+            bufferBuilder.vertex(matrix, 0.0F, f9, 0.0F).uv(maxu, f8).color(0xFFFFFF).normal(0.0f, 1.0f, 0.0f).endVertex();
+            bufferBuilder.vertex(matrix, 1.0F, f9, 0.0F).uv(minu, f8).color(0xFFFFFF).normal(0.0f, 1.0f, 0.0f).endVertex();
+            bufferBuilder.vertex(matrix, 1.0F, f9, 0.0f - thickness).uv(minu, f8).color(0xFFFFFF).normal(0.0f, 1.0f, 0.0f).endVertex();
+            bufferBuilder.vertex(matrix, 0.0F, f9, 0.0f - thickness).uv(maxu, f8).color(0xFFFFFF).normal(0.0f, 1.0f, 0.0f).endVertex();
+        }
+        BufferUploader.drawWithShader(bufferBuilder.end());
+
+        bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR_NORMAL);
+        for (int k = 0; k < height; ++k) {
+            float f7 = k / (float) height;
+            float f8 = maxv + (minv - maxv) * f7 - f6;
+            bufferBuilder.vertex(matrix, 1.0F, f7, 0.0F).uv(minu, f8).color(0xFFFFFF).normal(0.0f, -1.0f, 0.0f).endVertex();
+            bufferBuilder.vertex(matrix, 0.0F, f7, 0.0F).uv(maxu, f8).color(0xFFFFFF).normal(0.0f, -1.0f, 0.0f).endVertex();
+            bufferBuilder.vertex(matrix, 0.0F, f7, 0.0f - thickness).uv(maxu, f8).color(0xFFFFFF).normal(0.0f, -1.0f, 0.0f).endVertex();
+            bufferBuilder.vertex(matrix, 1.0F, f7, 0.0f - thickness).uv(minu, f8).color(0xFFFFFF).normal(0.0f, -1.0f, 0.0f).endVertex();
+        }
+        BufferUploader.drawWithShader(bufferBuilder.end());
     }
 }
