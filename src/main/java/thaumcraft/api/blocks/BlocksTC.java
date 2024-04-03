@@ -14,4 +14,5 @@ public class BlocksTC {
     public static Block crystalTaint;
     public static Block tableWood;
     public static Block arcaneWorkbench;
+    public static Block researchTable;
 }

@@ -1,0 +1,98 @@
+{
+  "textures": {
+    "particle": "thaumcraft:block/research_table_top",
+    "top": "thaumcraft:block/research_table_top",
+    "side": "thaumcraft:block/research_table_side",
+    "front": "thaumcraft:block/research_table_front",
+    "bottom": "thaumcraft:block/base_wood_grain"
+  },
+  "elements": [
+    {
+      "from": [0,10,0],
+      "to": [16,16,16],
+      "faces": {
+        "up": {"texture": "#top","cullface": "up"},
+        "down": {"texture": "#top"},
+        "west": {"texture": "#side","cullface": "west"},
+        "east": {"texture": "#side","cullface": "east"},
+        "north": {"texture": "#side","cullface": "north"},
+        "south": {"texture": "#front","cullface": "south"}
+      }
+    },
+    {
+      "from": [11,0,1],
+      "to": [15,10,5],
+      "faces": {
+        "down": {"texture": "#bottom","cullface": "down"},
+        "west": {"texture": "#side"},
+        "east": {"texture": "#side"},
+        "north": {"texture": "#side"},
+        "south": {"texture": "#side"}
+      }
+    },
+    {
+      "from": [11,0,11],
+      "to": [15,10,15],
+      "faces": {
+        "down": {"texture": "#bottom","cullface": "down"},
+        "west": {"texture": "#side"},
+        "east": {"texture": "#side"},
+        "north": {"texture": "#side"},
+        "south": {"texture": "#side"}
+      }
+    },
+    {
+      "from": [1,0,11],
+      "to": [5,10,15],
+      "faces": {
+        "down": {"texture": "#bottom","cullface": "down"},
+        "west": {"texture": "#side"},
+        "east": {"texture": "#side"},
+        "north": {"texture": "#side"},
+        "south": {"texture": "#side"}
+      }
+    },
+    {
+      "from": [1,0,1],
+      "to": [5,10,5],
+      "faces": {
+        "down": {"texture": "#bottom","cullface": "down"},
+        "west": {"texture": "#side"},
+        "east": {"texture": "#side"},
+        "north": {"texture": "#side"},
+        "south": {"texture": "#side"}
+      }
+    }
+  ],
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [75, 45, 0],
+      "translation": [0, 2.5, 0],
+      "scale": [0.375, 0.375, 0.375]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [75, 45, 0],
+      "translation": [0, 2.5, 0],
+      "scale": [0.375, 0.375, 0.375]
+    },
+    "firstperson_righthand": {
+      "rotation": [0, 45, 0],
+      "scale": [0.4, 0.4, 0.4]
+    },
+    "firstperson_lefthand": {
+      "rotation": [0, 225, 0],
+      "scale": [0.4, 0.4, 0.4]
+    },
+    "ground": {
+      "translation": [0, 3, 0],
+      "scale": [0.25, 0.25, 0.25]
+    },
+    "gui": {
+      "rotation": [30, 225, 0],
+      "scale": [0.625, 0.625, 0.625]
+    },
+    "fixed": {
+      "scale": [0.5, 0.5, 0.5]
+    }
+  }
+}

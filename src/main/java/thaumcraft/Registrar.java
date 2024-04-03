@@ -22,6 +22,7 @@ import thaumcraft.common.config.ConfigBlocks;
 import thaumcraft.common.config.ConfigEntities;
 import thaumcraft.common.config.ConfigItems;
 import thaumcraft.common.config.ConfigRecipes;
+import thaumcraft.common.container.ContainerResearchTable;
 import thaumcraft.common.lib.SoundsTC;
 import thaumcraft.common.lib.crafting.RecipeMagicDust;
 import thaumcraft.common.world.biomes.BiomeHandler;
@@ -52,6 +53,7 @@ public class Registrar {
 
     private static void registerMenuTypes(RegisterEvent.RegisterHelper<MenuType<?>> event) {
         event.register("arcane_workbench", IForgeMenuType.create(ContainerArcaneWorkbench::new));
+        event.register("research_table", IForgeMenuType.create(ContainerResearchTable::new));
     }
 
     private static void registerRecipeSerializers(RegisterEvent.RegisterHelper<RecipeSerializer<?>> event) {
