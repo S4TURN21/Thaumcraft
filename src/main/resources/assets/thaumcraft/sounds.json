@@ -17,6 +17,14 @@
       }
     ]
   },
+  "clack": {
+    "category": "ambient",
+    "sounds": [
+      "thaumcraft:clack1",
+      "thaumcraft:clack2",
+      "thaumcraft:clack3"
+    ]
+  },
   "poof": {
     "category": "ambient",
     "sounds": [
