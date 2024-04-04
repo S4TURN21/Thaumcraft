@@ -64,4 +64,9 @@ public class GuiImageButton extends Button {
             }
         }
     }
+
+    @Override
+    protected boolean clicked(double pMouseX, double pMouseY) {
+        return active && visible && pMouseX >= x - width / 2f && pMouseY >= y - height / 2f && pMouseX < x - width / 2f + width && pMouseY < y - height / 2f + height;
+    }
 }
