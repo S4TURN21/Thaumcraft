@@ -1,5 +1,6 @@
 package thaumcraft.client.gui.plugins;
 
+import com.mojang.blaze3d.platform.GlConst;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -34,6 +35,8 @@ public class GuiImageButton extends Button {
             Font font = Minecraft.getInstance().font;
             isHovered = (pMouseX >= x - width / 2 && pMouseY >= y - height / 2 && pMouseX < x - width / 2 + width && pMouseY < y - height / 2 + height);
             int k = getYImage(isHovered);
+            RenderSystem.enableBlend();
+            RenderSystem.blendFuncSeparate(GlConst.GL_SRC_ALPHA, GlConst.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
             Color c = new Color(color);
             float cc = 0.9f;
             float ac = 1.0f;
