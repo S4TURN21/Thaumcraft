@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import thaumcraft.api.capabilities.IPlayerKnowledge;
 import thaumcraft.api.capabilities.ThaumcraftCapabilities;
 import thaumcraft.api.research.ResearchCategories;
+import thaumcraft.api.research.ResearchCategory;
 import thaumcraft.api.research.ResearchEntry;
 
 import java.util.ArrayList;
@@ -59,6 +60,19 @@ public class ResearchTableData {
 
     public boolean isComplete() {
         return inspiration <= 0;
+    }
+
+    public int getTotal(String cat) {
+        return categoryTotals.containsKey(cat) ? categoryTotals.get(cat) : 0;
+    }
+
+    public void addTotal(String cat, int amt) {
+        int current = categoryTotals.containsKey(cat) ? categoryTotals.get(cat) : 0;
+        current += amt;
+        if (current <= 0)
+            categoryTotals.remove(cat);
+        else
+            categoryTotals.put(cat, current);
     }
 
     public void addInspiration(int amt) {
@@ -160,7 +174,6 @@ public class ResearchTableData {
             categoriesBlocked.add(nbtdata.getString("category"));
         }
 
-        //
         ListTag categoryTotalsTag = nbt.getList("categoryTotals", (byte) 10);
         categoryTotals = new TreeMap<String, Integer>();
         for (int x = 0; x < categoryTotalsTag.size(); x++) {
@@ -168,15 +181,12 @@ public class ResearchTableData {
             categoryTotals.put(nbtdata.getString("category"), nbtdata.getInt("total"));
         }
 
-        //
         ListTag aidCardsTag = nbt.getList("aidCards", (byte) 10);
         aidCards = new ArrayList<String>();
         for (int x = 0; x < aidCardsTag.size(); x++) {
             CompoundTag nbtdata = aidCardsTag.getCompound(x);
             aidCards.add(nbtdata.getString("aidCard"));
         }
-
-        //
 
         Player pe = null;
         if (table != null && table.getLevel() != null && !table.getLevel().isClientSide) {
@@ -202,6 +212,85 @@ public class ResearchTableData {
         return new CardChoice(key, tc, nbt.getBoolean("aid"), nbt.getBoolean("select"));
     }
 
+    private boolean isCategoryBlocked(String cat) {
+        return categoriesBlocked.contains(cat);
+    }
+
+    public void drawCards(int draw, Player pe) {
+        if (draw == 3) {
+            if (bonusDraws > 0) {
+                bonusDraws--;
+            } else {
+                draw = 2;
+            }
+        }
+        cardChoices.clear();
+        player = pe.getName().toString();
+        ArrayList<String> availCats = getAvailableCategories(pe);
+        ArrayList<String> drawnCards = new ArrayList<>();
+        boolean aidDrawn = false;
+        int failsafe = 0;
+        while (draw > 0 && failsafe < 10000) {
+            failsafe++;
+            if (!aidDrawn && !aidCards.isEmpty() && pe.getRandom().nextFloat() <= .25) {
+                int idx = pe.getRandom().nextInt(aidCards.size());
+                String key = aidCards.get(idx);
+                TheorycraftCard card = generateCard(key, -1, pe);
+                if (card == null || card.getInspirationCost() > inspiration || isCategoryBlocked(card.getResearchCategory()))
+                    continue;
+
+                if (drawnCards.contains(key)) continue;
+                drawnCards.add(key);
+                cardChoices.add(new CardChoice(key, card, true, false));
+                aidCards.remove(idx);
+            } else {
+                try {
+                    String[] cards = TheorycraftManager.cards.keySet().toArray(new String[]{});
+                    int idx = pe.getRandom().nextInt(cards.length);
+                    TheorycraftCard card = generateCard(cards[idx], -1, pe);
+                    if (card == null || card.isAidOnly() || card.getInspirationCost() > inspiration) continue;
+                    if (card.getResearchCategory() != null) {
+                        boolean found = false;
+                        for (String cn : availCats) {
+                            if (cn.equals(card.getResearchCategory())) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) continue;
+                    }
+
+                    if (drawnCards.contains(cards[idx])) continue;
+                    drawnCards.add(cards[idx]);
+                    cardChoices.add(new CardChoice(cards[idx], card, false, false));
+                } catch (Exception e) {
+                    continue;
+                }
+            }
+            draw--;
+        }
+    }
+
+    private TheorycraftCard generateCard(String key, long seed, Player pe) {
+        if (key == null) return null;
+        Class<TheorycraftCard> tcc = TheorycraftManager.cards.get(key);
+        if (tcc == null) return null;
+        TheorycraftCard tc = null;
+        try {
+            tc = tcc.newInstance();
+            if (seed < 0)
+                if (pe != null)
+                    tc.setSeed(pe.getRandom().nextLong());
+                else
+                    tc.setSeed(System.nanoTime());
+            else
+                tc.setSeed(seed);
+            if (pe != null && !tc.initialize(pe, this)) return null;
+        } catch (Exception ignored) {
+        }
+        return tc;
+    }
+
     private TheorycraftCard generateCardWithNBT(String key, CompoundTag nbt) {
         if (key == null) return null;
         Class<TheorycraftCard> tcc = TheorycraftManager.cards.get(key);
@@ -218,6 +307,18 @@ public class ResearchTableData {
     public void initialize(Player player, Set<String> aids) {
         inspirationStart = getAvailableInspiration(player);
         inspiration = inspirationStart - aids.size();
+    }
+
+    public ArrayList<String> getAvailableCategories(Player player) {
+        ArrayList<String> cats = new ArrayList<String>();
+        for (String rck : ResearchCategories.researchCategories.keySet()) {
+            ResearchCategory rc = ResearchCategories.getResearchCategory(rck);
+            if (rc == null || isCategoryBlocked(rck)) continue;
+            if (rc.researchKey == null || ThaumcraftCapabilities.knowsResearchStrict(player, rc.researchKey)) {
+                cats.add(rck);
+            }
+        }
+        return cats;
     }
 
     public static int getAvailableInspiration(Player player) {
