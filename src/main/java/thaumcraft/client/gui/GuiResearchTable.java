@@ -445,7 +445,9 @@ public class GuiResearchTable extends AbstractContainerScreen<ContainerResearchT
         if (r.nextBoolean()) {
             pPoseStack.mulPose(Vector3f.YP.rotationDegrees(180.0f));
         }
-        UtilsFX.drawTexturedQuadFull(pPoseStack, -8.0f, -8.0f, 0.0);
+        RenderSystem.disableCull();
+        blit(pPoseStack, -8, -8, 0, 0, 16, 16, 16, 16);
+        RenderSystem.enableCull();
         pPoseStack.popPose();
 
         if (cardChoice != null && alpha == 1.0f) {
