@@ -18,7 +18,7 @@ public class PacketStartTheoryToServer {
     private Set<String> aids;
 
     public PacketStartTheoryToServer() {
-        aids = new HashSet<String>();
+        aids = new HashSet<>();
     }
 
     public PacketStartTheoryToServer(BlockPos pos, Set<String> aids) {
@@ -28,6 +28,7 @@ public class PacketStartTheoryToServer {
     }
 
     public PacketStartTheoryToServer(FriendlyByteBuf buffer) {
+        aids = new HashSet<>();
         pos = buffer.readLong();
         for (int s = buffer.readByte(), a = 0; a < s; ++a) {
             aids.add(buffer.readUtf());
