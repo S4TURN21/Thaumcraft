@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.items.IScribeTools;
 import thaumcraft.client.lib.UtilsFX;
 import thaumcraft.client.renderers.models.block.ModelResearchTable;
@@ -44,7 +45,9 @@ public class BlockEntityResearchTableRenderer implements BlockEntityRenderer<Blo
         }
 
         VertexConsumer vertexconsumer = pBufferSource.getBuffer(RenderType.entityTranslucentCull(TEX));
-
+        if (table.data != null) {
+            tableModel.renderScroll(pPoseStack, vertexconsumer, pPackedLight, pPackedOverlay, Aspect.ALCHEMY.getColor());
+        }
         if (!table.getSyncedStackInSlot(0).isEmpty() && table.getSyncedStackInSlot(0).getItem() instanceof IScribeTools) {
             tableModel.renderInkwell(pPoseStack, vertexconsumer, pPackedLight, pPackedOverlay);
             pPoseStack.pushPose();
