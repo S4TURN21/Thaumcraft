@@ -4,11 +4,14 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.FormattedText;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -464,7 +467,7 @@ public class GuiResearchTable extends AbstractContainerScreen<ContainerResearchT
             String name = ChatFormatting.BOLD + cardChoice.card.getLocalizedName() + ChatFormatting.RESET;
             int sz = font.width(name);
             font.draw(pPoseStack, name, -sz / 2, -65, 0);
-            font.drawWordWrap(Component.literal(cardChoice.card.getLocalizedText()), -70, -48, 140, 0);
+            drawSplitString(pPoseStack, font, Component.literal(cardChoice.card.getLocalizedText()), -70, -48, 140, 0);
             pPoseStack.popPose();
 
             pPoseStack.pushPose();
@@ -689,5 +692,12 @@ public class GuiResearchTable extends AbstractContainerScreen<ContainerResearchT
 
     private void playButtonWrite() {
         minecraft.getCameraEntity().playSound(SoundsTC.write, 0.3f, 1.0f);
+    }
+
+    private void drawSplitString(PoseStack pPoseStack, Font font, FormattedText pText, int pX, int pY, int pMaxWidth, int pColor) {
+        for (FormattedCharSequence formattedcharsequence : font.split(pText, pMaxWidth)) {
+            font.draw(pPoseStack, formattedcharsequence, (float) pX, (float) pY, pColor);
+            pY += 9;
+        }
     }
 }
