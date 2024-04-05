@@ -83,7 +83,7 @@ public class BlockEntityResearchTable extends BlockEntityThaumcraftInventory imp
                             }
                             ItemStack is = state.getBlock().getCloneItemStack(getLevel(), getBlockPos().offset(x, y, z), state);
 
-                            if (is == null || is.isEmpty() || !ItemStack.isSameIgnoreDurability(is, (ItemStack)mu.getAidObject())) {
+                            if (is == null || is.isEmpty() || !ItemStack.isSameIgnoreDurability(is, (ItemStack) mu.getAidObject())) {
                                 continue;
                             }
                             mutators.put(muk, mu);
@@ -104,6 +104,16 @@ public class BlockEntityResearchTable extends BlockEntityThaumcraftInventory imp
             }
         }
         return mutators.keySet();
+    }
+
+    public boolean consumepaperFromTable() {
+        if (getItem(1).getItem() == Items.PAPER && getItem(1).getCount() > 0) {
+            removeItem(1, 1);
+            syncTile(false);
+            setChanged();
+            return true;
+        }
+        return false;
     }
 
     @Override
