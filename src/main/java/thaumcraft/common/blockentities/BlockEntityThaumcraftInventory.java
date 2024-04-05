@@ -25,11 +25,12 @@ public class BlockEntityThaumcraftInventory extends BlockEntityThaumcraft implem
 
     public BlockEntityThaumcraftInventory(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState, int size) {
         super(pType, pPos, pBlockState);
-
-        stacks = NonNullList.withSize(size, ItemStack.EMPTY);
+        stacks = NonNullList.withSize(1, ItemStack.EMPTY);
         syncedSlots = new int[0];
-        syncedStacks = NonNullList.withSize(size, ItemStack.EMPTY);
+        syncedStacks = NonNullList.withSize(1, ItemStack.EMPTY);
         initial = true;
+        stacks = NonNullList.withSize(size, ItemStack.EMPTY);
+        syncedStacks = NonNullList.withSize(size, ItemStack.EMPTY);
         faceSlots = new int[size];
         for (int a = 0; a < size; ++a) {
             faceSlots[a] = a;
@@ -111,6 +112,7 @@ public class BlockEntityThaumcraftInventory extends BlockEntityThaumcraft implem
             for (int i = 0; i < stacks.size(); ++i) {
                 if (!stacks.get(i).isEmpty() && isSyncedSlot(i)) {
                     CompoundTag nbttagcompound1 = stacks.get(i).serializeNBT();
+                    nbttagcompound1.putByte("Slot", (byte) i);
                     nbttaglist.add(nbttagcompound1);
                 }
             }
