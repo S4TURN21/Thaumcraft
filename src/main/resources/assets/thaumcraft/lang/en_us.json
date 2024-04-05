@@ -33,6 +33,8 @@
   "block.researchtable.nopaper.0": "You have run out of paper!",
   "card.study.name": "Study %1$s",
   "card.study.text": "A large part of research is simply hitting the books and putting in the work. You study %1$s and gain 15 to 25 progress.",
+  "card.reject.name": "Reject %1$s findings",
+  "card.reject.text": "You come to the realization that %1$s is not vital to your current research. You will not gain any more progress in %1$s, or draw any cards related to that category, but your current progress will remain.",
   "wandtable.text1": "Vis Cost",
   "itemGroup.thaumcraft": "Thaumcraft",
   "got.crystals": "Your fingers tingle strangely as you handle the crystal. What does that mean? Maybe some rest will inspire you.",

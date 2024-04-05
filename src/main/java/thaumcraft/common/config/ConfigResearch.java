@@ -43,5 +43,6 @@ public class ConfigResearch {
 
     private static void initTheorycraft() {
         TheorycraftManager.registerCard(CardStudy.class);
+        TheorycraftManager.registerCard(CardReject.class);
     }
 }
