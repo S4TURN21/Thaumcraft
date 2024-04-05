@@ -106,6 +106,16 @@ public class BlockEntityResearchTable extends BlockEntityThaumcraftInventory imp
         return mutators.keySet();
     }
 
+    public boolean consumeInkFromTable() {
+        if (getItem(0).getItem() instanceof IScribeTools && getItem(0).getDamageValue() < getItem(0).getMaxDamage()) {
+            getItem(0).setDamageValue(getItem(0).getDamageValue() + 1);
+            syncTile(false);
+            setChanged();
+            return true;
+        }
+        return false;
+    }
+
     public boolean consumepaperFromTable() {
         if (getItem(1).getItem() == Items.PAPER && getItem(1).getCount() > 0) {
             removeItem(1, 1);
