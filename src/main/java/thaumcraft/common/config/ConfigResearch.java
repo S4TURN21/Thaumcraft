@@ -6,6 +6,7 @@ import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchCategories;
 import thaumcraft.api.research.ScanningManager;
+import thaumcraft.api.research.theorycraft.*;
 import thaumcraft.common.lib.research.ResearchManager;
 import thaumcraft.common.lib.research.ScanGeneric;
 
@@ -20,6 +21,7 @@ public class ConfigResearch {
     public static void init() {
         initCategories();
         initScannables();
+        initTheorycraft();
         for (String cat : ConfigResearch.TCCategories) {
             ThaumcraftApi.registerResearchLocation(new ResourceLocation("thaumcraft", "research/" + cat.toLowerCase()));
         }
@@ -34,7 +36,12 @@ public class ConfigResearch {
         ResearchCategories.registerCategory("GOLEMANCY", "UNLOCKGOLEMANCY", new AspectList().add(Aspect.MAN, 20).add(Aspect.MOTION, 10).add(Aspect.MIND, 10).add(Aspect.MECHANISM, 10).add(Aspect.EXCHANGE, 5).add(Aspect.SENSES, 5).add(Aspect.BEAST, 5).add(Aspect.ORDER, 5), new ResourceLocation("thaumcraft", "textures/research/cat_golemancy.png"), new ResourceLocation("thaumcraft", "textures/gui/gui_research_back_5.jpg"), ConfigResearch.BACK_OVER);
         ResearchCategories.registerCategory("ELDRITCH", "UNLOCKELDRITCH", new AspectList().add(Aspect.ELDRITCH, 20).add(Aspect.DARKNESS, 10).add(Aspect.MAGIC, 5).add(Aspect.MIND, 5).add(Aspect.VOID, 5).add(Aspect.DEATH, 5).add(Aspect.UNDEAD, 5).add(Aspect.ENTROPY, 5), new ResourceLocation("thaumcraft", "textures/research/cat_eldritch.png"), new ResourceLocation("thaumcraft", "textures/gui/gui_research_back_6.jpg"), ConfigResearch.BACK_OVER);
     }
+
     private static void initScannables() {
         ScanningManager.addScannableThing(new ScanGeneric());
+    }
+
+    private static void initTheorycraft() {
+        TheorycraftManager.registerCard(CardStudy.class);
     }
 }

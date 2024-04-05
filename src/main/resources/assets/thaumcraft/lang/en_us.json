@@ -31,6 +31,8 @@
   "block.researchtable.noink.0": "You have run out of ink!",
   "block.researchtable.noink.1": "Refill your scribing tools.",
   "block.researchtable.nopaper.0": "You have run out of paper!",
+  "card.study.name": "Study %1$s",
+  "card.study.text": "A large part of research is simply hitting the books and putting in the work. You study %1$s and gain 15 to 25 progress.",
   "wandtable.text1": "Vis Cost",
   "itemGroup.thaumcraft": "Thaumcraft",
   "got.crystals": "Your fingers tingle strangely as you handle the crystal. What does that mean? Maybe some rest will inspire you.",
