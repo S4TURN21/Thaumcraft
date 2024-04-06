@@ -341,6 +341,7 @@ public class GuiResearchTable extends AbstractContainerScreen<ContainerResearchT
                 pPoseStack.pushPose();
                 pPoseStack.translate((float) (xx + 253), (float) (yy + 16 + i * 18 + ((i > 0) ? 4 : 0)), 0.0f);
                 pPoseStack.scale(0.0625f, 0.0625f, 0.0625f);
+                RenderSystem.enableBlend();
                 RenderSystem.setShaderTexture(0, ResearchCategories.getResearchCategory(field).icon);
                 blit(pPoseStack, 0, 0, 0, 0, 255, 255);
                 pPoseStack.popPose();
