@@ -62,6 +62,10 @@ public class ResearchTableData {
         return inspiration <= 0;
     }
 
+    public boolean hasTotal(String cat) {
+        return categoryTotals.containsKey(cat);
+    }
+
     public int getTotal(String cat) {
         return categoryTotals.containsKey(cat) ? categoryTotals.get(cat) : 0;
     }
