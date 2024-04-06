@@ -398,8 +398,8 @@ public class GuiResearchPage extends Screen {
                         this.blit(pPoseStack, x - 15 + shift + 8, y, 159, 207, 10, 10);
                         RenderSystem.enableDepthTest();
                     }
+                    shift += ss2;
                 }
-                shift += ss2;
             }
         }
         if (stage.getKnow() != null) {
