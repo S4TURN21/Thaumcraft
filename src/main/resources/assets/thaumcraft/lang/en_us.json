@@ -37,6 +37,8 @@
   "card.reject.text": "You come to the realization that %1$s is not vital to your current research. You will not gain any more progress in %1$s, or draw any cards related to that category, but your current progress will remain.",
   "card.experimentation.name": "Experimentation",
   "card.experimentation.text": "You perform some random experiments to see if something can be discovered. Gain 15 to 30 progress in a completely random category.",
+  "card.analyze.name": "Analyze %1$s",
+  "card.analyze.text": "By thoroughly analyzing observations you have made about %1$s you might be able to put together a theory based on the collected data. Lose 1 %1$s observation to gain 25 to 50 %1$s progress and 5 %2$s progress.",
   "wandtable.text1": "Vis Cost",
   "itemGroup.thaumcraft": "Thaumcraft",
   "got.crystals": "Your fingers tingle strangely as you handle the crystal. What does that mean? Maybe some rest will inspire you.",
