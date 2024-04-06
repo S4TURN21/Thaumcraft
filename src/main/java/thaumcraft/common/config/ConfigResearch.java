@@ -42,6 +42,7 @@ public class ConfigResearch {
     }
 
     private static void initTheorycraft() {
+        TheorycraftManager.registerAid(new AidBookshelf());
         TheorycraftManager.registerCard(CardStudy.class);
         TheorycraftManager.registerCard(CardAnalyze.class);
         TheorycraftManager.registerCard(CardBalance.class);
