@@ -43,6 +43,8 @@
   "card.rethink.text": "You take a step back and reassess your findings. You get rid of invalid conclusions and proceed with fresh understanding. Lose 10 progress divided evenly between all current categories, but you regain 1 inspiration and gain a bonus draw.",
   "card.ponder.name": "Ponder",
   "card.ponder.text": "You carefully consider all you have learned so far. Gain 25 progress divided evenly between all current active categories and a bonus draw.",
+  "card.notation.name": "Notation",
+  "card.notation.text": "While making notes of your discoveries thus far you find some errors and correct them. You lose all your progress in %1$s, but most of the lost progress is added to %2$s.",
   "wandtable.text1": "Vis Cost",
   "itemGroup.thaumcraft": "Thaumcraft",
   "got.crystals": "Your fingers tingle strangely as you handle the crystal. What does that mean? Maybe some rest will inspire you.",

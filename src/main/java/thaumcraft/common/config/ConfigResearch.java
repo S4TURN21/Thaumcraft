@@ -44,6 +44,7 @@ public class ConfigResearch {
     private static void initTheorycraft() {
         TheorycraftManager.registerCard(CardStudy.class);
         TheorycraftManager.registerCard(CardAnalyze.class);
+        TheorycraftManager.registerCard(CardNotation.class);
         TheorycraftManager.registerCard(CardPonder.class);
         TheorycraftManager.registerCard(CardRethink.class);
         TheorycraftManager.registerCard(CardReject.class);
