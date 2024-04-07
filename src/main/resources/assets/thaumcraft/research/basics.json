@@ -45,11 +45,11 @@
                 {
                     "text": "research.THEORYRESEARCH.stage.1",                     
                     "required_craft":["thaumcraft:scribing_tools","thaumcraft:research_table"], 
-                    "recipes": ["thaumcraft:tablewood","thaumcraft:inkwell"]
+                    "recipes": ["thaumcraft:table_wood","thaumcraft:inkwell"]
                 },
                 {
                     "text": "research.THEORYRESEARCH.stage.2", 
-                    "recipes": ["thaumcraft:tablewood","thaumcraft:inkwell"]
+                    "recipes": ["thaumcraft:table_wood","thaumcraft:inkwell"]
                 }
             ]
         },

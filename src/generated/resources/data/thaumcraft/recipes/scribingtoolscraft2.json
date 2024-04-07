@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "group": "inkwell",
+  "group": "thaumcraft:inkwell",
   "ingredients": [
     {
-      "item": "thaumcraft:phial"
+      "item": "minecraft:glass_bottle"
     },
     {
       "item": "minecraft:feather"

@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "tag": "forge:dyes/black"
+            "items": [
+              "thaumcraft:scribing_tools"
+            ]
           }
         ]
       },
@@ -13,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:scribingtoolscraft1"
+        "recipe": "thaumcraft:scribingtoolsrefill"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:scribingtoolscraft1"
+      "thaumcraft:scribingtoolsrefill"
     ]
   }
 }

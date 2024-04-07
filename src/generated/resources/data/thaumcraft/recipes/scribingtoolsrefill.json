@@ -1,12 +1,9 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "group": "inkwell",
+  "group": "thaumcraft:inkwell",
   "ingredients": [
     {
-      "item": "minecraft:glass_bottle"
-    },
-    {
-      "item": "minecraft:feather"
+      "item": "thaumcraft:scribing_tools"
     },
     {
       "tag": "forge:dyes/black"

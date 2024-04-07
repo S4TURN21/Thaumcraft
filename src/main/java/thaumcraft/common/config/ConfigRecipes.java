@@ -65,10 +65,10 @@ public class ConfigRecipes extends RecipeProvider {
         ShapedRecipeBuilder.shaped(BlocksTC.stoneArcaneBrick, 4).group(ConfigRecipes.defaultGroup).pattern("KK").pattern("KK").define('K', BlocksTC.stoneArcane).unlockedBy("has_stone_arcane", has(BlocksTC.stoneArcane)).save(pFinishedRecipeConsumer);
         ShapedRecipeBuilder.shaped(ItemsTC.phial, 8).group(ConfigRecipes.defaultGroup).pattern(" C ").pattern("G G").pattern(" G ").define('G', Blocks.GLASS).define('C', Items.CLAY_BALL).unlockedBy("has_glass", has(Blocks.GLASS)).unlockedBy("has_clay", has(Items.CLAY)).save(pFinishedRecipeConsumer);
         ShapedRecipeBuilder.shaped(BlocksTC.tableWood).group(ConfigRecipes.defaultGroup).pattern("SSS").pattern("W W").define('S', ItemTags.WOODEN_SLABS).define('W', ItemTags.PLANKS).unlockedBy("has_table_wood", has(BlocksTC.tableWood)).save(pFinishedRecipeConsumer);
-        String inkwellGroup = "inkwell";
-        ShapelessRecipeBuilder.shapeless(ItemsTC.scribingTools).group(inkwellGroup).requires(ItemsTC.phial).requires(Items.FEATHER).requires(Tags.Items.DYES_BLACK).unlockedBy("has_dye", has(Tags.Items.DYES_BLACK)).save(pFinishedRecipeConsumer, "scribingtoolscraft1");
-        ShapelessRecipeBuilder.shapeless(ItemsTC.scribingTools).group(inkwellGroup).requires(Items.GLASS_BOTTLE).requires(Items.FEATHER).requires(Tags.Items.DYES_BLACK).unlockedBy("has_dye", has(Tags.Items.DYES_BLACK)).save(pFinishedRecipeConsumer, "scribingtoolscraft2");
-        ShapelessRecipeBuilder.shapeless(ItemsTC.scribingTools).group(inkwellGroup).requires(ItemsTC.scribingTools).requires(Tags.Items.DYES_BLACK).unlockedBy("has_dye", has(ItemsTC.scribingTools)).save(pFinishedRecipeConsumer, "scribingtoolsrefill");
+        String inkwellGroup = "thaumcraft:inkwell";
+        ShapelessRecipeBuilder.shapeless(ItemsTC.scribingTools).group(inkwellGroup).requires(ItemsTC.phial).requires(Items.FEATHER).requires(Tags.Items.DYES_BLACK).unlockedBy("has_dye", has(Tags.Items.DYES_BLACK)).save(pFinishedRecipeConsumer, "thaumcraft:scribingtoolscraft1");
+        ShapelessRecipeBuilder.shapeless(ItemsTC.scribingTools).group(inkwellGroup).requires(Items.GLASS_BOTTLE).requires(Items.FEATHER).requires(Tags.Items.DYES_BLACK).unlockedBy("has_dye", has(Tags.Items.DYES_BLACK)).save(pFinishedRecipeConsumer, "thaumcraft:scribingtoolscraft2");
+        ShapelessRecipeBuilder.shapeless(ItemsTC.scribingTools).group(inkwellGroup).requires(ItemsTC.scribingTools).requires(Tags.Items.DYES_BLACK).unlockedBy("has_dye", has(ItemsTC.scribingTools)).save(pFinishedRecipeConsumer, "thaumcraft:scribingtoolsrefill");
     }
 
     public static void compileGroups(Level level) {
