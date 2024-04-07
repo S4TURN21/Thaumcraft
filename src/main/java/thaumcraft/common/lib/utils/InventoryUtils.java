@@ -15,6 +15,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import thaumcraft.api.ThaumcraftInvHelper;
 import thaumcraft.api.items.ItemsTC;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -141,7 +142,6 @@ public class InventoryUtils {
     public static ItemStack cycleItemStack(Object input, int counter) {
         ItemStack it = ItemStack.EMPTY;
         if (input instanceof Ingredient) {
-            boolean b = !((Ingredient) input).isSimple() && !(input instanceof PartialNBTIngredient);
             NonNullList<ItemStack> lst = NonNullList.create();
             for (ItemStack s : ((Ingredient) input).getItems()) {
                 if (s.isEmpty())
@@ -153,11 +153,12 @@ public class InventoryUtils {
                 }
             }
             input = getMatchingStacks((Ingredient) input);
+            boolean b = Arrays.stream((ItemStack[]) input).anyMatch(ItemStack::isDamageableItem) && !(input instanceof PartialNBTIngredient);
             if (b) {
                 ItemStack[] q = (ItemStack[]) input;
                 ItemStack[] r = new ItemStack[q.length];
                 for (int a = 0; a < q.length; ++a) {
-                    (r[a] = q[a].copy()).setDamageValue(r[a].getMaxDamage());
+                    (r[a] = q[a].copy()).setDamageValue(Short.MAX_VALUE);
                 }
                 input = r;
             }
@@ -175,6 +176,7 @@ public class InventoryUtils {
                 int md = (int) ((counter + System.currentTimeMillis() / q3) % it.getMaxDamage());
                 ItemStack it2 = new ItemStack(it.getItem(), 1);
                 it2.setTag(it.getTag());
+                it2.setDamageValue(md);
                 it = it2;
             }
         } else if (input instanceof List) {
