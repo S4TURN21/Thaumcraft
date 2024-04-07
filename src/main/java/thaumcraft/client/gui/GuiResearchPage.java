@@ -873,6 +873,33 @@ public class GuiResearchPage extends Screen {
         }
     }
 
+    private void nextPage() {
+        if (page < maxPages - 2) {
+            page += 2;
+            lastCycle = 0L;
+            cycle = -1;
+            Minecraft.getInstance().player.playSound(SoundsTC.page, 0.66f, 1.0f);
+        }
+    }
+
+    private void prevPage() {
+        if (page >= 2) {
+            page -= 2;
+            lastCycle = 0L;
+            cycle = -1;
+            Minecraft.getInstance().player.playSound(SoundsTC.page, 0.66f, 1.0f);
+        }
+    }
+
+    private void goBack() {
+        if (!GuiResearchPage.history.isEmpty()) {
+            Minecraft.getInstance().player.playSound(SoundsTC.page, 0.66f, 1.0f);
+            GuiResearchPage.shownRecipe = GuiResearchPage.history.pop();
+        } else {
+            GuiResearchPage.shownRecipe = null;
+        }
+    }
+
     @Override
     public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
         int centerX = (width - paneWidth) / 2;
@@ -945,6 +972,21 @@ public class GuiResearchPage extends Screen {
         if (hasRecipePages && recipePage > 0 && mx >= 0 && my >= 0 && mx < 14 && my < 14) {
             --recipePage;
             Minecraft.getInstance().player.playSound(SoundsTC.page, 0.7f, 0.9f);
+        }
+        mx = pMouseX - (centerX + 261);
+        my = pMouseY - (centerY + 189);
+        if (GuiResearchPage.shownRecipe == null && mx >= 0 && my >= 0 && mx < 14 && my < 10) {
+            nextPage();
+        }
+        mx = pMouseX - (centerX - 17);
+        my = pMouseY - (centerY + 189);
+        if (GuiResearchPage.shownRecipe == null && mx >= 0 && my >= 0 && mx < 14 && my < 10) {
+            prevPage();
+        }
+        mx = pMouseX - (centerX + 118);
+        my = pMouseY - (centerY + 190);
+        if (mx >= 0 && my >= 0 && mx < 20 && my < 12) {
+            goBack();
         }
         if (reference.size() > 0) {
             for (List coords : reference) {
