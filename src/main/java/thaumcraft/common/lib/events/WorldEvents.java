@@ -5,13 +5,22 @@ import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import thaumcraft.common.config.ConfigAspects;
+import thaumcraft.common.config.ConfigRecipes;
 import thaumcraft.common.world.aura.AuraHandler;
 
 @Mod.EventBusSubscriber
 public class WorldEvents {
+    private static boolean loaded;
+
     @SubscribeEvent
     public static void worldLoad(LevelEvent.Load event) {
-        ConfigAspects.postInit();
+        if (!loaded) {
+            ConfigAspects.postInit();
+            ConfigRecipes.compileGroups((Level) event.getLevel());
+
+            loaded = true;
+        }
+
         if (event.getLevel() instanceof Level level) {
             if (!level.isClientSide) {
                 AuraHandler.addAuraWorld(level.dimension());

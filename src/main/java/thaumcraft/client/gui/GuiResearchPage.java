@@ -563,6 +563,9 @@ public class GuiResearchPage extends Screen {
             }
         }
         if (recipe == null) {
+            recipe = ConfigRecipes.recipeGroups.get(rk.toString());
+        }
+        if (recipe == null) {
             return;
         }
         if (recipe instanceof ArrayList) {

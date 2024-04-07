@@ -10,8 +10,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 import thaumcraft.api.ThaumcraftApi;
@@ -19,7 +22,9 @@ import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.blocks.BlocksTC;
 import thaumcraft.api.crafting.IDustTrigger;
+import thaumcraft.api.crafting.IThaumcraftRecipe;
 import thaumcraft.api.crafting.ShapedArcaneRecipeBuilder;
+import thaumcraft.api.internal.CommonInternals;
 import thaumcraft.api.items.ItemsTC;
 import thaumcraft.common.lib.crafting.DustTriggerOre;
 import thaumcraft.common.lib.crafting.DustTriggerSimple;
@@ -64,5 +69,63 @@ public class ConfigRecipes extends RecipeProvider {
         ShapelessRecipeBuilder.shapeless(ItemsTC.scribingTools).group(inkwellGroup).requires(ItemsTC.phial).requires(Items.FEATHER).requires(Tags.Items.DYES_BLACK).unlockedBy("has_dye", has(Tags.Items.DYES_BLACK)).save(pFinishedRecipeConsumer, "scribingtoolscraft1");
         ShapelessRecipeBuilder.shapeless(ItemsTC.scribingTools).group(inkwellGroup).requires(Items.GLASS_BOTTLE).requires(Items.FEATHER).requires(Tags.Items.DYES_BLACK).unlockedBy("has_dye", has(Tags.Items.DYES_BLACK)).save(pFinishedRecipeConsumer, "scribingtoolscraft2");
         ShapelessRecipeBuilder.shapeless(ItemsTC.scribingTools).group(inkwellGroup).requires(ItemsTC.scribingTools).requires(Tags.Items.DYES_BLACK).unlockedBy("has_dye", has(ItemsTC.scribingTools)).save(pFinishedRecipeConsumer, "scribingtoolsrefill");
+    }
+
+    public static void compileGroups(Level level) {
+        for (Recipe<?> recipe : level.getRecipeManager().getRecipes()) {
+            if (recipe != null) {
+                String group = recipe.getGroup();
+                if (group.trim().isEmpty()) {
+                    continue;
+                }
+                if (recipe.getId().getNamespace().equals("minecraft")) {
+                    continue;
+                }
+                if (!ConfigRecipes.recipeGroups.containsKey(group)) {
+                    ConfigRecipes.recipeGroups.put(group, new ArrayList<>());
+                }
+                ArrayList<ResourceLocation> list = ConfigRecipes.recipeGroups.get(group);
+                list.add(recipe.getId());
+            }
+        }
+        for (ResourceLocation reg : CommonInternals.craftingRecipeCatalog.keySet()) {
+            IThaumcraftRecipe recipe2 = CommonInternals.craftingRecipeCatalog.get(reg);
+            if (recipe2 != null) {
+                String group = recipe2.getGroup();
+                if (group == null) {
+                    continue;
+                }
+                if (group.trim().isEmpty()) {
+                    continue;
+                }
+                if (!ConfigRecipes.recipeGroups.containsKey(group)) {
+                    ConfigRecipes.recipeGroups.put(group, new ArrayList<>());
+                }
+                ArrayList<ResourceLocation> list = ConfigRecipes.recipeGroups.get(group);
+                list.add(reg);
+            }
+        }
+        for (ResourceLocation reg : CommonInternals.craftingRecipeCatalogFake.keySet()) {
+            Object recipe3 = CommonInternals.craftingRecipeCatalogFake.get(reg);
+            if (recipe3 != null) {
+                String group = "";
+                if (recipe3 instanceof CraftingRecipe) {
+                    group = ((CraftingRecipe) recipe3).getGroup();
+                } else if (recipe3 instanceof IThaumcraftRecipe) {
+                    group = ((IThaumcraftRecipe) recipe3).getGroup();
+                }
+                if (group == null) {
+                    continue;
+                }
+                if (group.trim().isEmpty()) {
+                    continue;
+                }
+                if (!ConfigRecipes.recipeGroups.containsKey(group)) {
+                    ConfigRecipes.recipeGroups.put(group, new ArrayList<ResourceLocation>());
+                }
+                ArrayList<ResourceLocation> list = ConfigRecipes.recipeGroups.get(group);
+                list.add(reg);
+            }
+        }
     }
 }
