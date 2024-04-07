@@ -26,7 +26,34 @@
     </thead>
     <tbody>
     <tr>
-        <td rowspan="5">
+        <td rowspan="4">
+            <strong>Core</strong>
+        </td>
+        <td>Aspects</td>
+        <td align="center">🟡</td>
+        <td align="center">❌</td>
+        <td align="center">❌</td>
+    </tr>
+    <tr>
+        <td>Research</td>
+        <td align="center">🟡</td>
+        <td align="center">❌</td>
+        <td align="center">❌</td>
+    </tr>
+    <tr>
+        <td>Theory</td>
+        <td align="center">🟡</td>
+        <td align="center">❌</td>
+        <td align="center">❌</td>
+    </tr>
+    <tr>
+        <td>Aura</td>
+        <td align="center">🟡</td>
+        <td align="center">❌</td>
+        <td align="center">❌</td>
+    </tr>
+    <tr>
+        <td rowspan="6">
             <strong>Blocks</strong>
         </td>
         <td>Crystal Block</td>
@@ -54,6 +81,12 @@
     </tr>
     <tr>
         <td>Wood Table</td>
+        <td align="center">🟡</td>
+        <td align="center">❌</td>
+        <td align="center">❌</td>
+    </tr>
+    <tr>
+        <td>Research Table</td>
         <td align="center">🟡</td>
         <td align="center">❌</td>
         <td align="center">❌</td>
