@@ -934,6 +934,18 @@ public class GuiResearchPage extends Screen {
                 ++aa;
             }
         }
+        mx = pMouseX - (centerX + 205);
+        my = pMouseY - (centerY + 192);
+        if (hasRecipePages && recipePage < recipePageMax && mx >= 0 && my >= 0 && mx < 14 && my < 14) {
+            ++recipePage;
+            Minecraft.getInstance().player.playSound(SoundsTC.page, 0.7f, 0.9f);
+        }
+        mx = pMouseX - (centerX + 38);
+        my = pMouseY - (centerY + 192);
+        if (hasRecipePages && recipePage > 0 && mx >= 0 && my >= 0 && mx < 14 && my < 14) {
+            --recipePage;
+            Minecraft.getInstance().player.playSound(SoundsTC.page, 0.7f, 0.9f);
+        }
         if (reference.size() > 0) {
             for (List coords : reference) {
                 if (pMouseX >= (int) coords.get(0) && pMouseY >= (int) coords.get(1) && pMouseX < (int) coords.get(0) + 16 && pMouseY < (int) coords.get(1) + 16) {
