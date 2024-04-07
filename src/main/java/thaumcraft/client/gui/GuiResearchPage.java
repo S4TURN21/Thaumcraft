@@ -424,6 +424,7 @@ public class GuiResearchPage extends Screen {
                 for (int idx2 = 0; idx2 < stage.getKnow().length; ++idx2) {
                     ResearchStage.Knowledge kn = stage.getKnow()[idx2];
                     RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+                    RenderSystem.enableBlend();
                     pPoseStack.pushPose();
                     RenderSystem.setShaderTexture(0, HudHandler.KNOW_TYPE[kn.type.ordinal()]);
                     pPoseStack.translate((float) (x - 15 + shift), (float) y, 0.0f);
@@ -449,6 +450,7 @@ public class GuiResearchPage extends Screen {
                         pPoseStack.pushPose();
                         pPoseStack.translate(0.0f, 0.0f, 1.0f);
                         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+                        RenderSystem.enableBlend();
                         RenderSystem.setShaderTexture(0, tex1);
                         blit(pPoseStack, x - 15 + shift + 8, y, 159, 207, 10, 10);
                         pPoseStack.popPose();
