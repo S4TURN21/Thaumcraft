@@ -9,6 +9,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.GameNarrator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
@@ -1004,15 +1005,17 @@ public class GuiResearchPage extends Screen {
         pPoseStack.pushPose();
         float var7 = 0.00390625f;
         float var8 = 0.00390625f;
-        BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
         pPoseStack.translate(pX + pUWidth / 2.0f, pY + pVHeight / 2.0f, 0.0f);
         pPoseStack.scale(1.0f + scale, 1.0f + scale, 1.0f);
-        bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-        bufferbuilder.vertex(-pUWidth / 2.0f, pVHeight / 2.0f, this.getBlitOffset()).uv((int) ((pUOffset + 0) * var7), (int) ((pVOffset + pVHeight) * var8)).endVertex();
-        bufferbuilder.vertex(pUWidth / 2.0f, pVHeight / 2.0f, this.getBlitOffset()).uv((int) ((pUOffset + pUWidth) * var7), (int) ((pVOffset + pVHeight) * var8)).endVertex();
-        bufferbuilder.vertex(pUWidth / 2.0f, -pVHeight / 2.0f, this.getBlitOffset()).uv((int) ((pUOffset + pUWidth) * var7), (int) ((pVOffset + 0) * var8)).endVertex();
-        bufferbuilder.vertex(-pUWidth / 2.0f, -pVHeight / 2.0f, this.getBlitOffset()).uv((int) ((pUOffset + 0) * var7), (int) ((pVOffset + 0) * var8)).endVertex();
-        BufferUploader.drawWithShader(bufferbuilder.end());
+        var matrix = pPoseStack.last().pose();
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        BufferBuilder builder = Tesselator.getInstance().getBuilder();
+        builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        builder.vertex(matrix, -pUWidth / 2.0f, pVHeight / 2.0f, getBlitOffset()).uv((pUOffset + 0) * var7, (pVOffset + pVHeight) * var8).endVertex();
+        builder.vertex(matrix, pUWidth / 2.0f, pVHeight / 2.0f, getBlitOffset()).uv((pUOffset + pUWidth) * var7, (pVOffset + pVHeight) * var8).endVertex();
+        builder.vertex(matrix, pUWidth / 2.0f, -pVHeight / 2.0f, getBlitOffset()).uv((pUOffset + pUWidth) * var7, (pVOffset + 0) * var8).endVertex();
+        builder.vertex(matrix, -pUWidth / 2.0f, -pVHeight / 2.0f, getBlitOffset()).uv((pUOffset + 0) * var7, (pVOffset + 0) * var8).endVertex();
+        BufferUploader.drawWithShader(builder.end());
         pPoseStack.popPose();
     }
 
