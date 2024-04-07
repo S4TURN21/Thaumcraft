@@ -1006,9 +1006,9 @@ public class GuiResearchPage extends Screen {
         pPoseStack.scale(1.0f + scale, 1.0f + scale, 1.0f);
         bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
         bufferbuilder.vertex(-pUWidth / 2.0f, pVHeight / 2.0f, this.getBlitOffset()).uv((int) ((pUOffset + 0) * var7), (int) ((pVOffset + pVHeight) * var8)).endVertex();
-        bufferbuilder.vertex(pUWidth / 2.0f, pVHeight / 2.0f, this.getBlitOffset()).uv2((int) ((pUOffset + pUWidth) * var7), (int) ((pVOffset + pVHeight) * var8)).endVertex();
-        bufferbuilder.vertex(pUWidth / 2.0f, -pVHeight / 2.0f, this.getBlitOffset()).uv2((int) ((pUOffset + pUWidth) * var7), (int) ((pVOffset + 0) * var8)).endVertex();
-        bufferbuilder.vertex(-pUWidth / 2.0f, -pVHeight / 2.0f, this.getBlitOffset()).uv2((int) ((pUOffset + 0) * var7), (int) ((pVOffset + 0) * var8)).endVertex();
+        bufferbuilder.vertex(pUWidth / 2.0f, pVHeight / 2.0f, this.getBlitOffset()).uv((int) ((pUOffset + pUWidth) * var7), (int) ((pVOffset + pVHeight) * var8)).endVertex();
+        bufferbuilder.vertex(pUWidth / 2.0f, -pVHeight / 2.0f, this.getBlitOffset()).uv((int) ((pUOffset + pUWidth) * var7), (int) ((pVOffset + 0) * var8)).endVertex();
+        bufferbuilder.vertex(-pUWidth / 2.0f, -pVHeight / 2.0f, this.getBlitOffset()).uv((int) ((pUOffset + 0) * var7), (int) ((pVOffset + 0) * var8)).endVertex();
         BufferUploader.drawWithShader(bufferbuilder.end());
         pPoseStack.popPose();
     }
