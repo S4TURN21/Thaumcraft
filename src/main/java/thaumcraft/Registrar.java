@@ -6,6 +6,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
+import net.minecraft.world.item.crafting.TippedArrowRecipe;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.extensions.IForgeMenuType;
@@ -25,6 +27,7 @@ import thaumcraft.common.config.ConfigRecipes;
 import thaumcraft.common.container.ContainerResearchTable;
 import thaumcraft.common.lib.SoundsTC;
 import thaumcraft.common.lib.crafting.RecipeMagicDust;
+import thaumcraft.common.lib.crafting.RecipeScribingTools;
 import thaumcraft.common.world.biomes.BiomeHandler;
 
 @Mod.EventBusSubscriber(modid = Thaumcraft.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -61,6 +64,7 @@ public class Registrar {
         ConfigRecipes.initializeCompoundRecipes();
         event.register("salismundus", RecipeMagicDust.Serializer.INSTANCE);
         event.register("arcane_shaped", new ShapedArcaneRecipe.Serializer());
+        event.register("scribing_tools", new SimpleRecipeSerializer<>(RecipeScribingTools::new));
     }
 
     private static void registerBlocks(RegisterEvent.RegisterHelper<Block> event) {

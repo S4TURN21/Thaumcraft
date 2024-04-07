@@ -2,21 +2,16 @@ package thaumcraft.common.config;
 
 import net.minecraft.core.NonNullList;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.CraftingRecipe;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.ShapelessRecipe;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.registries.ForgeRegistries;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
@@ -28,6 +23,7 @@ import thaumcraft.api.internal.CommonInternals;
 import thaumcraft.api.items.ItemsTC;
 import thaumcraft.common.lib.crafting.DustTriggerOre;
 import thaumcraft.common.lib.crafting.DustTriggerSimple;
+import thaumcraft.common.lib.crafting.RecipeScribingTools;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,7 +62,7 @@ public class ConfigRecipes extends RecipeProvider {
         ShapedRecipeBuilder.shaped(ItemsTC.phial, 8).group(ConfigRecipes.defaultGroup).pattern(" C ").pattern("G G").pattern(" G ").define('G', Blocks.GLASS).define('C', Items.CLAY_BALL).unlockedBy("has_glass", has(Blocks.GLASS)).unlockedBy("has_clay", has(Items.CLAY)).save(pFinishedRecipeConsumer);
         ShapedRecipeBuilder.shaped(BlocksTC.tableWood).group(ConfigRecipes.defaultGroup).pattern("SSS").pattern("W W").define('S', ItemTags.WOODEN_SLABS).define('W', ItemTags.PLANKS).unlockedBy("has_table_wood", has(BlocksTC.tableWood)).save(pFinishedRecipeConsumer);
         String inkwellGroup = "thaumcraft:inkwell";
-        ShapelessRecipeBuilder.shapeless(ItemsTC.scribingTools).group(inkwellGroup).requires(ItemsTC.phial).requires(Items.FEATHER).requires(Tags.Items.DYES_BLACK).unlockedBy("has_dye", has(Tags.Items.DYES_BLACK)).save(pFinishedRecipeConsumer, "thaumcraft:scribingtoolscraft1");
+        SpecialRecipeBuilder.special((SimpleRecipeSerializer<RecipeScribingTools>) ForgeRegistries.RECIPE_SERIALIZERS.getValue(new ResourceLocation("thaumcraft","scribing_tools"))).save(pFinishedRecipeConsumer, "thaumcraft:scribingtoolscraft1");
         ShapelessRecipeBuilder.shapeless(ItemsTC.scribingTools).group(inkwellGroup).requires(Items.GLASS_BOTTLE).requires(Items.FEATHER).requires(Tags.Items.DYES_BLACK).unlockedBy("has_dye", has(Tags.Items.DYES_BLACK)).save(pFinishedRecipeConsumer, "thaumcraft:scribingtoolscraft2");
         ShapelessRecipeBuilder.shapeless(ItemsTC.scribingTools).group(inkwellGroup).requires(ItemsTC.scribingTools).requires(Tags.Items.DYES_BLACK).unlockedBy("has_dye", has(ItemsTC.scribingTools)).save(pFinishedRecipeConsumer, "thaumcraft:scribingtoolsrefill");
     }
