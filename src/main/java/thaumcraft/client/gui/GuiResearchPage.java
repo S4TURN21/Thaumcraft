@@ -1225,11 +1225,6 @@ public class GuiResearchPage extends Screen {
                 line = "";
             }
             if (line.contains("~P")) {
-                this.pages.add(page1.copy());
-                page1 = new Page();
-                line = "";
-            }
-            if (line.contains("~P")) {
                 heightRemaining = 210;
                 this.pages.add(page1.copy());
                 page1 = new Page();
