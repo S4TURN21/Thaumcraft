@@ -13,6 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PacketDistributor;
 import thaumcraft.api.capabilities.ThaumcraftCapabilities;
@@ -88,7 +89,7 @@ public class ItemThaumometer extends ItemTCBase {
 
     private void drawFX(Level worldIn, Player playerIn) {
         BlockHitResult mop = getPlayerPOVHitResult(worldIn, playerIn, ClipContext.Fluid.ANY);
-        if (mop != null && mop.getBlockPos() != null) {
+        if (mop.getType() == HitResult.Type.BLOCK) {
             for (int a2 = 0; a2 < 10; ++a2) {
                 FXDispatcher.INSTANCE.blockRunes(mop.getBlockPos().getX(), mop.getBlockPos().getY() + 0.25, mop.getBlockPos().getZ(), 0.3f + worldIn.random.nextFloat() * 0.7f, 0.0f, 0.3f + worldIn.random.nextFloat() * 0.7f, 15, 0.03f);
             }
@@ -98,9 +99,9 @@ public class ItemThaumometer extends ItemTCBase {
     public void doScan(Level worldIn, Player playerIn) {
         if (!worldIn.isClientSide) {
             BlockHitResult mop = getPlayerPOVHitResult(worldIn, playerIn, ClipContext.Fluid.ANY);
-            if (mop != null && mop.getBlockPos() != null) {
+            if (mop.getType() == HitResult.Type.BLOCK) {
                 ScanningManager.scanTheThing(playerIn, mop.getBlockPos());
-            } else {
+            } else if (mop.getType() == HitResult.Type.MISS) {
                 ScanningManager.scanTheThing(playerIn, null);
             }
         }
