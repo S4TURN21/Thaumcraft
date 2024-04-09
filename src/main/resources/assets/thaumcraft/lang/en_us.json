@@ -130,5 +130,7 @@
   "research.UNLOCKARTIFICE.title": "Discovering Artifice",
   "research.UNLOCKINFUSION.title": "Discovering Infusion",
   "research.UNLOCKALCHEMY.title": "Discovering Alchemy",
-  "research.UNLOCKGOLEMANCY.title": "Discovering Golemancy"
+  "research.UNLOCKGOLEMANCY.title": "Discovering Golemancy",
+  "research.CELESTIALSCANNING.title": "Celestial Observation",
+  "research.CELESTIALSCANNING.stage.1": "I have noticed a link between the phases of the moon and the speed at which the aura replenishes itself. I should investigate this phenomenon further and even expand my investigation to see if other heavenly bodies influence magic.<BR>A few minor tweaks to my thaumometer should enable it to take measurements from objects in the sky. I should remember to carry some paper and scribing tools with me so I can take notes.<BR>Measuring the same body or quadrant of the sky more than once a day will not give me new insights - I need to study them over time to measure changes in their aural influence.<BR>The notes I gather should come in handy for theorycrafting."
 }
