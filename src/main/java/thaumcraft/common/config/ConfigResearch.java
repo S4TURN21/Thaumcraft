@@ -9,6 +9,7 @@ import thaumcraft.api.research.ScanningManager;
 import thaumcraft.api.research.theorycraft.*;
 import thaumcraft.common.lib.research.ResearchManager;
 import thaumcraft.common.lib.research.ScanGeneric;
+import thaumcraft.common.lib.research.ScanSky;
 
 public class ConfigResearch {
     public static String[] TCCategories = new String[]{"BASICS", "ALCHEMY", "AUROMANCY", "ARTIFICE", "INFUSION", "GOLEMANCY", "ELDRITCH"};
@@ -39,6 +40,7 @@ public class ConfigResearch {
 
     private static void initScannables() {
         ScanningManager.addScannableThing(new ScanGeneric());
+        ScanningManager.addScannableThing(new ScanSky());
     }
 
     private static void initTheorycraft() {

@@ -83,6 +83,8 @@
   "tc.stage.complete": "Complete",
   "tc.stage.hold": "Completing...",
   "tc.knowledge.name": "Knowledge Totals",
+  "tc.celestial.fail.1": "You have already studied that today.",
+  "tc.celestial.fail.2": "You are unable to take notes of your studies.",
   "tc.aspect.name": "Aspects of Essentia",
   "tc.aspect.primal": "Primal Aspect",
   "tc.aspect.unknown": "Unknown Aspect",
