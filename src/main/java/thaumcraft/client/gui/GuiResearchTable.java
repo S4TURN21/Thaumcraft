@@ -475,6 +475,7 @@ public class GuiResearchTable extends AbstractContainerScreen<ContainerResearchT
 
             pPoseStack.pushPose();
             RenderSystem.setShaderTexture(0, txBase);
+            RenderSystem.enableBlend();
             pPoseStack.scale(0.0625f, 0.0625f, 0.0f);
             int cc = cardChoice.card.getInspirationCost();
             boolean add = false;
@@ -507,13 +508,22 @@ public class GuiResearchTable extends AbstractContainerScreen<ContainerResearchT
                     } else {
                         pPoseStack.pushPose();
                         pPoseStack.scale(0.125f, 0.125f, 0.0f);
+
+                        var posestack = RenderSystem.getModelViewStack();
+                        posestack.pushPose();
+                        posestack.mulPoseMatrix(pPoseStack.last().pose());
+                        RenderSystem.applyModelViewMatrix();
                         itemRenderer.renderAndDecorateItem(items[a2], -9 * items.length + 18 * a2, 35);
+                        posestack.popPose();
+                        RenderSystem.applyModelViewMatrix();
+
                         RenderSystem.enableDepthTest();
                         pPoseStack.popPose();
                         try {
                             if (cardChoice.card.getRequiredItemsConsumed()[a2]) {
                                 pPoseStack.pushPose();
                                 RenderSystem.setShaderTexture(0, txBase);
+                                RenderSystem.enableBlend();
                                 pPoseStack.scale(0.125f, 0.125f, 0.0f);
                                 float s = (float) Math.sin((player.tickCount + a2 * 2 + minecraft.getPartialTick()) / 2.0f) * 0.03f;
                                 pPoseStack.translate(-2 - 9 * items.length + 18 * a2, 45.0f + s * 10.0f, 0.0);
