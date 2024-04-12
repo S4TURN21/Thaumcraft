@@ -10,6 +10,7 @@ import thaumcraft.api.research.theorycraft.*;
 import thaumcraft.common.lib.research.ResearchManager;
 import thaumcraft.common.lib.research.ScanGeneric;
 import thaumcraft.common.lib.research.ScanSky;
+import thaumcraft.common.lib.research.theorycraft.CardCelestial;
 
 public class ConfigResearch {
     public static String[] TCCategories = new String[]{"BASICS", "ALCHEMY", "AUROMANCY", "ARTIFICE", "INFUSION", "GOLEMANCY", "ELDRITCH"};
@@ -53,5 +54,6 @@ public class ConfigResearch {
         TheorycraftManager.registerCard(CardRethink.class);
         TheorycraftManager.registerCard(CardReject.class);
         TheorycraftManager.registerCard(CardExperimentation.class);
+        TheorycraftManager.registerCard(CardCelestial.class);
     }
 }

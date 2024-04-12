@@ -61,6 +61,8 @@
   "card.notation.text": "While making notes of your discoveries thus far you find some errors and correct them. You lose all your progress in %1$s, but most of the lost progress is added to %2$s.",
   "card.balance.name": "Universal Theory",
   "card.balance.text": "A moment of revelation shows you the common links between all you have been studying. Your total progress is split evenly amongst all currently revealed and valid categories and an additional category will gain the full bonus upon completion.",
+  "card.celestial.name": "Celestial Studies",
+  "card.celestial.text": "You take some of the celestial notes you have made and compare them for possible correlations with your primary research category. You gain 25 to 50 inspiration toward %1$s. You may gain other things as well...",
   "wandtable.text1": "Vis Cost",
   "itemGroup.thaumcraft": "Thaumcraft",
   "got.crystals": "Your fingers tingle strangely as you handle the crystal. What does that mean? Maybe some rest will inspire you.",
