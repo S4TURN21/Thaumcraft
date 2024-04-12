@@ -21,7 +21,6 @@ import thaumcraft.api.crafting.IThaumcraftRecipe;
 import thaumcraft.api.crafting.ShapedArcaneRecipeBuilder;
 import thaumcraft.api.internal.CommonInternals;
 import thaumcraft.api.items.ItemsTC;
-import thaumcraft.common.lib.crafting.DustTriggerOre;
 import thaumcraft.common.lib.crafting.DustTriggerSimple;
 import thaumcraft.common.lib.crafting.RecipeScribingTools;
 
@@ -39,7 +38,7 @@ public class ConfigRecipes extends RecipeProvider {
 
     public static void initializeCompoundRecipes() {
         IDustTrigger.registerDustTrigger(new DustTriggerSimple("!gotdream", Blocks.BOOKSHELF, new ItemStack(ItemsTC.thaumonomicon)));
-        IDustTrigger.registerDustTrigger(new DustTriggerOre("FIRSTSTEPS@1", "workbench", new ItemStack(BlocksTC.arcaneWorkbench)));
+        IDustTrigger.registerDustTrigger(new DustTriggerSimple("FIRSTSTEPS@1", Blocks.CRAFTING_TABLE, new ItemStack(BlocksTC.arcaneWorkbench)));
     }
 
     public static void initializeFakeRecipes() {
