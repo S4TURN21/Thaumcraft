@@ -92,7 +92,7 @@
         <td align="center">❌</td>
     </tr>
     <tr>
-        <td rowspan="6">
+        <td rowspan="7">
             <strong>Items</strong>
         </td>
         <td>Vis Crystal</td>
@@ -126,6 +126,12 @@
     </tr>
     <tr>
         <td>Scribing Tools</td>
+        <td align="center">✅</td>
+        <td align="center">❌</td>
+        <td align="center">❌</td>
+    </tr>
+    <tr>
+        <td>Celestial Notes</td>
         <td align="center">✅</td>
         <td align="center">❌</td>
         <td align="center">❌</td>
