@@ -92,7 +92,7 @@ public class ContainerResearchTable extends AbstractContainerMenu {
             }
         }
         if (button == 7 && blockEntity.data.isComplete()) {
-//            blockEntity.finishTheory(pPlayer);
+            blockEntity.finishTheory(pPlayer);
             blockEntity.syncTile(false);
             return true;
         }

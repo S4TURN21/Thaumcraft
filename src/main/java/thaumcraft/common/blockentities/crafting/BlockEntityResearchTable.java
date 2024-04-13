@@ -17,7 +17,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
+import thaumcraft.api.ThaumcraftApi;
+import thaumcraft.api.capabilities.IPlayerKnowledge;
 import thaumcraft.api.items.IScribeTools;
+import thaumcraft.api.research.ResearchCategories;
+import thaumcraft.api.research.ResearchCategory;
 import thaumcraft.api.research.theorycraft.ITheorycraftAid;
 import thaumcraft.api.research.theorycraft.ResearchTableData;
 import thaumcraft.api.research.theorycraft.TheorycraftManager;
@@ -25,9 +29,8 @@ import thaumcraft.common.blockentities.BlockEntityThaumcraftInventory;
 import thaumcraft.common.container.ContainerResearchTable;
 import thaumcraft.common.lib.utils.EntityUtils;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class BlockEntityResearchTable extends BlockEntityThaumcraftInventory implements MenuProvider {
     public ResearchTableData data;
@@ -62,6 +65,22 @@ public class BlockEntityResearchTable extends BlockEntityThaumcraftInventory imp
         (data = new ResearchTableData(player, this)).initialize(player, mutators);
         syncTile(false);
         setChanged();
+    }
+
+    public void finishTheory(Player player) {
+        Comparator<Map.Entry<String, Integer>> valueComparator = (e1, e2) -> e2.getValue().compareTo(e1.getValue());
+        Map<String, Integer> sortedMap = data.categoryTotals.entrySet().stream().sorted(valueComparator).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+        int i = 0;
+        for (String cat : sortedMap.keySet()) {
+            int tot = Math.round(sortedMap.get(cat) / 100.0f * IPlayerKnowledge.EnumKnowledgeType.THEORY.getProgression());
+            if (i > data.penaltyStart) {
+                tot = (int) Math.max(1.0, tot * 0.666666667);
+            }
+            ResearchCategory rc = ResearchCategories.getResearchCategory(cat);
+            ThaumcraftApi.internalMethods.addKnowledge(player, IPlayerKnowledge.EnumKnowledgeType.THEORY, rc, tot);
+            ++i;
+        }
+        data = null;
     }
 
     public Set<String> checkSurroundingAids() {
