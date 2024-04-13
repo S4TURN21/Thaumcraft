@@ -1,6 +1,9 @@
 package thaumcraft.common.lib.utils;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
+import net.minecraft.world.Container;
+import net.minecraft.world.Containers;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -10,6 +13,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.crafting.PartialNBTIngredient;
 import net.minecraftforge.registries.ForgeRegistries;
 import thaumcraft.api.ThaumcraftInvHelper;
@@ -20,6 +24,15 @@ import java.util.List;
 import java.util.Map;
 
 public class InventoryUtils {
+    public static void dropItems(Level world, BlockPos pos) {
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (!(blockEntity instanceof Container)) {
+            return;
+        }
+        Container inventory = (Container) blockEntity;
+        Containers.dropContents(world, pos, inventory);
+    }
+
     public static boolean consumePlayerItem(Player player, ItemStack item, boolean nocheck, boolean ore) {
         if (!nocheck && !isPlayerCarryingAmount(player, item, ore)) {
             return false;
