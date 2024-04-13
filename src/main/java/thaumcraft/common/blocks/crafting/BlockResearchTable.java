@@ -7,7 +7,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -21,11 +20,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import thaumcraft.common.blockentities.Tickable;
 import thaumcraft.common.blockentities.crafting.BlockEntityResearchTable;
+import thaumcraft.common.blocks.BlockTCBlockEntity;
 import thaumcraft.common.blocks.IBlockFacingHorizontal;
 
-public class BlockResearchTable extends BaseEntityBlock implements IBlockFacingHorizontal {
+public class BlockResearchTable extends BlockTCBlockEntity implements IBlockFacingHorizontal {
     public BlockResearchTable(Properties pProperties) {
-        super(pProperties);
+        super(BlockEntityResearchTable.class, pProperties);
     }
 
     @Override
@@ -55,12 +55,6 @@ public class BlockResearchTable extends BaseEntityBlock implements IBlockFacingH
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
         pBuilder.add(IBlockFacingHorizontal.FACING);
-    }
-
-    @Nullable
-    @Override
-    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return new BlockEntityResearchTable(pPos, pState);
     }
 
     @Nullable
