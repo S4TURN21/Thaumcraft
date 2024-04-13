@@ -53,7 +53,7 @@
         <td align="center">❌</td>
     </tr>
     <tr>
-        <td rowspan="6">
+        <td rowspan="7">
             <strong>Blocks</strong>
         </td>
         <td>Crystal Block</td>
@@ -87,6 +87,12 @@
     </tr>
     <tr>
         <td>Research Table</td>
+        <td align="center">🟡</td>
+        <td align="center">❌</td>
+        <td align="center">❌</td>
+    </tr>
+    <tr>
+        <td>Crucible</td>
         <td align="center">🟡</td>
         <td align="center">❌</td>
         <td align="center">❌</td>

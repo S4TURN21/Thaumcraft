@@ -12,10 +12,12 @@ import net.minecraftforge.registries.RegisterEvent;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.blocks.BlocksTC;
 import thaumcraft.common.blockentities.crafting.BlockEntityArcaneWorkbench;
+import thaumcraft.common.blockentities.crafting.BlockEntityCrucible;
 import thaumcraft.common.blockentities.crafting.BlockEntityResearchTable;
 import thaumcraft.common.blocks.basic.BlockStoneTC;
 import thaumcraft.common.blocks.basic.BlockTable;
 import thaumcraft.common.blocks.crafting.BlockArcaneWorkbench;
+import thaumcraft.common.blocks.crafting.BlockCrucible;
 import thaumcraft.common.blocks.crafting.BlockResearchTable;
 import thaumcraft.common.blocks.world.ore.BlockCrystal;
 import thaumcraft.common.blocks.world.ore.ShardType;
@@ -43,10 +45,12 @@ public class ConfigBlocks {
         BlocksTC.tableWood = registerBlock("table_wood", new BlockTable(BlockBehaviour.Properties.of(Material.WOOD).sound(SoundType.WOOD).destroyTime(2.0f)));
         BlocksTC.arcaneWorkbench = registerBlock("arcane_workbench", new BlockArcaneWorkbench());
         BlocksTC.researchTable = registerBlock("research_table", new BlockResearchTable(BlockBehaviour.Properties.of(Material.WOOD).sound(SoundType.WOOD).noOcclusion()));
+        BlocksTC.crucible = registerBlock("crucible", new BlockCrucible(BlockBehaviour.Properties.of(Material.METAL).sound(SoundType.METAL).noOcclusion()));
     }
 
     public static void initBlockEntities() {
         ForgeRegistries.BLOCK_ENTITY_TYPES.register("arcane_workbench", BlockEntityType.Builder.of(BlockEntityArcaneWorkbench::new, BlocksTC.arcaneWorkbench).build(null));
+        ForgeRegistries.BLOCK_ENTITY_TYPES.register("crucible", BlockEntityType.Builder.of(BlockEntityCrucible::new, BlocksTC.crucible).build(null));
         ForgeRegistries.BLOCK_ENTITY_TYPES.register("research_table", BlockEntityType.Builder.of(BlockEntityResearchTable::new, BlocksTC.researchTable).build(null));
     }
 
