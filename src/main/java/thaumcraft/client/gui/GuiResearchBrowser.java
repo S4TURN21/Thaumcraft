@@ -474,9 +474,9 @@ public class GuiResearchBrowser extends Screen {
         RenderSystem.disableBlend();
         pPoseStack.popPose();
         RenderSystem.enableDepthTest();
-        //TODO: GL_LEQUAL supposed to remove all that is out of bounds
         RenderSystem.depthFunc(GlConst.GL_LEQUAL);
         RenderSystem.setShaderTexture(0, tx1);
+        enableScissor(16, 16, width-16, height-16);
         if (ThaumcraftCapabilities.getKnowledge(this.player).getResearchList() != null) {
             for (int index = 0; index < this.research.size(); ++index) {
                 ResearchEntry source = this.research.get(index);
@@ -604,6 +604,7 @@ public class GuiResearchBrowser extends Screen {
                 }
             }
         }
+        RenderSystem.disableScissor();
         RenderSystem.disableDepthTest();
     }
 
