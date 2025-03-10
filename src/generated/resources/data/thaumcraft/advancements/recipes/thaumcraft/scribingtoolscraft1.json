@@ -1,13 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_scribingTools": {
+    "has_dye": {
       "conditions": {
         "items": [
           {
-            "items": [
-              "thaumcraft:scribing_tools"
-            ]
+            "tag": "forge:dyes/black"
           }
         ]
       },
@@ -15,20 +13,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "thaumcraft:scribingtoolsrefill"
+        "recipe": "thaumcraft:scribingtoolscraft1"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_scribingTools",
+      "has_dye",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "thaumcraft:scribingtoolsrefill"
+      "thaumcraft:scribingtoolscraft1"
     ]
   }
 }

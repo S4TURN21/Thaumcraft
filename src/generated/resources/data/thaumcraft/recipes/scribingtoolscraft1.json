@@ -1,3 +1,18 @@
 {
-  "type": "thaumcraft:scribing_tools"
+  "type": "minecraft:crafting_shapeless",
+  "group": "thaumcraft:inkwell",
+  "ingredients": [
+    {
+      "item": "thaumcraft:phial"
+    },
+    {
+      "item": "minecraft:feather"
+    },
+    {
+      "tag": "forge:dyes/black"
+    }
+  ],
+  "result": {
+    "item": "thaumcraft:scribing_tools"
+  }
 }
