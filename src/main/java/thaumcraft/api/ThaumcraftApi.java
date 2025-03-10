@@ -3,7 +3,7 @@ package thaumcraft.api;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.ItemLike;
 import thaumcraft.api.aspects.AspectEventProxy;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.internal.CommonInternals;
@@ -57,8 +57,7 @@ public class ThaumcraftApi {
         (new AspectEventProxy()).registerObjectTag(item, aspects);
     }
 
-    @Deprecated
-    public static void registerObjectTag(TagKey<Block> oreDict, AspectList aspects) {
-        (new AspectEventProxy()).registerObjectTag(oreDict, aspects);
+    public static <T extends ItemLike> void registerObjectTag(TagKey<T> tag, AspectList aspects) {
+        (new AspectEventProxy()).registerObjectTag(tag, aspects);
     }
 }

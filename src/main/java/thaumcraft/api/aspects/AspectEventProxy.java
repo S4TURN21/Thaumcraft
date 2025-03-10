@@ -2,8 +2,8 @@ package thaumcraft.api.aspects;
 
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.world.level.ItemLike;
+import net.minecraftforge.registries.RegistryManager;
 import net.minecraftforge.registries.tags.ITagManager;
 import thaumcraft.api.internal.CommonInternals;
 
@@ -16,10 +16,9 @@ public class AspectEventProxy {
         }
     }
 
-    public void registerObjectTag(TagKey<Block> oreDict, AspectList aspects) {
+    public <T extends ItemLike> void registerObjectTag(TagKey<T> oreDict, AspectList aspects) {
         if (aspects == null) aspects = new AspectList();
-
-        ITagManager<Block> ores = ForgeRegistries.BLOCKS.tags();
+        ITagManager<T> ores = RegistryManager.ACTIVE.getRegistry(oreDict.registry()).tags();
         if (ores != null) {
             for (ItemStack ore : ores.getTag(oreDict).stream().map(ItemStack::new).toList()) {
                 try {
