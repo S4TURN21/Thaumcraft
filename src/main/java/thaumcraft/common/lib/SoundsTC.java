@@ -6,6 +6,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraftforge.registries.RegisterEvent;
 
 public class SoundsTC {
+    public static SoundEvent bubble;
     public static SoundEvent clack;
     public static SoundEvent poof;
     public static SoundEvent page;
@@ -21,6 +22,7 @@ public class SoundsTC {
     }
 
     public static void registerSounds(RegisterEvent.RegisterHelper<SoundEvent> event) {
+        SoundsTC.bubble = getRegisteredSoundEvent(event, "thaumcraft:bubble");
         SoundsTC.clack = getRegisteredSoundEvent(event, "thaumcraft:clack");
         SoundsTC.poof = getRegisteredSoundEvent(event, "thaumcraft:poof");
         SoundsTC.page = getRegisteredSoundEvent(event, "thaumcraft:page");

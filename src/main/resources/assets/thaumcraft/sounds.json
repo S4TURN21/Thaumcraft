@@ -8,6 +8,15 @@
       }
     ]
   },
+  "bubble": {
+    "category": "block",
+    "sounds": [
+      "thaumcraft:bubble1",
+      "thaumcraft:bubble2",
+      "thaumcraft:bubble3",
+      "thaumcraft:bubble4"
+    ]
+  },
   "crystal": {
     "category": "block",
     "sounds": [
