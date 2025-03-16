@@ -385,4 +385,28 @@ public class UtilsFX {
         }
         BufferUploader.drawWithShader(bufferBuilder.end());
     }
+
+    public static void renderQuadCentered(PoseStack pPoseStack, VertexConsumer pBuffer, float scale, float red, float green, float blue, int packedLight, float opacity) {
+        renderQuadCentered(pPoseStack, pBuffer, 1, 1, 0, scale, red, green, blue, packedLight, opacity);
+    }
+
+    public static void renderQuadCentered(PoseStack pPoseStack, VertexConsumer pBuffer, int gridX, int gridY, int frame, float scale, float red, float green, float blue, int packedLight, float opacity) {
+        var matrix = pPoseStack.last().pose();
+
+        int xm = frame % gridX;
+        int ym = frame / gridY;
+
+        float uMin = xm / (float) gridX;
+        float uMax = uMin + 1.0f / gridX;
+        float vMin = ym / (float) gridY;
+        float vMax = vMin + 1.0f / gridY;
+
+        int j = packedLight >> 16 & 0xFFFF;
+        int k = packedLight & 0xFFFF;
+
+        pBuffer.vertex(matrix, -0.5f * scale, 0.5f * scale, 0.0f * scale).color(red, green, blue, opacity).uv(uMax, vMax).uv2(k, j).endVertex();
+        pBuffer.vertex(matrix, 0.5f * scale, 0.5f * scale, 0.0f * scale).color(red, green, blue, opacity).uv(uMax, vMin).uv2(k, j).endVertex();
+        pBuffer.vertex(matrix, 0.5f * scale, -0.5f * scale, 0.0f * scale).color(red, green, blue, opacity).uv(uMin, vMin).uv2(k, j).endVertex();
+        pBuffer.vertex(matrix, -0.5f * scale, -0.5f * scale, 0.0f * scale).color(red, green, blue, opacity).uv(uMin, vMax).uv2(k, j).endVertex();
+    }
 }
