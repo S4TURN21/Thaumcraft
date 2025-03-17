@@ -2,9 +2,8 @@ package thaumcraft.common.lib;
 
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraftforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
+import thaumcraft.api.items.ItemsTC;
 
 public class CreativeTabThaumcraft extends CreativeModeTab {
     public CreativeTabThaumcraft(String label) {
@@ -13,6 +12,6 @@ public class CreativeTabThaumcraft extends CreativeModeTab {
 
     @Override
     public @NotNull ItemStack makeIcon() {
-        return new ItemStack(Items.REDSTONE);
+        return new ItemStack(ItemsTC.goggles);
     }
 }
