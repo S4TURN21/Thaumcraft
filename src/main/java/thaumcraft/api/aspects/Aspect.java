@@ -1,5 +1,6 @@
 package thaumcraft.api.aspects;
 
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.lang3.text.WordUtils;
 import thaumcraft.api.research.ScanAspect;
@@ -79,6 +80,10 @@ public class Aspect {
 
     public String getName() {
         return WordUtils.capitalizeFully(this.tag);
+    }
+
+    public String getLocalizedDescription() {
+        return I18n.get("tc.aspect." + tag);
     }
 
     public String getTag() {
