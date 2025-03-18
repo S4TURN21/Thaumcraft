@@ -1,4 +1,13 @@
 {
+  "spill": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "thaumcraft:spill",
+        "stream": false
+      }
+    ]
+  },
   "dust": {
     "category": "block",
     "sounds": [
