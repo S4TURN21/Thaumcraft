@@ -89,6 +89,7 @@ public class ShapedArcaneRecipe extends ShapedRecipe implements IArcaneRecipe {
     }
 
     public static class Serializer implements RecipeSerializer<ShapedArcaneRecipe> {
+        public static final ShapedArcaneRecipe.Serializer INSTANCE = new ShapedArcaneRecipe.Serializer();
         private static final ResourceLocation NAME = new ResourceLocation("thaumcraft", "arcane_shaped");
 
         @Override
