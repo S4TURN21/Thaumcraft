@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
+import thaumcraft.api.crafting.CrucibleRecipe;
 import thaumcraft.api.crafting.ShapedArcaneRecipe;
 import thaumcraft.client.ItemPropertiesHandler;
 import thaumcraft.client.gui.ContainerArcaneWorkbench;
@@ -60,7 +61,8 @@ public class Registrar {
         ConfigRecipes.initializeFakeRecipes();
         ConfigRecipes.initializeCompoundRecipes();
         event.register("salismundus", RecipeMagicDust.Serializer.INSTANCE);
-        event.register("arcane_shaped", new ShapedArcaneRecipe.Serializer());
+        event.register("arcane_shaped", ShapedArcaneRecipe.Serializer.INSTANCE);
+        event.register("crucible", CrucibleRecipe.Serializer.INSTANCE);
     }
 
     private static void registerBlocks(RegisterEvent.RegisterHelper<Block> event) {
