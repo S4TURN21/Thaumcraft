@@ -8,6 +8,7 @@ import thaumcraft.Thaumcraft;
 import thaumcraft.common.lib.network.blockentities.PacketBlockEntityToClient;
 import thaumcraft.common.lib.network.blockentities.PacketBlockEntityToServer;
 import thaumcraft.common.lib.network.fx.PacketFXBlockBamf;
+import thaumcraft.common.lib.network.fx.PacketFXPollute;
 import thaumcraft.common.lib.network.misc.PacketAuraToClient;
 import thaumcraft.common.lib.network.misc.PacketKnowledgeGain;
 import thaumcraft.common.lib.network.misc.PacketStartTheoryToServer;
@@ -32,6 +33,7 @@ public class PacketHandler {
         PacketHandler.INSTANCE.registerMessage(idx++, PacketSyncKnowledge.class, PacketSyncKnowledge::toBytes, PacketSyncKnowledge::fromBytes, PacketSyncKnowledge::onMessage, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         PacketHandler.INSTANCE.registerMessage(idx++, PacketWarpMessage.class, PacketWarpMessage::toBytes, PacketWarpMessage::fromBytes, PacketWarpMessage::onMessage, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         PacketHandler.INSTANCE.registerMessage(idx++, PacketSyncProgressToServer.class, PacketSyncProgressToServer::toBytes, PacketSyncProgressToServer::fromBytes, PacketSyncProgressToServer::onMessage, Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        PacketHandler.INSTANCE.registerMessage(idx++, PacketFXPollute.class, PacketFXPollute::toBytes, PacketFXPollute::fromBytes, PacketFXPollute::onMessage, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         PacketHandler.INSTANCE.registerMessage(idx++, PacketFXBlockBamf.class, PacketFXBlockBamf::toBytes, PacketFXBlockBamf::fromBytes, PacketFXBlockBamf::onMessage, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
     }
 }

@@ -23,6 +23,24 @@ public class FXDispatcher {
         return Minecraft.getInstance().level;
     }
 
+    public void drawPollutionParticles(BlockPos p) {
+        float x = p.getX() + 0.2f + getWorld().random.nextFloat() * 0.6f;
+        float y = p.getY() + 0.2f + getWorld().random.nextFloat() * 0.6f;
+        float z = p.getZ() + 0.2f + getWorld().random.nextFloat() * 0.6f;
+        FXGeneric fb = new FXGeneric(getWorld(), x, y, z, (getWorld().random.nextFloat() - getWorld().random.nextFloat()) * 0.005, 0.02, (getWorld().random.nextFloat() - getWorld().random.nextFloat()) * 0.005);
+        fb.setMaxAge(100 + getWorld().random.nextInt(60));
+        fb.setRBGColorF(1.0f, 0.3f, 0.9f);
+        fb.setAlphaF(0.5f, 0.0f);
+        fb.setGridSize(16);
+        fb.setParticles(56, 1, 1);
+        fb.setScale(2.0f, 5.0f);
+        fb.setLayer(1);
+        fb.setSlowDown(1.0f);
+        fb.setWind(0.001);
+        fb.setRotationSpeed(getWorld().random.nextFloat(), getWorld().random.nextBoolean() ? -1.0f : 1.0f);
+        ParticleEngine.addEffect(getWorld(), fb);
+    }
+
     //TODO: Fix particles don't fall after block disappearing
     public void drawBlockSparkles(BlockPos p, Vec3 start) {
         AABB bs = this.getWorld().getBlockState(p).getShape(this.getWorld(), p).bounds();
