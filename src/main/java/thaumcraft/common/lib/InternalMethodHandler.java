@@ -1,9 +1,11 @@
 package thaumcraft.common.lib;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.network.PacketDistributor;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.capabilities.IPlayerKnowledge;
@@ -13,8 +15,10 @@ import thaumcraft.api.internal.IInternalMethodHandler;
 import thaumcraft.api.research.ResearchCategory;
 import thaumcraft.common.lib.crafting.ThaumcraftCraftingManager;
 import thaumcraft.common.lib.network.PacketHandler;
+import thaumcraft.common.lib.network.fx.PacketFXPollute;
 import thaumcraft.common.lib.network.playerdata.PacketWarpMessage;
 import thaumcraft.common.lib.research.ResearchManager;
+import thaumcraft.common.world.aura.AuraHandler;
 
 public class InternalMethodHandler implements IInternalMethodHandler {
     @Override
@@ -65,5 +69,16 @@ public class InternalMethodHandler implements IInternalMethodHandler {
     @Override
     public AspectList getObjectAspects(ItemStack is) {
         return ThaumcraftCraftingManager.getObjectTags(is);
+    }
+
+    @Override
+    public void addFlux(Level world, BlockPos pos, float amount, boolean showEffect) {
+        if (world.isClientSide) {
+            return;
+        }
+        AuraHandler.addFlux(world, pos, amount);
+        if (showEffect && amount > 0.0f) {
+            PacketHandler.INSTANCE.send(PacketDistributor.NEAR.with(PacketDistributor.TargetPoint.p(pos.getX(), pos.getY(), pos.getZ(), 32.0f, world.dimension())), new PacketFXPollute(pos, amount));
+        }
     }
 }

@@ -62,6 +62,17 @@ public class AuraHandler {
         return (ac != null) ? ac.getVis() : 0.0f;
     }
 
+    public static void addFlux(Level world, BlockPos pos, float amount) {
+        if (amount < 0.0f) {
+            return;
+        }
+        try {
+            AuraChunk ac = getAuraChunk(world.dimension(), pos.getX() >> 4, pos.getZ() >> 4);
+            modifyFluxInChunk(ac, amount, true);
+        } catch (Exception ex) {
+        }
+    }
+
     public static float drainVis(Level world, BlockPos pos, float amount, boolean simulate) {
         boolean didit = false;
         try {
@@ -79,6 +90,16 @@ public class AuraHandler {
         if (ac != null) {
             if (doit) {
                 ac.setVis(Math.max(0.0f, ac.getVis() + amount));
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean modifyFluxInChunk(AuraChunk ac, float amount, boolean doit) {
+        if (ac != null) {
+            if (doit) {
+                ac.setFlux(Math.max(0.0f, ac.getFlux() + amount));
             }
             return true;
         }
