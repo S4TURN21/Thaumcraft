@@ -5,6 +5,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.RegistryManager;
 import net.minecraftforge.registries.tags.ITagManager;
+import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.internal.CommonInternals;
 
 public class AspectEventProxy {
@@ -28,6 +29,28 @@ public class AspectEventProxy {
                 } catch (Exception ignored) {
                 }
             }
+        }
+    }
+
+    public void registerComplexObjectTag(ItemStack item, AspectList aspects ) {
+        if(!ThaumcraftApi.exists(item)) {
+            AspectList tmp = AspectHelper.generateTags(item);
+            if(tmp != null && tmp.size() > 0)
+            {
+                for(Aspect tag : tmp.getAspects())
+                {
+                    aspects.add(tag, tmp.getAmount(tag));
+                }
+            }
+            registerObjectTag(item, aspects);
+        }
+        else {
+            AspectList tmp = AspectHelper.getObjectAspects(item);
+            for(Aspect tag : aspects.getAspects())
+            {
+                tmp.merge(tag, tmp.getAmount(tag));
+            }
+            registerObjectTag(item, tmp);
         }
     }
 }
