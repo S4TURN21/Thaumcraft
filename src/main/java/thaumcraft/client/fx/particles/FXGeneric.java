@@ -138,14 +138,18 @@ public class FXGeneric extends TextureSheetParticle {
 
         @Override
         public void begin(BufferBuilder pBuilder, @NotNull TextureManager pTextureManager) {
-            RenderSystem.depthMask(false);
-            RenderSystem.setShaderTexture(0, ParticleEngine.particleTexture);
             RenderSystem.enableBlend();
+            RenderSystem.setShaderTexture(0, ParticleEngine.particleTexture);
+            RenderSystem.depthMask(false);
+            RenderSystem.enableDepthTest();
 
             switch (layer) {
-                case 0 -> RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-                case 1 ->
-                        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+                case 0 -> {
+                    RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+                }
+                case 1 -> {
+                    RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+                }
             }
 
             pBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
@@ -159,7 +163,11 @@ public class FXGeneric extends TextureSheetParticle {
 
     @Override
     public @NotNull ParticleRenderType getRenderType() {
-        return new ParticleLayer(this.layer);
+        return switch (this.layer) {
+            case 0 -> ParticleEngine.PARTICLE_SHEET_TRANSLUCENT;
+            case 1 -> ParticleEngine.PARTICLE_SHEET_OPAQUE;
+            default -> new ParticleLayer(this.layer);
+        };
     }
 
     @Override
