@@ -12,6 +12,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import thaumcraft.client.fx.particles.FXBlockRunes;
 import thaumcraft.client.fx.particles.FXGeneric;
+import thaumcraft.common.blockentities.crafting.BlockEntityCrucible;
 import thaumcraft.common.lib.SoundsTC;
 
 import java.awt.*;
@@ -121,6 +122,68 @@ public class FXDispatcher {
         fb.setGravity(grav);
         fb.setRandomMovementScale(0.0025f, 0.0f, 0.0025f);
         Minecraft.getInstance().particleEngine.add(fb);
+    }
+
+    public void crucibleBubble(float x, float y, float z, float cr, float cg, float cb) {
+        FXGeneric fb = new FXGeneric(getWorld(), x, y, z, 0.0, 0.0, 0.0);
+        fb.setMaxAge(15 + getWorld().random.nextInt(10));
+        fb.setScale(getWorld().random.nextFloat() * 0.3f + 0.3f);
+        fb.setRBGColorF(cr, cg, cb);
+        fb.setRandomMovementScale(0.002f, 0.002f, 0.002f);
+        fb.setGravity(-0.001f);
+        fb.setParticle(64);
+        fb.setFinalFrames(65, 66, 66);
+        ParticleEngine.addEffect(getWorld(), fb);
+    }
+
+    public void crucibleBoil(BlockPos pos, BlockEntityCrucible crucible, int pType) {
+        for (int a = 0; a < 2; ++a) {
+            FXGeneric fb = new FXGeneric(getWorld(), pos.getX() + 0.2f + getWorld().random.nextFloat() * 0.6f, pos.getY() + 0.1f + crucible.getFluidHeight(), pos.getZ() + 0.2f + getWorld().random.nextFloat() * 0.6f, 0.0, 0.002, 0.0);
+            fb.setMaxAge((int) (7.0 + 8.0 / (Math.random() * 0.8 + 0.2)));
+            fb.setScale(getWorld().random.nextFloat() * 0.3f + 0.2f);
+            if (crucible.aspects.size() == 0) {
+                fb.setRBGColorF(1.0f, 1.0f, 1.0f);
+            } else {
+                Color color = new Color(crucible.aspects.getAspects()[getWorld().random.nextInt(crucible.aspects.getAspects().length)].getColor());
+                fb.setRBGColorF(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f);
+            }
+            fb.setRandomMovementScale(0.001f, 0.001f, 0.001f);
+            fb.setGravity(-0.025f * pType);
+            fb.setParticle(64);
+            fb.setFinalFrames(65, 66);
+            ParticleEngine.addEffect(getWorld(), fb);
+        }
+    }
+
+    public void crucibleFroth(float x, float y, float z) {
+        FXGeneric fb = new FXGeneric(getWorld(), x, y, z, 0.0, 0.0, 0.0);
+        fb.setMaxAge(4 + getWorld().random.nextInt(3));
+        fb.setScale(getWorld().random.nextFloat() * 0.2f + 0.2f);
+        fb.setRBGColorF(0.5f, 0.5f, 0.7f);
+        fb.setRandomMovementScale(0.001f, 0.001f, 0.001f);
+        fb.setGravity(0.1f);
+        fb.setParticle(64);
+        fb.setFinalFrames(65, 66);
+        ParticleEngine.addEffect(getWorld(), fb);
+    }
+
+    public void crucibleFrothDown(float x, float y, float z) {
+        FXGeneric fb = new FXGeneric(getWorld(), x, y, z, 0.0, 0.0, 0.0);
+        fb.setMaxAge(12 + getWorld().random.nextInt(12));
+        fb.setScale(getWorld().random.nextFloat() * 0.2f + 0.4f);
+        fb.setRBGColorF(0.25f, 0.0f, 0.75f);
+        fb.setAlphaF(0.8f);
+        fb.setRandomMovementScale(0.001f, 0.001f, 0.001f);
+        fb.setGravity(0.05f);
+        fb.setNoClip(false);
+        fb.setParticle(73);
+        fb.setFinalFrames(65, 66);
+        fb.setLayer(1);
+        ParticleEngine.addEffect(getWorld(), fb);
+    }
+
+    public void drawBamf(BlockPos p, boolean sound, boolean flair, Direction side) {
+        drawBamf(p.getX() + 0.5, p.getY() + 0.5, p.getZ() + 0.5, sound, flair, side);
     }
 
     public void drawBamf(double x, double y, double z, int color, boolean sound, boolean flair, Direction side) {
@@ -235,9 +298,9 @@ public class FXDispatcher {
                 x = Mth.clamp(x, bb.minX - ax, bb.maxX - ax);
                 y = Mth.clamp(y, bb.minY - ay, bb.maxY - ay);
                 z = Mth.clamp(z, bb.minZ - az, bb.maxZ - az);
-                float r = getWorld().random.nextInt(16,32) / 255.0f;
-                float g = getWorld().random.nextInt( 132, 165) / 255.0f;
-                float b = getWorld().random.nextInt( 223, 239) / 255.0f;
+                float r = getWorld().random.nextInt(16, 32) / 255.0f;
+                float g = getWorld().random.nextInt(132, 165) / 255.0f;
+                float b = getWorld().random.nextInt(223, 239) / 255.0f;
                 drawSimpleSparkle(getWorld().random, ax + x, ay + y, az + z, 0.0, 0.0, 0.0, 0.4f + (float) getWorld().random.nextGaussian() * 0.1f, r, g, b, getWorld().random.nextInt(10), 1.0f, 0.0f, 4);
             }
         }
