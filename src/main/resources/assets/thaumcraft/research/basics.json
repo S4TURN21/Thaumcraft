@@ -159,7 +159,7 @@
                     {
                         "text": "research.UNLOCKALCHEMY.stage.3",          
                         "required_craft":["thaumcraft:nitor;1;4"],  
-                        "recipes": ["thaumcraft:nitor","thaumcraft:nitorcolor"]
+                        "recipes": ["thaumcraft:nitor_yellow","thaumcraft:nitorcolor"]
                     }
             ]
         },
