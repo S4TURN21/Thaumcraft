@@ -35,6 +35,7 @@ public class FXGeneric extends TextureSheetParticle {
     float randomX;
     float randomY;
     float randomZ;
+    int[] finalFrames;
     boolean angled;
     float angleYaw;
     float anglePitch;
@@ -169,6 +170,15 @@ public class FXGeneric extends TextureSheetParticle {
             float fs = this.age / (float) this.lifetime;
             this.setParticleTextureIndex((int) (this.startParticle + Math.min(this.numParticles * fs, (float) (this.numParticles - 1))));
         }
+
+        if (this.finalFrames != null && this.finalFrames.length > 0 && this.age > this.lifetime - this.finalFrames.length) {
+            int frame = this.lifetime - this.age;
+            if (frame < 0) {
+                frame = 0;
+            }
+            setParticleTextureIndex(finalFrames[frame]);
+        }
+
         this.alpha = ((this.alphaFrames.length <= 0) ? 0.0f : this.alphaFrames[Math.min(this.age, this.alphaFrames.length - 1)]);
         this.quadSize = ((this.scaleFrames.length <= 0) ? 0.0f : this.scaleFrames[Math.min(this.age, this.scaleFrames.length - 1)]);
 
@@ -286,6 +296,12 @@ public class FXGeneric extends TextureSheetParticle {
         this.setParticleTextureIndex(this.startParticle = startParticle);
     }
 
+    public void setParticle(int startParticle) {
+        numParticles = 1;
+        particleInc = 1;
+        setParticleTextureIndex(this.startParticle = startParticle);
+    }
+
     public void setScale(final float... scale) {
         this.quadSize = scale[0];
         this.scaleKeys = scale;
@@ -304,6 +320,10 @@ public class FXGeneric extends TextureSheetParticle {
         this.randomX = x;
         this.randomY = y;
         this.randomZ = z;
+    }
+
+    public void setFinalFrames(int... frames) {
+        finalFrames = frames;
     }
 
     public void setAngles(float yaw, float pitch) {
@@ -326,5 +346,9 @@ public class FXGeneric extends TextureSheetParticle {
 
     public void setGridSize(int gridSize) {
         this.gridSize = gridSize;
+    }
+
+    public void setNoClip(boolean clip) {
+        this.hasPhysics = clip;
     }
 }
