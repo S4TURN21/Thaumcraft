@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "thaumcraft:block/nitor",
+    "layer1": "thaumcraft:block/nitor_core"
+  }
+}

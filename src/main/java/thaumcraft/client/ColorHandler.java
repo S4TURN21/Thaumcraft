@@ -8,6 +8,8 @@ import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import thaumcraft.api.blocks.BlocksTC;
@@ -25,6 +27,15 @@ public class ColorHandler {
     }
 
     private static void registerBlockColourHandlers(BlockColors blockColors) {
+        BlockColor basicColourHandler = (state, blockAccess, pos, tintIndex) -> state.getBlock().getMapColor(state, blockAccess, pos, MaterialColor.SNOW).col;
+        Block[] basicBlocks = new Block[BlocksTC.nitor.size()];
+        int i = 0;
+        for (Block b : BlocksTC.nitor.values()) {
+            basicBlocks[i] = b;
+            ++i;
+        }
+        blockColors.register(basicColourHandler, basicBlocks);
+
         BlockColor crystalColourHandler = (state, blockAccess, pos, tintIndex) -> {
             if (state.getBlock() instanceof BlockCrystal) {
                 return ((BlockCrystal)state.getBlock()).aspect.getColor();
@@ -35,6 +46,18 @@ public class ColorHandler {
     }
 
     private static void registerItemColourHandlers(BlockColors blockColors, ItemColors itemColors) {
+        ItemColor itemBlockColourHandler = (stack, tintIndex) -> {
+            BlockState state = ((BlockItem)stack.getItem()).getBlock().defaultBlockState();
+            return blockColors.getColor(state, null, null, tintIndex);
+        };
+        Block[] basicBlocks = new Block[BlocksTC.nitor.size()];
+        int i = 0;
+        for (Block b : BlocksTC.nitor.values()) {
+            basicBlocks[i] = b;
+            ++i;
+        }
+        itemColors.register(itemBlockColourHandler, basicBlocks);
+
         ItemColor itemEssentiaColourHandler = (stack, tintIndex) -> {
             ItemGenericEssentiaContainer item = (ItemGenericEssentiaContainer)stack.getItem();
             try {

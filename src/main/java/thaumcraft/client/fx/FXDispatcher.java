@@ -248,4 +248,30 @@ public class FXDispatcher {
         fb.setGravity(grav);
         Minecraft.getInstance().particleEngine.add(fb);
     }
+
+    public void drawNitorCore(double x, double y, double z, double x2, double y2, double z2) {
+        FXGeneric fb = new FXGeneric(getWorld(), x, y, z, x2, y2, z2);
+        fb.setMaxAge(10);
+        fb.setRBGColorF(1.0f, 1.0f, 1.0f);
+        fb.setAlphaF(1.0f);
+        fb.setParticles(457, 1, 1);
+        fb.setScale(1.0f, 1.0f + (float) getWorld().random.nextGaussian() * 0.1f, 1.0f);
+        fb.setLayer(1);
+        fb.setRandomMovementScale(2.0E-4f, 2.0E-4f, 2.0E-4f);
+        ParticleEngine.addEffect(getWorld(), fb);
+    }
+
+    public void drawNitorFlames(double x, double y, double z, double x2, double y2, double z2, int color, int a) {
+        FXGeneric fb = new FXGeneric(getWorld(), x, y, z, x2, y2, z2);
+        fb.setMaxAge(10 + getWorld().random.nextInt(5));
+        Color c = new Color(color);
+        fb.setRBGColorF(c.getRed() / 255.0f, c.getGreen() / 255.0f, c.getBlue() / 255.0f);
+        fb.setAlphaF(0.66f);
+        fb.setLoop(true);
+        fb.setGridSize(64);
+        fb.setParticles(264, 8, 1);
+        fb.setScale(3.0f + getWorld().random.nextFloat(), 0.05f);
+        fb.setRandomMovementScale(0.0025f, 0.0f, 0.0025f);
+        ParticleEngine.addEffectWithDelay(getWorld(), fb, a);
+    }
 }

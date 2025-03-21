@@ -1,6 +1,9 @@
 package thaumcraft.api.blocks;
 
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
+
+import java.util.HashMap;
 
 public class BlocksTC {
     public static Block stoneArcane;
@@ -13,6 +16,7 @@ public class BlocksTC {
     public static Block crystalEntropy;
     public static Block crystalTaint;
     public static Block tableWood;
+    public static HashMap<DyeColor, Block> nitor = new HashMap<>();
     public static Block crucible;
     public static Block arcaneWorkbench;
     public static Block researchTable;

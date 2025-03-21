@@ -98,6 +98,12 @@
         <td align="center">❌</td>
     </tr>
     <tr>
+        <td>Nitor</td>
+        <td align="center">🟡</td>
+        <td align="center">❌</td>
+        <td align="center">❌</td>
+    </tr>
+    <tr>
         <td rowspan="7">
             <strong>Items</strong>
         </td>
