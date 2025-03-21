@@ -15,6 +15,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
+import thaumcraft.api.BlockTagsTC;
+import thaumcraft.api.ItemTagsTC;
 import thaumcraft.api.crafting.CrucibleRecipe;
 import thaumcraft.api.crafting.ShapedArcaneRecipe;
 import thaumcraft.client.ItemPropertiesHandler;
@@ -33,7 +35,12 @@ public class Registrar {
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();
+        var fileHelper = event.getExistingFileHelper();
         generator.addProvider(true, new ConfigRecipes(generator));
+
+        var blockTagsProvider = new BlockTagsTC(generator, Thaumcraft.MODID, fileHelper);
+        generator.addProvider(true, blockTagsProvider);
+        generator.addProvider(true, new ItemTagsTC(generator, blockTagsProvider, Thaumcraft.MODID, fileHelper));
     }
 
     @SubscribeEvent
