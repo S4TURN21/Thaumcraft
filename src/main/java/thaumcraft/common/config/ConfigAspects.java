@@ -43,5 +43,6 @@ public class ConfigAspects {
         ThaumcraftApi.registerObjectTag(BlockTags.DIRT, new AspectList().add(Aspect.EARTH, 5).add(Aspect.PLANT, 2));
         ThaumcraftApi.registerObjectTag(BlockTags.WOOL, new AspectList().add(Aspect.BEAST, 15).add(Aspect.CRAFT, 5));
         ThaumcraftApi.registerObjectTag(new ItemStack(Blocks.TRIPWIRE_HOOK, 1), new AspectList().add(Aspect.SENSES, 5).add(Aspect.MECHANISM, 5).add(Aspect.TRAP, 5));
+        ThaumcraftApi.registerComplexObjectTag(new ItemStack(Blocks.TORCH, 1), new AspectList().add(Aspect.LIGHT, 5));
     }
 }
