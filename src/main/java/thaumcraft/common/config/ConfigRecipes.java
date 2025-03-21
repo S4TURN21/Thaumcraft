@@ -2,20 +2,27 @@ package thaumcraft.common.config;
 
 import net.minecraft.core.NonNullList;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.recipes.*;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.*;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
-import net.minecraftforge.registries.ForgeRegistries;
+import thaumcraft.api.ItemTagsTC;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.blocks.BlocksTC;
+import thaumcraft.api.crafting.CrucibleRecipeBuilder;
 import thaumcraft.api.crafting.IDustTrigger;
 import thaumcraft.api.crafting.IThaumcraftRecipe;
 import thaumcraft.api.crafting.ShapedArcaneRecipeBuilder;
@@ -41,6 +48,14 @@ public class ConfigRecipes extends RecipeProvider {
         IDustTrigger.registerDustTrigger(new DustTriggerSimple("UNLOCKALCHEMY@1", Blocks.CAULDRON, new ItemStack(BlocksTC.crucible)));
     }
 
+    public static void initializeAlchemyRecipes(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
+        ResourceLocation nitorGroup = new ResourceLocation("thaumcraft", "nitorgroup");
+        CrucibleRecipeBuilder.smelting(BlocksTC.nitor.get(DyeColor.YELLOW)).group(nitorGroup.toString()).research("UNLOCKALCHEMY@3").catalyst(Tags.Items.DUSTS_GLOWSTONE).aspects(new AspectList().merge(Aspect.ENERGY, 10).merge(Aspect.FIRE, 10).merge(Aspect.LIGHT, 10)).save(pFinishedRecipeConsumer);
+        for (DyeColor d : DyeColor.values()) {
+            ShapelessRecipeBuilder.shapeless(BlocksTC.nitor.get(d)).group(nitorGroup.toString()).unlockedBy("has_nitor", has(ItemTagsTC.NITOR)).requires(ItemTagsTC.NITOR).requires(d.getTag()).save(pFinishedRecipeConsumer, "thaumcraft:nitor_dye_" + d.getName().toLowerCase());
+        }
+    }
+
     public static void initializeFakeRecipes() {
         ThaumcraftApi.addFakeCraftingRecipe(new ResourceLocation("thaumcraft:salismundusfake"), new ShapelessRecipe(new ResourceLocation("thaumcraft:salismundusfake"), ConfigRecipes.defaultGroup, new ItemStack(ItemsTC.salisMundus), NonNullList.of(Ingredient.EMPTY, Ingredient.of(Items.FLINT), Ingredient.of(Items.BOWL), Ingredient.of(Items.REDSTONE), Ingredient.of(new ItemStack(ItemsTC.crystalEssence, 1)), Ingredient.of(new ItemStack(ItemsTC.crystalEssence, 1)), Ingredient.of(new ItemStack(ItemsTC.crystalEssence, 1)))));
     }
@@ -49,6 +64,7 @@ public class ConfigRecipes extends RecipeProvider {
     protected void buildCraftingRecipes(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
         ConfigRecipes.initializeNormalRecipes(pFinishedRecipeConsumer);
         ConfigRecipes.initializeArcaneRecipes(pFinishedRecipeConsumer);
+        ConfigRecipes.initializeAlchemyRecipes(pFinishedRecipeConsumer);
     }
 
     public static void initializeArcaneRecipes(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "thaumcraft:nitorgroup",
+  "ingredients": [
+    {
+      "tag": "thaumcraft:nitor"
+    },
+    {
+      "tag": "forge:dyes/lime"
+    }
+  ],
+  "result": {
+    "item": "thaumcraft:nitor_lime"
+  }
+}

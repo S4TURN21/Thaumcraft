@@ -1,0 +1,16 @@
+{
+  "type": "thaumcraft:crucible",
+  "aspects": {
+    "ignis": 10,
+    "lux": 10,
+    "potentia": 10
+  },
+  "catalyst": {
+    "tag": "forge:dusts/glowstone"
+  },
+  "group": "thaumcraft:nitorgroup",
+  "research": "UNLOCKALCHEMY@3",
+  "result": {
+    "item": "thaumcraft:nitor_yellow"
+  }
+}
