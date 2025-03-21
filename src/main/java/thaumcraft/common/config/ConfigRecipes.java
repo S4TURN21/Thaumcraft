@@ -1,5 +1,6 @@
 package thaumcraft.common.config;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.NonNullList;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -82,8 +83,8 @@ public class ConfigRecipes extends RecipeProvider {
         ShapelessRecipeBuilder.shapeless(ItemsTC.scribingTools).group(inkwellGroup).requires(ItemsTC.scribingTools).requires(Tags.Items.DYES_BLACK).unlockedBy("has_scribingTools", has(ItemsTC.scribingTools)).save(pFinishedRecipeConsumer, "thaumcraft:scribingtoolsrefill");
     }
 
-    public static void compileGroups(Level level) {
-        for (Recipe<?> recipe : level.getRecipeManager().getRecipes()) {
+    public static void compileGroups() {
+        for (Recipe<?> recipe : Minecraft.getInstance().getConnection().getRecipeManager().getRecipes()) {
             if (recipe != null) {
                 String group = recipe.getGroup();
                 if (group.trim().isEmpty()) {
