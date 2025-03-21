@@ -53,7 +53,7 @@
         <td align="center">❌</td>
     </tr>
     <tr>
-        <td rowspan="7">
+        <td rowspan="8">
             <strong>Blocks</strong>
         </td>
         <td>Crystal Block</td>
