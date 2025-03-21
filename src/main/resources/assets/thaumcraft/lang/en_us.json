@@ -57,6 +57,7 @@
   "recipe.type.workbench": "Workbench",
   "recipe.type.workbenchshapeless": "Workbench (Shapeless)",
   "recipe.type.arcane": "Arcane Workbench",
+  "recipe.type.crucible": "Crucible",
   "button.create.theory": "Create Theory",
   "button.complete.theory": "Complete Theory",
   "button.scrap.theory": "Scrap Theory",

@@ -29,6 +29,7 @@ import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.capabilities.IPlayerKnowledge;
 import thaumcraft.api.capabilities.ThaumcraftCapabilities;
+import thaumcraft.api.crafting.CrucibleRecipe;
 import thaumcraft.api.crafting.IArcaneRecipe;
 import thaumcraft.api.crafting.ShapedArcaneRecipe;
 import thaumcraft.api.internal.CommonInternals;
@@ -582,6 +583,14 @@ public class GuiResearchPage extends Screen {
             }
             ArrayList list = recipeLists2.get(rkey);
             ArrayList outputs = recipeOutputs2.get(rkey);
+            if (recipe instanceof CrucibleRecipe) {
+                CrucibleRecipe re = (CrucibleRecipe) recipe;
+                ItemStack is = InventoryUtils.cycleItemStack(re.getCatalyst(), 0);
+                if (is != null && !is.isEmpty() && ThaumcraftCapabilities.knowsResearchStrict(minecraft.player, re.getResearch())) {
+                    list.add(re);
+                    outputs.add(re.getResultItem());
+                }
+            }
             if (recipe instanceof IArcaneRecipe) {
                 IArcaneRecipe re3 = (IArcaneRecipe) recipe;
                 ItemStack is = InventoryUtils.cycleItemStack(re3.getResultItem(), 0);
@@ -624,6 +633,8 @@ public class GuiResearchPage extends Screen {
                     drawArcaneCraftingPage(pPoseStack, x + 128, y + 128, mx, my, (IArcaneRecipe) recipe);
                 } else if (recipe instanceof CraftingRecipe) {
                     drawCraftingPage(pPoseStack, x + 128, y + 128, mx, my, (CraftingRecipe) recipe);
+                } else if (recipe instanceof CrucibleRecipe) {
+                    drawCruciblePage(pPoseStack, x + 128, y + 128, mx, my, (CrucibleRecipe) recipe);
                 }
             }
             if (hasRecipePages) {
@@ -743,6 +754,7 @@ public class GuiResearchPage extends Screen {
                     }
                 }
             }
+            RenderSystem.enableBlend();
             RenderSystem.setShaderTexture(0, tex1);
             float bob = Mth.sin(minecraft.player.tickCount / 3.0f) * 0.2f + 0.1f;
             if (GuiResearchPage.aspectsPage > 0) {
@@ -856,6 +868,63 @@ public class GuiResearchPage extends Screen {
             }
         }
         pPoseStack.popPose();
+    }
+
+    private void drawCruciblePage(PoseStack pPoseStack, int x, int y, int mx, int my, CrucibleRecipe recipe) {
+        RenderSystem.enableBlend();
+        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        if (recipe != null) {
+            pPoseStack.pushPose();
+            String text = I18n.get("recipe.type.crucible");
+            int offset = minecraft.font.width(text);
+            minecraft.font.draw(pPoseStack, text, x - offset / 2, y - 104, 0x505050);
+            RenderSystem.setShaderTexture(0, tex2);
+            pPoseStack.pushPose();
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+            RenderSystem.enableBlend();
+            RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            pPoseStack.translate((float)x, (float)y, 0.0f);
+            pPoseStack.scale(2.0f, 2.0f, 1.0f);
+            blit(pPoseStack, -28, -29, 0, 3, 56, 17);
+            pPoseStack.translate(0.0f, 32.0f, 0.0f);
+            blit(pPoseStack,-28, -44, 0, 20, 56, 48);
+            pPoseStack.translate(0.0f, -8.0f, 0.0f);
+            blit(pPoseStack,-25, -50, 100, 84, 11, 13);
+            pPoseStack.popPose();
+            int mposx = mx;
+            int mposy = my;
+            int total = 0;
+            int rows = (recipe.getAspects().size() - 1) / 3;
+            int shift = (3 - recipe.getAspects().size() % 3) * 10;
+            int sx = x - 28;
+            int sy = y + 8 - 10 * rows;
+            for (Aspect tag : recipe.getAspects().getAspectsSortedByName()) {
+                int m = 0;
+                if (total / 3 >= rows && (rows > 1 || recipe.getAspects().size() < 3)) {
+                    m = 1;
+                }
+                int vx = sx + total % 3 * 20 + shift * m;
+                int vy = sy + total / 3 * 20;
+                UtilsFX.drawTag(pPoseStack, vx, vy, tag, (float)recipe.getAspects().getAmount(tag), 0, getBlitOffset());
+                ++total;
+            }
+            drawStackAt(pPoseStack, recipe.getResultItem(), x - 8, y - 50, mx, my, false);
+            drawStackAt(pPoseStack, InventoryUtils.cycleItemStack(recipe.getCatalyst(), 0), x - 64, y - 56, mx, my, true);
+            total = 0;
+            for (Aspect tag : recipe.getAspects().getAspectsSortedByName()) {
+                int m = 0;
+                if (total / 3 >= rows && (rows > 1 || recipe.getAspects().size() < 3)) {
+                    m = 1;
+                }
+                int vx = sx + total % 3 * 20 + shift * m;
+                int vy = sy + total / 3 * 20;
+                if (mposx >= vx && mposy >= vy && mposx < vx + 16 && mposy < vy + 16) {
+                    tipText = Arrays.asList(tag.getName(), tag.getLocalizedDescription());
+                }
+                ++total;
+            }
+            pPoseStack.popPose();
+        }
     }
 
     @Override
