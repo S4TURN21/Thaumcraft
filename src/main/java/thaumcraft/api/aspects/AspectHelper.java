@@ -56,4 +56,8 @@ public class AspectHelper {
     public static AspectList getObjectAspects(ItemStack is) {
         return ThaumcraftApi.internalMethods.getObjectAspects(is);
     }
+
+    public static AspectList generateTags(ItemStack is) {
+        return ThaumcraftApi.internalMethods.generateTags(is);
+    }
 }

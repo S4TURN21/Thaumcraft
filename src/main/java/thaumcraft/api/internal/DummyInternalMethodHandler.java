@@ -30,6 +30,11 @@ public class DummyInternalMethodHandler implements IInternalMethodHandler {
     }
 
     @Override
+    public AspectList generateTags(ItemStack is) {
+        return null;
+    }
+
+    @Override
     public void addFlux(Level world, BlockPos pos, float amount, boolean showEffect) {
 
     }

@@ -71,6 +71,10 @@ public class InternalMethodHandler implements IInternalMethodHandler {
         return ThaumcraftCraftingManager.getObjectTags(is);
     }
 
+    public AspectList generateTags(ItemStack is) {
+        return ThaumcraftCraftingManager.generateTags(is);
+    }
+
     @Override
     public void addFlux(Level world, BlockPos pos, float amount, boolean showEffect) {
         if (world.isClientSide) {

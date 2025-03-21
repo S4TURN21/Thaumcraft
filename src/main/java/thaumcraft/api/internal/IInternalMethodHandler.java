@@ -18,6 +18,8 @@ public interface IInternalMethodHandler {
 
     AspectList getObjectAspects(ItemStack is);
 
+    AspectList generateTags(ItemStack is);
+
     void addFlux(Level world, BlockPos pos, float amount, boolean showEffect);
 
     boolean completeResearch(Player player, String res);

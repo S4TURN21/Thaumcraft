@@ -160,6 +160,11 @@ public class ThaumcraftCraftingManager {
         return capAspects(getBonusTags(itemstack, tmp), 500);
     }
 
+    public static AspectList generateTags(ItemStack is) {
+        AspectList temp = generateTags(is, new ArrayList<String>());
+        return temp;
+    }
+
     public static AspectList generateTags(ItemStack is, ArrayList<String> history) {
         if (history == null) {
             history = new ArrayList<String>();
