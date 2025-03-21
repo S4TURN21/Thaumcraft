@@ -1,6 +1,7 @@
 package thaumcraft.common.lib.events;
 
 import net.minecraft.world.level.Level;
+import net.minecraftforge.client.event.RecipesUpdatedEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -14,18 +15,18 @@ public class WorldEvents {
 
     @SubscribeEvent
     public static void worldLoad(LevelEvent.Load event) {
-        if (!loaded) {
-            ConfigAspects.postInit();
-            ConfigRecipes.compileGroups((Level) event.getLevel());
-
-            loaded = true;
-        }
-
         if (event.getLevel() instanceof Level level) {
             if (!level.isClientSide) {
                 AuraHandler.addAuraWorld(level.dimension());
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void recipesUpdated(RecipesUpdatedEvent event)
+    {
+        ConfigAspects.postInit();
+        ConfigRecipes.compileGroups();
     }
 
     @SubscribeEvent
