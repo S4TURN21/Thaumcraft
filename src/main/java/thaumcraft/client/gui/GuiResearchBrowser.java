@@ -557,7 +557,7 @@ public class GuiResearchBrowser extends Screen {
                     RenderSystem.enableBlend();
                     RenderSystem.blendFunc(GlConst.GL_SRC_ALPHA, GlConst.GL_ONE_MINUS_SRC_ALPHA);
                     if (iconResearch.hasMeta(ResearchEntry.EnumResearchMeta.ROUND)) {
-                        drawTexturedModalRect(pPoseStack, iconX - 8, iconY - 8, 144, 48 + (iconResearch.hasMeta(ResearchEntry.EnumResearchMeta.HIDDEN) ? 32 : 0), 32, 32, getBlitOffset());
+                        blit(pPoseStack, iconX - 8, iconY - 8, 144, 48 + (iconResearch.hasMeta(ResearchEntry.EnumResearchMeta.HIDDEN) ? 32 : 0), 32, 32);
                     } else {
                         int ix = 80;
                         int iy = 48;
@@ -567,10 +567,10 @@ public class GuiResearchBrowser extends Screen {
                         if (iconResearch.hasMeta(ResearchEntry.EnumResearchMeta.HEX)) {
                             ix += 32;
                         }
-                        drawTexturedModalRect(pPoseStack, iconX - 8, iconY - 8, ix, iy, 32, 32, getBlitOffset());
+                        blit(pPoseStack, iconX - 8, iconY - 8, ix, iy, 32, 32);
                     }
                     if (iconResearch.hasMeta(ResearchEntry.EnumResearchMeta.SPIKY)) {
-                        drawTexturedModalRect(pPoseStack, iconX - 8, iconY - 8, 176, 48 + (iconResearch.hasMeta(ResearchEntry.EnumResearchMeta.HIDDEN) ? 32 : 0), 32, 32, getBlitOffset());
+                        blit(pPoseStack, iconX - 8, iconY - 8, 176, 48 + (iconResearch.hasMeta(ResearchEntry.EnumResearchMeta.HIDDEN) ? 32 : 0), 32, 32);
                     }
                     boolean bw = false;
                     if (!this.canUnlockResearch(iconResearch)) {
