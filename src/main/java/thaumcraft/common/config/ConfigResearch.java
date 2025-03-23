@@ -4,7 +4,9 @@ import net.minecraft.resources.ResourceLocation;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
+import thaumcraft.api.blocks.BlocksTC;
 import thaumcraft.api.research.ResearchCategories;
+import thaumcraft.api.research.ScanBlock;
 import thaumcraft.api.research.ScanningManager;
 import thaumcraft.api.research.theorycraft.*;
 import thaumcraft.common.lib.research.ResearchManager;
@@ -41,6 +43,8 @@ public class ConfigResearch {
 
     private static void initScannables() {
         ScanningManager.addScannableThing(new ScanGeneric());
+        ScanningManager.addScannableThing(new ScanBlock("ORE",  BlocksTC.crystalAir, BlocksTC.crystalFire, BlocksTC.crystalWater, BlocksTC.crystalEarth, BlocksTC.crystalOrder, BlocksTC.crystalEntropy, BlocksTC.crystalTaint));
+        ScanningManager.addScannableThing(new ScanBlock("!ORECRYSTAL", BlocksTC.crystalAir, BlocksTC.crystalFire, BlocksTC.crystalWater, BlocksTC.crystalEarth, BlocksTC.crystalOrder, BlocksTC.crystalEntropy, BlocksTC.crystalTaint));
         ScanningManager.addScannableThing(new ScanSky());
     }
 
