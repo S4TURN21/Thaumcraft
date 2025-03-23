@@ -8,6 +8,7 @@ import net.minecraftforge.common.Tags;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
+import thaumcraft.api.blocks.BlocksTC;
 import thaumcraft.api.internal.CommonInternals;
 
 public class ConfigAspects {
@@ -44,5 +45,12 @@ public class ConfigAspects {
         ThaumcraftApi.registerObjectTag(BlockTags.WOOL, new AspectList().add(Aspect.BEAST, 15).add(Aspect.CRAFT, 5));
         ThaumcraftApi.registerObjectTag(new ItemStack(Blocks.TRIPWIRE_HOOK, 1), new AspectList().add(Aspect.SENSES, 5).add(Aspect.MECHANISM, 5).add(Aspect.TRAP, 5));
         ThaumcraftApi.registerComplexObjectTag(new ItemStack(Blocks.TORCH, 1), new AspectList().add(Aspect.LIGHT, 5));
+        ThaumcraftApi.registerObjectTag(new ItemStack(BlocksTC.crystalAir, 1), new AspectList().add(Aspect.AIR, 15).add(Aspect.CRYSTAL, 10));
+        ThaumcraftApi.registerObjectTag(new ItemStack(BlocksTC.crystalFire, 1), new AspectList().add(Aspect.FIRE, 15).add(Aspect.CRYSTAL, 10));
+        ThaumcraftApi.registerObjectTag(new ItemStack(BlocksTC.crystalWater, 1), new AspectList().add(Aspect.WATER, 15).add(Aspect.CRYSTAL, 10));
+        ThaumcraftApi.registerObjectTag(new ItemStack(BlocksTC.crystalEarth, 1), new AspectList().add(Aspect.EARTH, 15).add(Aspect.CRYSTAL, 10));
+        ThaumcraftApi.registerObjectTag(new ItemStack(BlocksTC.crystalOrder, 1), new AspectList().add(Aspect.ORDER, 15).add(Aspect.CRYSTAL, 10));
+        ThaumcraftApi.registerObjectTag(new ItemStack(BlocksTC.crystalEntropy, 1), new AspectList().add(Aspect.ENTROPY, 15).add(Aspect.CRYSTAL, 10));
+        ThaumcraftApi.registerObjectTag(new ItemStack(BlocksTC.crystalTaint, 1), new AspectList().add(Aspect.FLUX, 15).add(Aspect.CRYSTAL, 10));
     }
 }
