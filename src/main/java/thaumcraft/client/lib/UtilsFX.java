@@ -60,17 +60,8 @@ public class UtilsFX {
         BufferUploader.drawWithShader(buffer.end());
     }
 
-    public static void drawTexturedQuadFull(PoseStack pose, float x, float y, double zLevel) {
-        var pMatrix = pose.last().pose();
-
-        Tesselator tesselator = Tesselator.getInstance();
-        BufferBuilder buffer = tesselator.getBuilder();
-        buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-        buffer.vertex(pMatrix, x + 0.0f, y + 16.0f, (float) zLevel).uv(0.0f, 1.0f).endVertex();
-        buffer.vertex(pMatrix, x + 16.0f, y + 16.0f, (float) zLevel).uv(1.0f, 1.0f).endVertex();
-        buffer.vertex(pMatrix, x + 16.0f, y + 0.0f, (float) zLevel).uv(1.0f, 0.0f).endVertex();
-        buffer.vertex(pMatrix, x + 0.0f, y + 0.0f, (float) zLevel).uv(0.0f, 0.0f).endVertex();
-        BufferUploader.drawWithShader(buffer.end());
+    public static void drawTexturedQuadFull(PoseStack pPoseStack, float pX, float pY, double zLevel) {
+        GuiComponent.blit(pPoseStack, (int) pX, (int) pY, 0, 0, 16, 16, 16, 16);
     }
 
     public static void drawCustomTooltip(PoseStack pPoseStack, Screen gui, Font fr, List<String> textList, int x, int y, int subTipColor) {
@@ -228,7 +219,7 @@ public class UtilsFX {
         } else {
             RenderSystem.setShaderColor(0.1f, 0.1f, 0.1f, alpha * 0.8f);
         }
-        GuiComponent.blit(pPoseStack, (int)x, (int)y, 0, 0, 16, 16, 16, 16);
+        GuiComponent.blit(pPoseStack, (int) x, (int) y, 0, 0, 16, 16, 16, 16);
         pPoseStack.popPose();
 
         if (amount > 0.0f) {
@@ -244,7 +235,7 @@ public class UtilsFX {
             for (Direction e : Direction.Plane.HORIZONTAL) {
                 mc.font.draw(pPoseStack, am, (32 - sw + (int) x * 2) * q + e.getStepX(), (32 - mc.font.lineHeight + (int) y * 2) * q + e.getStepZ(), 0);
             }
-            mc.font.draw(pPoseStack,am, (32 - sw + (int) x * 2) * q, (32 - mc.font.lineHeight + (int) y * 2) * q, 0xFFFFFF);
+            mc.font.draw(pPoseStack, am, (32 - sw + (int) x * 2) * q, (32 - mc.font.lineHeight + (int) y * 2) * q, 0xFFFFFF);
             pPoseStack.popPose();
         }
 
