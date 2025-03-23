@@ -34,6 +34,7 @@ import thaumcraft.common.config.ConfigResearch;
 import thaumcraft.common.lib.network.PacketHandler;
 import thaumcraft.common.lib.network.playerdata.PacketSyncProgressToServer;
 import thaumcraft.common.lib.research.ResearchManager;
+import thaumcraft.common.lib.utils.InventoryUtils;
 
 import java.util.*;
 
@@ -635,7 +636,15 @@ public class GuiResearchBrowser extends Screen {
                     UtilsFX.drawTexturedQuadFull(pPoseStack, (float) iconX, (float) iconY, zLevel);
                 }
             } else if (iconResearch.getIcons()[idx] instanceof ItemStack) {
-//                this.itemRenderer.renderAndDecorateItem(InventoryUtils.cycleItemStack(iconResearch.getIcons()[idx]), iconX, iconY);
+                pPoseStack.pushPose();
+                var posestack = RenderSystem.getModelViewStack();
+                posestack.pushPose();
+                posestack.mulPoseMatrix(pPoseStack.last().pose());
+                RenderSystem.applyModelViewMatrix();
+                Minecraft.getInstance().getItemRenderer().renderAndDecorateItem(InventoryUtils.cycleItemStack(iconResearch.getIcons()[idx]), iconX, iconY);
+                posestack.popPose();
+                RenderSystem.applyModelViewMatrix();
+                pPoseStack.popPose();
             }
             RenderSystem.disableBlend();
             pPoseStack.popPose();
