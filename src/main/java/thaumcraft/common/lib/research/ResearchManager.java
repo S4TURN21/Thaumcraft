@@ -219,18 +219,25 @@ public class ResearchManager {
                     InputStreamReader reader = new InputStreamReader(stream);
                     JsonObject obj = parser.parse((Reader) reader).getAsJsonObject();
                     JsonArray entries = obj.get("entries").getAsJsonArray();
+                    int a = 0;
                     for (JsonElement element : entries) {
+                        ++a;
                         try {
                             JsonObject entry = element.getAsJsonObject();
                             ResearchEntry researchEntry = parseResearchJson(entry);
                             addResearchToCategory(researchEntry);
                         } catch (Exception e) {
-
+                            e.printStackTrace();
+                            Thaumcraft.log.warn("Invalid research entry [" + a + "] found in " + loc.toString());
+                            --a;
                         }
                     }
+                    Thaumcraft.log.info("Loaded " + a + " research entries from " + loc.toString());
                 } catch (Exception e) {
                     Thaumcraft.log.warn("Invalid research file: " + loc.toString());
                 }
+            } else {
+                Thaumcraft.log.warn("Research file not found: " + loc.toString());
             }
         }
     }
