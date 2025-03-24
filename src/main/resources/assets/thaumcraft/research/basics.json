@@ -125,10 +125,10 @@
                 },
                 {
                     "text": "research.CRYSTALFARMER.stage.2",     
-                    "recipes": ["thaumcraft:CrystalClusterAir","thaumcraft:CrystalClusterFire",
-                            "thaumcraft:CrystalClusterWater","thaumcraft:CrystalClusterEarth",
-                            "thaumcraft:CrystalClusterOrder","thaumcraft:CrystalClusterEntropy",
-                            "thaumcraft:CrystalClusterFlux"]
+                    "recipes": ["thaumcraft:crystal_cluster_air","thaumcraft:crystal_cluster_fire",
+                            "thaumcraft:crystal_cluster_water","thaumcraft:crystal_cluster_earth",
+                            "thaumcraft:crystal_cluster_order","thaumcraft:crystal_cluster_entropy",
+                            "thaumcraft:crystal_cluster_flux"]
                 }
             ]
         },
@@ -246,14 +246,14 @@
         {
             "key": "CrimsonRites",
             "name": "research.CrimsonRites.title",
-            "icons": [ "thaumcraft:curio;1;6" ],
+            "icons": [ "thaumcraft:curio" ],
             "category": "BASICS", "location": [ -6,4 ],
             "parents": [ "!CrimsonCultist" ],
             "meta": [ "ROUND","HIDDEN","REVERSE" ],
             "stages": [
                 {
                     "text": "research.CrimsonRites.stage.1",  
-                    "required_item":["thaumcraft:curio;1;6"]
+                    "required_item":["thaumcraft:curio"]
                 },
                 {
                     "text": "research.CrimsonRites.stage.2"
