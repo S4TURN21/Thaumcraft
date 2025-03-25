@@ -51,7 +51,7 @@ public class ConfigRecipes extends RecipeProvider {
 
     public static void initializeAlchemyRecipes(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
         ResourceLocation nitorGroup = new ResourceLocation("thaumcraft", "nitorgroup");
-        CrucibleRecipeBuilder.smelting(BlocksTC.nitor.get(DyeColor.YELLOW)).group(nitorGroup.toString()).research("UNLOCKALCHEMY@3").catalyst(Tags.Items.DUSTS_GLOWSTONE).aspects(new AspectList().merge(Aspect.ENERGY, 10).merge(Aspect.FIRE, 10).merge(Aspect.LIGHT, 10)).save(pFinishedRecipeConsumer);
+        CrucibleRecipeBuilder.smelting(new ItemStack(BlocksTC.nitor.get(DyeColor.YELLOW))).group(nitorGroup.toString()).research("UNLOCKALCHEMY@3").catalyst(Tags.Items.DUSTS_GLOWSTONE).aspects(new AspectList().merge(Aspect.ENERGY, 10).merge(Aspect.FIRE, 10).merge(Aspect.LIGHT, 10)).save(pFinishedRecipeConsumer);
         for (DyeColor d : DyeColor.values()) {
             ShapelessRecipeBuilder.shapeless(BlocksTC.nitor.get(d)).group(nitorGroup.toString()).unlockedBy("has_nitor", has(ItemTagsTC.NITOR)).requires(ItemTagsTC.NITOR).requires(d.getTag()).save(pFinishedRecipeConsumer, "thaumcraft:nitor_dye_" + d.getName().toLowerCase());
         }
