@@ -7,6 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
 import net.minecraftforge.registries.RegisterEvent;
 import thaumcraft.api.items.ItemsTC;
+import thaumcraft.common.items.ItemTCBase;
 import thaumcraft.common.items.armor.ItemGoggles;
 import thaumcraft.common.items.consumables.ItemPhial;
 import thaumcraft.common.items.curios.ItemCelestialNotes;
@@ -47,6 +48,7 @@ public class ConfigItems {
         event.register("celestial_notes_moon_6", (ItemsTC.celestialNotesMoon6 = new ItemCelestialNotes(new Item.Properties())));
         event.register("celestial_notes_moon_7", (ItemsTC.celestialNotesMoon7 = new ItemCelestialNotes(new Item.Properties())));
         event.register("celestial_notes_moon_8", (ItemsTC.celestialNotesMoon8 = new ItemCelestialNotes(new Item.Properties())));
+        event.register("nugget_quartz", (ItemsTC.nuggetQuartz = new ItemTCBase(new Item.Properties())));
         event.register("salis_mundus", (ItemsTC.salisMundus = new ItemMagicDust(new Item.Properties().rarity(Rarity.UNCOMMON))));
         event.register("crystal_essence", (ItemsTC.crystalEssence = new ItemCrystalEssence()));
         event.register("phial", (ItemsTC.phial = new ItemPhial()));

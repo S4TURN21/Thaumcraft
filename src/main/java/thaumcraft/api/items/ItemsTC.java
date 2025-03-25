@@ -17,6 +17,7 @@ public class ItemsTC {
     public static Item celestialNotesMoon6;
     public static Item celestialNotesMoon7;
     public static Item celestialNotesMoon8;
+    public static Item nuggetQuartz;
     public static Item crystalEssence;
     public static Item salisMundus;
     public static Item phial;
