@@ -116,7 +116,7 @@
         <td align="center">❌</td>
     </tr>
     <tr>
-        <td rowspan="8">
+        <td rowspan="9">
             <strong>Items</strong>
         </td>
         <td>Vis Crystal</td>
@@ -162,6 +162,12 @@
     </tr>
     <tr>
         <td>Quartz Sliver</td>
+        <td align="center">✅</td>
+        <td align="center">❌</td>
+        <td align="center">❌</td>
+    </tr>
+    <tr>
+        <td>Essentia Filter</td>
         <td align="center">✅</td>
         <td align="center">❌</td>
         <td align="center">❌</td>

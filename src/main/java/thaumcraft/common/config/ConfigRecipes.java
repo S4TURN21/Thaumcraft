@@ -73,6 +73,7 @@ public class ConfigRecipes extends RecipeProvider {
 
     public static void initializeArcaneRecipes(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
         ShapedArcaneRecipeBuilder.shaped(ItemsTC.thaumometer).group(ConfigRecipes.defaultGroup).research("FIRSTSTEPS@2").vis(20).crystals(new AspectList().add(Aspect.AIR, 1).add(Aspect.EARTH, 1).add(Aspect.WATER, 1).add(Aspect.FIRE, 1).add(Aspect.ORDER, 1).add(Aspect.ENTROPY, 1)).pattern(" I ").pattern("IGI").pattern(" I ").define('I', Items.GOLD_INGOT).define('G', Blocks.GLASS_PANE).unlockedBy("has_arcane_workbench", has(BlocksTC.arcaneWorkbench)).save(pFinishedRecipeConsumer);
+        ShapedArcaneRecipeBuilder.shaped(ItemsTC.filter, 2).group(ConfigRecipes.defaultGroup).research("BASEALCHEMY").vis(15).crystals(new AspectList().add(Aspect.WATER, 1)).pattern("GWG").define('G', Items.GOLD_INGOT).define('W', BlocksTC.plankSilverwood).save(pFinishedRecipeConsumer);
     }
 
     public static void initializeNormalRecipes(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
