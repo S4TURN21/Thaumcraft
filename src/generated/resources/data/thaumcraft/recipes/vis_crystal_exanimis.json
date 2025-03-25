@@ -1,0 +1,22 @@
+{
+  "type": "thaumcraft:crucible",
+  "aspects": {
+    "exanimis": 2
+  },
+  "catalyst": {
+    "item": "thaumcraft:nugget_quartz"
+  },
+  "group": "thaumcraft:viscrystalgroup",
+  "research": "BASEALCHEMY",
+  "result": {
+    "item": "thaumcraft:crystal_essence",
+    "nbt": {
+      "Aspects": [
+        {
+          "amount": 1,
+          "key": "exanimis"
+        }
+      ]
+    }
+  }
+}

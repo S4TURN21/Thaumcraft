@@ -21,13 +21,11 @@ import net.minecraftforge.common.Tags;
 import thaumcraft.Thaumcraft;
 import thaumcraft.api.ItemTagsTC;
 import thaumcraft.api.ThaumcraftApi;
+import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.blocks.BlocksTC;
-import thaumcraft.api.crafting.CrucibleRecipeBuilder;
-import thaumcraft.api.crafting.IDustTrigger;
-import thaumcraft.api.crafting.IThaumcraftRecipe;
-import thaumcraft.api.crafting.ShapedArcaneRecipeBuilder;
+import thaumcraft.api.crafting.*;
 import thaumcraft.api.internal.CommonInternals;
 import thaumcraft.api.items.ItemsTC;
 import thaumcraft.common.lib.crafting.DustTriggerSimple;
@@ -51,6 +49,10 @@ public class ConfigRecipes extends RecipeProvider {
     }
 
     public static void initializeAlchemyRecipes(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
+        ResourceLocation visCrystalGroup = new ResourceLocation("thaumcraft:viscrystalgroup");
+        for (Aspect aspect : Aspect.aspects.values()) {
+            CrucibleRecipeBuilder.smelting(ThaumcraftApiHelper.makeCrystal(aspect)).research("BASEALCHEMY").catalyst(ItemsTC.nuggetQuartz).aspects(new AspectList().add(aspect, 2)).group(visCrystalGroup.toString()).save(pFinishedRecipeConsumer, "thaumcraft:vis_crystal_" + aspect.getTag());
+        }
         ResourceLocation nitorGroup = new ResourceLocation("thaumcraft", "nitorgroup");
         CrucibleRecipeBuilder.smelting(new ItemStack(BlocksTC.nitor.get(DyeColor.YELLOW))).group(nitorGroup.toString()).research("UNLOCKALCHEMY@3").catalyst(Tags.Items.DUSTS_GLOWSTONE).aspects(new AspectList().merge(Aspect.ENERGY, 10).merge(Aspect.FIRE, 10).merge(Aspect.LIGHT, 10)).save(pFinishedRecipeConsumer);
         for (DyeColor d : DyeColor.values()) {
