@@ -1,4 +1,4 @@
-// 1.19.2	2025-03-25T04:18:14.8438817	Recipes
+// 1.19.2	2025-03-25T15:33:50.9797639	Recipes
 1caeb1fc6ff889325d127acbd82b11e6447663ce data/thaumcraft/advancements/recipes/thaumcraft/nitor_dye_black.json
 202593406ec461caba069d2bcc83ee6e5d190029 data/thaumcraft/advancements/recipes/thaumcraft/nitor_dye_blue.json
 a7df5ef96d107b1e38deb774422b7c62950b2a9f data/thaumcraft/advancements/recipes/thaumcraft/nitor_dye_brown.json
@@ -17,6 +17,7 @@ cee862276d9ca45cb1389f903db1cc250fcaab60 data/thaumcraft/advancements/recipes/th
 f4a8b2283a1d35a1644f21a3ab702020a4533ad2 data/thaumcraft/advancements/recipes/thaumcraft/nitor_dye_yellow.json
 3fc6cfe765031c52496ecffc849b27cb139faf8b data/thaumcraft/advancements/recipes/thaumcraft/nitor_yellow.json
 baf7537e623c794b1b158188f87e7f577c410aa8 data/thaumcraft/advancements/recipes/thaumcraft/phial.json
+64a4ef62f73d4825f90997fde95923225830fa89 data/thaumcraft/advancements/recipes/thaumcraft/plank_silverwood.json
 75608627ec1c2320993108535324a7a13a8eae00 data/thaumcraft/advancements/recipes/thaumcraft/quartz_to_nuggets.json
 fe736fb46389602f4910086f9cf7fd0bb8a445e1 data/thaumcraft/advancements/recipes/thaumcraft/scribingtoolscraft1.json
 f8749698ba9d082659bf17773aa98b912769a00f data/thaumcraft/advancements/recipes/thaumcraft/scribingtoolscraft2.json
@@ -80,6 +81,7 @@ ea9b31c0938ba5787d4853f8d22f00606c8c7702 data/thaumcraft/recipes/nitor_dye_white
 2d0ec84238f0c0487bc1bf45c1db2d6e900f1104 data/thaumcraft/recipes/nitor_dye_yellow.json
 4841a58fcaf7996e980728f553a3407edbef6f01 data/thaumcraft/recipes/nitor_yellow.json
 c7758a33f8d6a5dcc127ba3fba56e437e5477eee data/thaumcraft/recipes/phial.json
+dbb0f72c678ea1ed8f636019761d47defcee78ca data/thaumcraft/recipes/plank_silverwood.json
 98e0980c1dbfe138ccfa4fd5b043e85769645971 data/thaumcraft/recipes/quartz_to_nuggets.json
 865a26ed73163e9a14f50d88bd6273e8964ef661 data/thaumcraft/recipes/scribingtoolscraft1.json
 85b55b55a553ac365dc055b0c00cbfddac6468d2 data/thaumcraft/recipes/scribingtoolscraft2.json

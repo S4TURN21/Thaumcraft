@@ -16,6 +16,7 @@ import thaumcraft.common.blockentities.crafting.BlockEntityArcaneWorkbench;
 import thaumcraft.common.blockentities.crafting.BlockEntityCrucible;
 import thaumcraft.common.blockentities.crafting.BlockEntityResearchTable;
 import thaumcraft.common.blockentities.misc.BlockEntityNitor;
+import thaumcraft.common.blocks.basic.BlockPlanksTC;
 import thaumcraft.common.blocks.basic.BlockStoneTC;
 import thaumcraft.common.blocks.basic.BlockTable;
 import thaumcraft.common.blocks.crafting.BlockArcaneWorkbench;
@@ -47,6 +48,7 @@ public class ConfigBlocks {
         BlocksTC.stoneArcane = registerBlock("stone_arcane", new BlockStoneTC());
         BlocksTC.stoneArcaneBrick = registerBlock("stone_arcane_brick", new BlockStoneTC());
         BlocksTC.logSilverwood = registerBlock("log_silverwood", new BlockLogsTC(BlockBehaviour.Properties.of(Material.WOOD).requiresCorrectToolForDrops().lightLevel((pBlockState) -> 5).strength(2.0f, 5.0f).sound(SoundType.WOOD)));
+        BlocksTC.plankSilverwood = registerBlock("plank_silverwood", new BlockPlanksTC(BlockBehaviour.Properties.of(Material.WOOD).requiresCorrectToolForDrops().strength(2.0f).sound(SoundType.WOOD)));
         BlocksTC.tableWood = registerBlock("table_wood", new BlockTable(BlockBehaviour.Properties.of(Material.WOOD).sound(SoundType.WOOD).destroyTime(2.0f)));
         for (DyeColor dye : DyeColor.values()) {
             BlocksTC.nitor.put(dye, registerBlock("nitor_" + dye.getName().toLowerCase(), new BlockNitor(BlockBehaviour.Properties.of(Material.DECORATION).strength(0.1f).sound(SoundType.WOOL).lightLevel((pBlockState) -> 15).noCollission().color(dye.getMaterialColor()), dye)));
