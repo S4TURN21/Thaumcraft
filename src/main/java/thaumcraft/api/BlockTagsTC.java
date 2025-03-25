@@ -11,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
 import thaumcraft.api.blocks.BlocksTC;
 
 public class BlockTagsTC extends BlockTagsProvider {
+    public static final TagKey<Block> SILVERWOOD_LOGS = BlockTags.create(new ResourceLocation("thaumcraft", "silverwood_logs"));
     public static final TagKey<Block> NITOR = BlockTags.create(new ResourceLocation("thaumcraft", "nitor"));
 
     public BlockTagsTC(DataGenerator generator, String modId, @Nullable ExistingFileHelper existingFileHelper) {
@@ -19,6 +20,7 @@ public class BlockTagsTC extends BlockTagsProvider {
 
     @Override
     protected void addTags() {
+        tag(SILVERWOOD_LOGS).add(BlocksTC.logSilverwood);
         var tag = tag(NITOR);
         for (Block nitor : BlocksTC.nitor.values()) {
             tag.add(nitor);

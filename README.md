@@ -53,7 +53,7 @@
         <td align="center">❌</td>
     </tr>
     <tr>
-        <td rowspan="8">
+        <td rowspan="9">
             <strong>Blocks</strong>
         </td>
         <td>Crystal Block</td>
@@ -99,6 +99,12 @@
     </tr>
     <tr>
         <td>Nitor</td>
+        <td align="center">🟡</td>
+        <td align="center">❌</td>
+        <td align="center">❌</td>
+    </tr>
+    <tr>
+        <td>Silverwood Log</td>
         <td align="center">🟡</td>
         <td align="center">❌</td>
         <td align="center">❌</td>

@@ -6,6 +6,7 @@ import net.minecraft.world.level.block.Block;
 import java.util.HashMap;
 
 public class BlocksTC {
+    public static Block logSilverwood;
     public static Block stoneArcane;
     public static Block stoneArcaneBrick;
     public static Block crystalAir;

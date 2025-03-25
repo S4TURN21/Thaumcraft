@@ -11,6 +11,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
 
 public class ItemTagsTC extends ItemTagsProvider {
+    public static final TagKey<Item> SILVERWOOD_LOGS = ItemTags.create(new ResourceLocation("thaumcraft", "silverwood_logs"));
     public static final TagKey<Item> NITOR = ItemTags.create(new ResourceLocation("thaumcraft", "nitor"));
 
     public ItemTagsTC(DataGenerator generator, BlockTagsProvider blockTagsProvider, String modId, @Nullable ExistingFileHelper existingFileHelper) {
@@ -19,6 +20,7 @@ public class ItemTagsTC extends ItemTagsProvider {
 
     @Override
     protected void addTags() {
+        this.copy(BlockTagsTC.SILVERWOOD_LOGS, ItemTagsTC.SILVERWOOD_LOGS);
         this.copy(BlockTagsTC.NITOR, NITOR);
     }
 }
