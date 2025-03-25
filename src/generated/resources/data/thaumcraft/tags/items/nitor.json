@@ -1,20 +1,20 @@
 {
   "values": [
-    "thaumcraft:nitor_orange",
-    "thaumcraft:nitor_purple",
-    "thaumcraft:nitor_red",
     "thaumcraft:nitor_white",
-    "thaumcraft:nitor_gray",
-    "thaumcraft:nitor_black",
-    "thaumcraft:nitor_pink",
+    "thaumcraft:nitor_orange",
     "thaumcraft:nitor_magenta",
-    "thaumcraft:nitor_lime",
-    "thaumcraft:nitor_blue",
-    "thaumcraft:nitor_cyan",
     "thaumcraft:nitor_light_blue",
-    "thaumcraft:nitor_green",
     "thaumcraft:nitor_yellow",
+    "thaumcraft:nitor_lime",
+    "thaumcraft:nitor_pink",
+    "thaumcraft:nitor_gray",
     "thaumcraft:nitor_light_gray",
-    "thaumcraft:nitor_brown"
+    "thaumcraft:nitor_cyan",
+    "thaumcraft:nitor_purple",
+    "thaumcraft:nitor_blue",
+    "thaumcraft:nitor_brown",
+    "thaumcraft:nitor_green",
+    "thaumcraft:nitor_red",
+    "thaumcraft:nitor_black"
   ]
 }

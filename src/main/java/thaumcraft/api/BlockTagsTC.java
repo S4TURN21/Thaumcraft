@@ -5,6 +5,7 @@ import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
@@ -22,8 +23,8 @@ public class BlockTagsTC extends BlockTagsProvider {
     protected void addTags() {
         tag(SILVERWOOD_LOGS).add(BlocksTC.logSilverwood);
         var tag = tag(NITOR);
-        for (Block nitor : BlocksTC.nitor.values()) {
-            tag.add(nitor);
+        for (DyeColor dye : DyeColor.values()) {
+            tag.add(BlocksTC.nitor.get(dye));
         }
     }
 }

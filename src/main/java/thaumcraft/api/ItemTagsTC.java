@@ -21,6 +21,6 @@ public class ItemTagsTC extends ItemTagsProvider {
     @Override
     protected void addTags() {
         this.copy(BlockTagsTC.SILVERWOOD_LOGS, ItemTagsTC.SILVERWOOD_LOGS);
-        this.copy(BlockTagsTC.NITOR, NITOR);
+        this.copy(BlockTagsTC.NITOR, ItemTagsTC.NITOR);
     }
 }
