@@ -4,7 +4,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
 import net.minecraft.CrashReport;
 import net.minecraft.CrashReportCategory;
 import net.minecraft.ReportedException;
@@ -12,7 +14,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
@@ -31,48 +32,10 @@ import java.util.Map;
 
 @Mod.EventBusSubscriber({Dist.CLIENT})
 public class ParticleEngine {
-    public static ParticleRenderType PARTICLE_SHEET_OPAQUE = new ParticleRenderType() {
-        public void begin(BufferBuilder pBuilder, TextureManager pTextureManager) {
-            RenderSystem.depthMask(false);
-            RenderSystem.enableBlend();
-            RenderSystem.setShader(GameRenderer::getParticleShader);
-            RenderSystem.setShaderTexture(0, ParticleEngine.particleTexture);
-            RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-
-            pBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
-        }
-
-        public void end(Tesselator pTesselator) {
-            pTesselator.end();
-        }
-
-        public String toString() {
-            return "PARTICLE_SHEET_OPAQUE";
-        }
-    };
-    public static ParticleRenderType PARTICLE_SHEET_TRANSLUCENT = new ParticleRenderType() {
-        public void begin(BufferBuilder pBuilder, TextureManager pTextureManager) {
-            RenderSystem.depthMask(false);
-            RenderSystem.setShader(GameRenderer::getParticleShader);
-            RenderSystem.setShaderTexture(0, ParticleEngine.particleTexture);
-            RenderSystem.enableBlend();
-            RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-
-            pBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
-        }
-
-        public void end(Tesselator pTesselator) {
-            pTesselator.end();
-        }
-
-        public String toString() {
-            return "PARTICLE_SHEET_TRANSLUCENT";
-        }
-    };
-    private static final List<ParticleRenderType> RENDER_ORDER = ImmutableList.of(ParticleEngine.PARTICLE_SHEET_OPAQUE, ParticleEngine.PARTICLE_SHEET_TRANSLUCENT);
+    private static final List<ParticleRenderType> RENDER_ORDER = ImmutableList.of(ParticleRenderType.PARTICLE_SHEET_OPAQUE, ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT);
     public static ResourceLocation particleTexture = new ResourceLocation("thaumcraft", "textures/misc/particles.png");
-    private static Map<ParticleRenderType, ArrayList<Particle>> particles = Maps.newTreeMap(ForgeHooksClient.makeParticleRenderTypeComparator(RENDER_ORDER));
-    private static ArrayList<ParticleDelay> particlesDelayed = new ArrayList<ParticleDelay>();
+    private static final Map<ParticleRenderType, ArrayList<Particle>> particles = Maps.newTreeMap(ForgeHooksClient.makeParticleRenderTypeComparator(RENDER_ORDER));
+    private static final ArrayList<ParticleDelay> particlesDelayed = new ArrayList<>();
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
@@ -81,7 +44,6 @@ public class ParticleEngine {
             Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();
             var camera = event.getCamera();
             var partialTicks = event.getPartialTick();
-            var matrixStack = event.getPoseStack();
             var textureManager = Minecraft.getInstance().getTextureManager();
             var clippingHelper = event.getFrustum();
             RenderSystem.enableDepthTest();
@@ -100,9 +62,19 @@ public class ParticleEngine {
                     Tesselator tesselator = Tesselator.getInstance();
                     BufferBuilder bufferbuilder = tesselator.getBuilder();
                     particlerendertype.begin(bufferbuilder, textureManager);
+                    RenderSystem.setShaderTexture(0, ParticleEngine.particleTexture);
+                    RenderSystem.depthMask(false);
+                    RenderSystem.enableCull();
+                    RenderSystem.enableBlend();
+
+                    if (particlerendertype == ParticleRenderType.PARTICLE_SHEET_OPAQUE) {
+                        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+                    } else if (particlerendertype == ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT) {
+                        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+                    }
 
                     for (Particle particle : iterable) {
-                        if (clippingHelper != null && particle.shouldCull() && !clippingHelper.isVisible(particle.getBoundingBox()))
+                        if (particle.shouldCull() && !clippingHelper.isVisible(particle.getBoundingBox()))
                             continue;
                         try {
                             particle.render(bufferbuilder, camera, partialTicks);
@@ -118,10 +90,11 @@ public class ParticleEngine {
                     particlerendertype.end(tesselator);
                 }
             }
-
-            posestack.popPose();
             RenderSystem.depthMask(true);
+            RenderSystem.disableCull();
+            RenderSystem.defaultBlendFunc();
             RenderSystem.disableBlend();
+            posestack.popPose();
             Minecraft.getInstance().gameRenderer.lightTexture().turnOffLightLayer();
         }
     }
@@ -147,7 +120,7 @@ public class ParticleEngine {
         }
 
         if (!ParticleEngine.particles.containsKey(fx.getRenderType())) {
-            ParticleEngine.particles.put(fx.getRenderType(), new ArrayList<Particle>());
+            ParticleEngine.particles.put(fx.getRenderType(), new ArrayList<>());
         }
         ArrayList<Particle> parts = ParticleEngine.particles.get(fx.getRenderType());
         if (parts.size() >= getParticleLimit()) {
@@ -175,7 +148,7 @@ public class ParticleEngine {
                         i.remove();
                     }
                 }
-            } catch (Exception ex) {
+            } catch (Exception ignored) {
             }
 
             for (ParticleRenderType layer : ParticleEngine.particles.keySet()) {

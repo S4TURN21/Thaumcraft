@@ -1,25 +1,21 @@
 package thaumcraft.client.fx.particles;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;
-import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
-import thaumcraft.client.fx.ParticleEngine;
 
 public class FXGeneric extends TextureSheetParticle {
     boolean doneFrames;
     double windX;
     double windZ;
-    int layer;
+    ParticleRenderType layer = ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     float dr;
     float dg;
     float db;
@@ -57,7 +53,7 @@ public class FXGeneric extends TextureSheetParticle {
         this.scaleFrames = new float[]{0.0f};
         this.alphaKeys = new float[]{1.0f};
         this.alphaFrames = new float[]{0.0f};
-        this.friction = 0.9800000190734863f;
+        this.friction = 0.98f;
         this.gridSize = 64;
         this.setSize(0.1f, 0.1f);
         this.setPos(x, y, z);
@@ -111,7 +107,7 @@ public class FXGeneric extends TextureSheetParticle {
             this.remove();
         }
         this.oRoll = this.roll;
-        this.roll += 3.1415927f * this.rotationSpeed * 2.0f;
+        this.roll += Mth.PI * this.rotationSpeed * 2.0f;
         this.yd -= 0.04 * this.gravity;
         this.move(this.xd, this.yd, this.zd);
         this.xd *= this.friction;
@@ -128,46 +124,9 @@ public class FXGeneric extends TextureSheetParticle {
         }
     }
 
-    public static class ParticleLayer implements ParticleRenderType {
-        private final int layer;
-
-        public ParticleLayer(int layer) {
-
-            this.layer = layer;
-        }
-
-        @Override
-        public void begin(BufferBuilder pBuilder, @NotNull TextureManager pTextureManager) {
-            RenderSystem.enableBlend();
-            RenderSystem.setShaderTexture(0, ParticleEngine.particleTexture);
-            RenderSystem.depthMask(false);
-            RenderSystem.enableDepthTest();
-
-            switch (layer) {
-                case 0 -> {
-                    RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-                }
-                case 1 -> {
-                    RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-                }
-            }
-
-            pBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
-        }
-
-        @Override
-        public void end(Tesselator pTesselator) {
-            pTesselator.end();
-        }
-    }
-
     @Override
     public @NotNull ParticleRenderType getRenderType() {
-        return switch (this.layer) {
-            case 0 -> ParticleEngine.PARTICLE_SHEET_TRANSLUCENT;
-            case 1 -> ParticleEngine.PARTICLE_SHEET_OPAQUE;
-            default -> new ParticleLayer(this.layer);
-        };
+        return this.layer;
     }
 
     @Override
@@ -212,9 +171,7 @@ public class FXGeneric extends TextureSheetParticle {
         float pg = this.gCol + (this.dg - this.gCol) * fs;
         float pb = this.bCol + (this.db - this.bCol) * fs;
 
-        int i = this.getLightColor(partialTicks);
-        int j = i >> 16 & 0xFFFF;
-        int k = i & 0xFFFF;
+        int j = this.getLightColor(partialTicks);
 
         Vec3 vec3 = camera.getPosition();
         float f = (float) (Mth.lerp((double) partialTicks, this.xo, this.x) - vec3.x());
@@ -242,10 +199,10 @@ public class FXGeneric extends TextureSheetParticle {
             vector3f.mul(ts);
             vector3f.add(f, f1, f2);
         }
-        wr.vertex((double) avector3f[0].x(), (double) avector3f[0].y(), (double) avector3f[0].z()).uv(tx2, ty2).color(pr, pg, pb, this.alpha).uv2(j, k).endVertex();
-        wr.vertex((double) avector3f[1].x(), (double) avector3f[1].y(), (double) avector3f[1].z()).uv(tx2, ty1).color(pr, pg, pb, this.alpha).uv2(j, k).endVertex();
-        wr.vertex((double) avector3f[2].x(), (double) avector3f[2].y(), (double) avector3f[2].z()).uv(tx1, ty1).color(pr, pg, pb, this.alpha).uv2(j, k).endVertex();
-        wr.vertex((double) avector3f[3].x(), (double) avector3f[3].y(), (double) avector3f[3].z()).uv(tx1, ty2).color(pr, pg, pb, this.alpha).uv2(j, k).endVertex();
+        wr.vertex((double) avector3f[0].x(), (double) avector3f[0].y(), (double) avector3f[0].z()).uv(tx2, ty2).color(pr, pg, pb, this.alpha).uv2(j).endVertex();
+        wr.vertex((double) avector3f[1].x(), (double) avector3f[1].y(), (double) avector3f[1].z()).uv(tx2, ty1).color(pr, pg, pb, this.alpha).uv2(j).endVertex();
+        wr.vertex((double) avector3f[2].x(), (double) avector3f[2].y(), (double) avector3f[2].z()).uv(tx1, ty1).color(pr, pg, pb, this.alpha).uv2(j).endVertex();
+        wr.vertex((double) avector3f[3].x(), (double) avector3f[3].y(), (double) avector3f[3].z()).uv(tx1, ty2).color(pr, pg, pb, this.alpha).uv2(j).endVertex();
     }
 
     public void setWind(double d) {
@@ -258,7 +215,7 @@ public class FXGeneric extends TextureSheetParticle {
         this.windZ = vres.z * d;
     }
 
-    public void setLayer(final int layer) {
+    public void setLayer(ParticleRenderType layer) {
         this.layer = layer;
     }
 
@@ -289,9 +246,13 @@ public class FXGeneric extends TextureSheetParticle {
         this.loop = loop;
     }
 
+    public void setRotationSpeed(float rot) {
+        rotationSpeed = (float) (rot * Mth.DEG_TO_RAD);
+    }
+
     public void setRotationSpeed(final float start, final float rot) {
-        this.roll = (float) (start * 3.141592653589793 * 2.0);
-        this.rotationSpeed = (float) (rot * 0.017453292519943);
+        this.roll = (float) (start * Mth.PI * 2.0);
+        this.rotationSpeed = (float) (rot * Mth.DEG_TO_RAD);
     }
 
     public void setMaxAge(final int max) {

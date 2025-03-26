@@ -2,6 +2,7 @@ package thaumcraft.client.fx;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundSource;
@@ -35,7 +36,7 @@ public class FXDispatcher {
         fb.setGridSize(16);
         fb.setParticles(56, 1, 1);
         fb.setScale(2.0f, 5.0f);
-        fb.setLayer(1);
+        fb.setLayer(ParticleRenderType.PARTICLE_SHEET_OPAQUE);
         fb.setSlowDown(1.0f);
         fb.setWind(0.001);
         fb.setRotationSpeed(getWorld().random.nextFloat(), getWorld().random.nextBoolean() ? -1.0f : 1.0f);
@@ -98,11 +99,11 @@ public class FXDispatcher {
         fb.setLoop(true);
         fb.setGravity(grav);
         fb.setScale(scale, scale * 2.0f);
-        fb.setLayer(0);
+        fb.setLayer(ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT);
         fb.setSlowDown(decay);
         fb.setRandomMovementScale(5.0E-4f, 0.001f, 5.0E-4f);
         fb.setWind(5.0E-4);
-        Minecraft.getInstance().particleEngine.add(fb);
+        ParticleEngine.addEffect(getWorld(), fb);
     }
 
     public void drawWispyMotes(double d, double e, double f, double vx, double vy, double vz, int age, float grav) {
@@ -121,7 +122,7 @@ public class FXDispatcher {
         fb.setWind(0.001);
         fb.setGravity(grav);
         fb.setRandomMovementScale(0.0025f, 0.0f, 0.0025f);
-        Minecraft.getInstance().particleEngine.add(fb);
+        ParticleEngine.addEffect(getWorld(), fb);
     }
 
     public void crucibleBubble(float x, float y, float z, float cr, float cg, float cb) {
@@ -178,7 +179,7 @@ public class FXDispatcher {
         fb.setNoClip(false);
         fb.setParticle(73);
         fb.setFinalFrames(65, 66);
-        fb.setLayer(1);
+        fb.setLayer(ParticleRenderType.PARTICLE_SHEET_OPAQUE);
         ParticleEngine.addEffect(getWorld(), fb);
     }
 
@@ -218,10 +219,10 @@ public class FXDispatcher {
             fb2.setGridSize(16);
             fb2.setParticles(123, 5, 1);
             fb2.setScale(3.0f, 4.0f + this.getWorld().random.nextFloat() * 3.0f);
-            fb2.setLayer(1);
+            fb2.setLayer(ParticleRenderType.PARTICLE_SHEET_OPAQUE);
             fb2.setSlowDown(0.7f);
             fb2.setRotationSpeed(this.getWorld().random.nextFloat(), this.getWorld().random.nextBoolean() ? -1.0f : 1.0f);
-            Minecraft.getInstance().particleEngine.add(fb2);
+            ParticleEngine.addEffect(getWorld(), fb2);
         }
         if (flair) {
             for (int a = 0; a < 2 + this.getWorld().random.nextInt(3); ++a) {
@@ -237,16 +238,16 @@ public class FXDispatcher {
             fb3.setGridSize(16);
             fb3.setParticles(77, 1, 1);
             fb3.setScale(10.0f + this.getWorld().random.nextFloat() * 2.0f, 0.0f);
-            fb3.setLayer(0);
+            fb3.setLayer(ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT);
             fb3.setRotationSpeed(this.getWorld().random.nextFloat(), (float) this.getWorld().random.nextGaussian());
-            Minecraft.getInstance().particleEngine.add(fb3);
+            ParticleEngine.addEffect(getWorld(), fb3);
         }
         for (int a = 0; a < (flair ? 2 : 0) + this.getWorld().random.nextInt(3); ++a) {
-            this.drawCurlyWisp(x, y, z, 0.0, 0.0, 0.0, 1.0f, (0.9f + this.getWorld().random.nextFloat() * 0.1f + r) / 2.0f, (0.1f + g) / 2.0f, (0.5f + this.getWorld().random.nextFloat() * 0.1f + b) / 2.0f, 0.75f, side, a, 0, 0);
+            this.drawCurlyWisp(x, y, z, 0.0, 0.0, 0.0, 1.0f, (0.9f + this.getWorld().random.nextFloat() * 0.1f + r) / 2.0f, (0.1f + g) / 2.0f, (0.5f + this.getWorld().random.nextFloat() * 0.1f + b) / 2.0f, 0.75f, side, a, ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT, 0);
         }
     }
 
-    public void drawCurlyWisp(double x, double y, double z, double vx, double vy, double vz, float scale, float r, float g, float b, float a, Direction side, int seed, int layer, int delay) {
+    public void drawCurlyWisp(double x, double y, double z, double vx, double vy, double vz, float scale, float r, float g, float b, float a, Direction side, int seed, ParticleRenderType layer, int delay) {
         if (this.getWorld() == null) {
             return;
         }
@@ -270,7 +271,7 @@ public class FXDispatcher {
         fb2.setScale(5.0f * scale, (10.0f + this.getWorld().random.nextFloat() * 4.0f) * scale);
         fb2.setLayer(layer);
         fb2.setRotationSpeed(this.getWorld().random.nextFloat(), this.getWorld().random.nextBoolean() ? (-2.0f - this.getWorld().random.nextFloat() * 2.0f) : (2.0f + this.getWorld().random.nextFloat() * 2.0f));
-        Minecraft.getInstance().particleEngine.add(fb2);
+        ParticleEngine.addEffect(getWorld(), fb2);
     }
 
     public void scanHighlight(BlockPos p) {
@@ -309,7 +310,7 @@ public class FXDispatcher {
     public void blockRunes(double x, double y, double z, float r, float g, float b, int dur, float grav) {
         FXBlockRunes fb = new FXBlockRunes(getWorld(), x + 0.5, y + 0.5, z + 0.5, r, g, b, dur);
         fb.setGravity(grav);
-        Minecraft.getInstance().particleEngine.add(fb);
+        ParticleEngine.addEffect(getWorld(), fb);
     }
 
     public void drawNitorCore(double x, double y, double z, double x2, double y2, double z2) {
@@ -319,7 +320,7 @@ public class FXDispatcher {
         fb.setAlphaF(1.0f);
         fb.setParticles(457, 1, 1);
         fb.setScale(1.0f, 1.0f + (float) getWorld().random.nextGaussian() * 0.1f, 1.0f);
-        fb.setLayer(1);
+        fb.setLayer(ParticleRenderType.PARTICLE_SHEET_OPAQUE);
         fb.setRandomMovementScale(2.0E-4f, 2.0E-4f, 2.0E-4f);
         ParticleEngine.addEffect(getWorld(), fb);
     }
