@@ -9,6 +9,7 @@ import net.minecraftforge.registries.RegisterEvent;
 import thaumcraft.api.items.ItemsTC;
 import thaumcraft.common.items.ItemTCBase;
 import thaumcraft.common.items.armor.ItemGoggles;
+import thaumcraft.common.items.consumables.ItemAlumentum;
 import thaumcraft.common.items.consumables.ItemPhial;
 import thaumcraft.common.items.curios.ItemCelestialNotes;
 import thaumcraft.common.items.curios.ItemThaumonomicon;
@@ -53,6 +54,7 @@ public class ConfigItems {
         event.register("salis_mundus", (ItemsTC.salisMundus = new ItemMagicDust(new Item.Properties().rarity(Rarity.UNCOMMON))));
         event.register("crystal_essence", (ItemsTC.crystalEssence = new ItemCrystalEssence()));
         event.register("phial", (ItemsTC.phial = new ItemPhial()));
+        event.register("alumentum", (ItemsTC.alumentum = new ItemAlumentum(new Item.Properties())));
         event.register("scribing_tools", (ItemsTC.scribingTools = new ItemScribingTools(new Item.Properties().stacksTo(1).durability(100))));
         event.register("thaumometer", (ItemsTC.thaumometer = new ItemThaumometer(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))));
         event.register("goggles", (ItemsTC.goggles = new ItemGoggles(new Item.Properties().durability(350).tab(ConfigItems.TABTC).rarity(Rarity.RARE))));

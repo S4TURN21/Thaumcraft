@@ -18,7 +18,7 @@
     {
       "key": "ALUMENTUM",
       "name": "research.ALUMENTUM.title",
-      "icons": [ "thaumcraft:textures/items/alumentum.png" ],
+      "icons": [ "thaumcraft:textures/item/alumentum.png" ],
       "category": "ALCHEMY", "location": [ 2,-1 ],
       "parents": [ "BASEALCHEMY" ],
       "stages": [

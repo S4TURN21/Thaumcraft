@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import thaumcraft.client.fx.particles.FXBlockRunes;
+import thaumcraft.client.fx.particles.FXFireMote;
 import thaumcraft.client.fx.particles.FXGeneric;
 import thaumcraft.common.blockentities.crafting.BlockEntityCrucible;
 import thaumcraft.common.lib.SoundsTC;
@@ -23,6 +24,25 @@ public class FXDispatcher {
 
     public ClientLevel getWorld() {
         return Minecraft.getInstance().level;
+    }
+
+    public void drawAlumentum(float x, float y, float z, float vx, float vy, float vz, float r, float g, float b, float alpha, float scale) {
+        FXFireMote glow = new FXFireMote(getWorld(), x, y, z, vx, vy, vz, r, g, b, scale, ParticleRenderType.PARTICLE_SHEET_OPAQUE);
+        glow.setAlpha(alpha);
+        ParticleEngine.addEffect(getWorld(), glow);
+    }
+
+    public void drawGenericParticles(double x, double y, double z, double x2, double y2, double z2, float r, float g, float b, float alpha, boolean loop, int start, int num, int inc, int age, int delay, float scale, float rot, ParticleRenderType layer) {
+        FXGeneric fb = new FXGeneric(getWorld(), x, y, z, x2, y2, z2);
+        fb.setMaxAge(age);
+        fb.setRBGColorF(r, g, b);
+        fb.setAlphaF(alpha);
+        fb.setLoop(loop);
+        fb.setParticles(start, num, inc);
+        fb.setScale(scale);
+        fb.setLayer(layer);
+        fb.setRotationSpeed(rot);
+        ParticleEngine.addEffectWithDelay(getWorld(), fb, delay);
     }
 
     public void drawPollutionParticles(BlockPos p) {
