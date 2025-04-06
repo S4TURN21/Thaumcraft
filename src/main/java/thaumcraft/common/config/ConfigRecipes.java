@@ -25,7 +25,10 @@ import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.blocks.BlocksTC;
-import thaumcraft.api.crafting.*;
+import thaumcraft.api.crafting.CrucibleRecipeBuilder;
+import thaumcraft.api.crafting.IDustTrigger;
+import thaumcraft.api.crafting.IThaumcraftRecipe;
+import thaumcraft.api.crafting.ShapedArcaneRecipeBuilder;
 import thaumcraft.api.internal.CommonInternals;
 import thaumcraft.api.items.ItemsTC;
 import thaumcraft.common.lib.crafting.DustTriggerSimple;
@@ -58,6 +61,7 @@ public class ConfigRecipes extends RecipeProvider {
         for (DyeColor d : DyeColor.values()) {
             ShapelessRecipeBuilder.shapeless(BlocksTC.nitor.get(d)).group(nitorGroup.toString()).unlockedBy("has_nitor", has(ItemTagsTC.NITOR)).requires(ItemTagsTC.NITOR).requires(d.getTag()).save(pFinishedRecipeConsumer, "thaumcraft:nitor_dye_" + d.getName().toLowerCase());
         }
+        CrucibleRecipeBuilder.smelting(new ItemStack(ItemsTC.alumentum)).research("ALUMENTUM").catalyst(ItemTags.COALS).aspects(new AspectList().merge(Aspect.ENERGY, 10).merge(Aspect.FIRE, 10).merge(Aspect.ENTROPY, 5)).save(pFinishedRecipeConsumer);
     }
 
     public static void initializeFakeRecipes() {
