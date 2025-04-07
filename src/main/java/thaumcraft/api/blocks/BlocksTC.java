@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 public class BlocksTC {
     public static Block logSilverwood;
+    public static Block leafSilverwood;
     public static Block plankSilverwood;
     public static Block stoneArcane;
     public static Block stoneArcaneBrick;
