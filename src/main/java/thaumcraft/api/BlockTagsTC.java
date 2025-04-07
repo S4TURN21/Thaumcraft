@@ -22,6 +22,8 @@ public class BlockTagsTC extends BlockTagsProvider {
     @Override
     protected void addTags() {
         tag(SILVERWOOD_LOGS).add(BlocksTC.logSilverwood);
+        tag(BlockTags.LOGS).add(BlocksTC.logSilverwood);
+
         var tag = tag(NITOR);
         for (DyeColor dye : DyeColor.values()) {
             tag.add(BlocksTC.nitor.get(dye));
