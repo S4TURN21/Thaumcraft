@@ -53,7 +53,7 @@
         <td align="center">❌</td>
     </tr>
     <tr>
-        <td rowspan="11">
+        <td rowspan="12">
             <strong>Blocks</strong>
         </td>
         <td>Crystal Block</td>
@@ -117,6 +117,12 @@
     </tr>
     <tr>
         <td>Silverwood Leaves</td>
+        <td align="center">✅</td>
+        <td align="center">❌</td>
+        <td align="center">❌</td>
+    </tr>
+    <tr>
+        <td>Silverwood Sapling</td>
         <td align="center">✅</td>
         <td align="center">❌</td>
         <td align="center">❌</td>

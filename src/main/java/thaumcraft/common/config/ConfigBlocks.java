@@ -27,6 +27,7 @@ import thaumcraft.common.blocks.world.ore.BlockCrystal;
 import thaumcraft.common.blocks.world.ore.ShardType;
 import thaumcraft.common.blocks.world.plants.BlockLeavesTC;
 import thaumcraft.common.blocks.world.plants.BlockLogsTC;
+import thaumcraft.common.blocks.world.plants.BlockSaplingTC;
 
 public class ConfigBlocks {
     public static void initBlocks(RegisterEvent.RegisterHelper<Block> event) {
@@ -48,6 +49,7 @@ public class ConfigBlocks {
 
         BlocksTC.stoneArcane = registerBlock("stone_arcane", new BlockStoneTC());
         BlocksTC.stoneArcaneBrick = registerBlock("stone_arcane_brick", new BlockStoneTC());
+        BlocksTC.saplingSilverwood = registerBlock("sapling_silverwood", new BlockSaplingTC(BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)));
         BlocksTC.logSilverwood = registerBlock("log_silverwood", new BlockLogsTC(BlockBehaviour.Properties.of(Material.WOOD).requiresCorrectToolForDrops().lightLevel((pBlockState) -> 5).strength(2.0f, 5.0f).sound(SoundType.WOOD)));
         BlocksTC.leafSilverwood = registerBlock("leaves_silverwood", new BlockLeavesTC(BlockBehaviour.Properties.of(Material.LEAVES).noOcclusion().sound(SoundType.GRASS)));
         BlocksTC.plankSilverwood = registerBlock("plank_silverwood", new BlockPlanksTC(BlockBehaviour.Properties.of(Material.WOOD).requiresCorrectToolForDrops().strength(2.0f).sound(SoundType.WOOD)));
