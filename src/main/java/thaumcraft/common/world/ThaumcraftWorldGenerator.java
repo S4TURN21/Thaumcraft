@@ -12,6 +12,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import thaumcraft.Thaumcraft;
 import thaumcraft.common.world.objects.CrystalFeature;
+import thaumcraft.common.world.objects.SilverwoodTreeFeature;
 
 import java.util.List;
 
@@ -29,6 +30,12 @@ public class ThaumcraftWorldGenerator {
             () -> new ConfiguredFeature<>(ThaumcraftWorldGenerator.CRYSTAL.get(), NoneFeatureConfiguration.INSTANCE));
     public static final RegistryObject<PlacedFeature> CRYSTAL_PLACED = PLACED_FEATURES.register("crystal_placed",
             () -> new PlacedFeature(CRYSTAL_FEATURE.getHolder().get(), List.of(BiomeFilter.biome())));
+
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> SILVERWOOD = FEATURES.register("silverwood",
+            () -> new SilverwoodTreeFeature(NoneFeatureConfiguration.CODEC, 7, 4));
+
+    public static final RegistryObject<ConfiguredFeature<?, ?>> SILVERWOOD_FEATURE = CONFIGURED_FEATURES.register("silverwood_feature",
+            () -> new ConfiguredFeature<>(ThaumcraftWorldGenerator.SILVERWOOD.get(), NoneFeatureConfiguration.INSTANCE));
 
     public static void register(IEventBus eventBus) {
         FEATURES.register(eventBus);
