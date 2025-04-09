@@ -22,7 +22,7 @@ public class ScanGeneric implements IScanThing {
         }
         AspectList al = null;
         if (obj instanceof Entity && !(obj instanceof ItemEntity)) {
-//            al = AspectHelper.getEntityAspects((Entity)obj);
+            al = AspectHelper.getEntityAspects((Entity) obj);
         } else {
             ItemStack is = ScanningManager.getItemFromParms(player, obj);
             if (is != null && !is.isEmpty()) {
@@ -39,10 +39,15 @@ public class ScanGeneric implements IScanThing {
         }
         AspectList al = null;
 
-        ItemStack is = ScanningManager.getItemFromParms(player, obj);
-        if (is != null && !is.isEmpty()) {
-            al = AspectHelper.getObjectAspects(is);
+        if (obj instanceof Entity && !(obj instanceof ItemEntity)) {
+            al = AspectHelper.getEntityAspects((Entity) obj);
+        } else {
+            ItemStack is = ScanningManager.getItemFromParms(player, obj);
+            if (is != null && !is.isEmpty()) {
+                al = AspectHelper.getObjectAspects(is);
+            }
         }
+
         if (al != null) {
             for (ResearchCategory category : ResearchCategories.researchCategories.values()) {
                 ThaumcraftApi.internalMethods.addKnowledge(player, IPlayerKnowledge.EnumKnowledgeType.OBSERVATION, category, category.applyFormula(al));
@@ -52,6 +57,10 @@ public class ScanGeneric implements IScanThing {
 
     @Override
     public String getResearchKey(Player player, Object obj) {
+        if (obj instanceof Entity && !(obj instanceof ItemEntity)) {
+            String s = ForgeRegistries.ENTITY_TYPES.getKey(((Entity) obj).getType()).toString();
+            return "!" + s;
+        }
         ItemStack is = ScanningManager.getItemFromParms(player, obj);
         if (is != null && !is.isEmpty()) {
             String s2 = "!" + ForgeRegistries.ITEMS.getKey(is.getItem()).getPath();

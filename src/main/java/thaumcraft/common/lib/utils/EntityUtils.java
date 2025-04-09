@@ -8,11 +8,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import thaumcraft.api.items.IGoggles;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class EntityUtils {
     public static Vec3 posToHand(Entity e, InteractionHand hand) {
@@ -47,6 +49,34 @@ public class EntityUtils {
 
     private static boolean showPopups(ItemStack stack, Player player) {
         return ((IGoggles) stack.getItem()).showIngamePopups(stack, player);
+    }
+
+    public static Entity getPointedEntity(Level world, Entity entity, double minrange, double range, float padding, boolean nonCollide) {
+        return getPointedEntity(world, new EntityHitResult(entity, entity.getEyePosition(1.0f)), entity.getViewVector(1.0f), minrange, range, padding, nonCollide);
+    }
+
+    static Entity getPointedEntity(Level world, EntityHitResult ray, Vec3 lookVec, double minrange, double range, float padding, boolean nonCollide) {
+        Entity pointedEntity = null;
+        Vec3 eyePos = ray.getLocation();
+        Vec3 targetVec = eyePos.add(lookVec.x * range, lookVec.y * range, lookVec.z * range);
+        AABB searchArea = ray.getEntity().getBoundingBox().expandTowards(lookVec.scale(range)).inflate(padding);
+        List<Entity> list = world.getEntities(ray.getEntity(), searchArea);
+        double d2 = range;
+        for (Entity entity : list) {
+            if (ray.getLocation().distanceTo(entity.getPosition(0.0f)) >= minrange) {
+                AABB entityBB = entity.getBoundingBox();
+                Optional<Vec3> optionalHit = entityBB.clip(eyePos, targetVec);
+
+                if (optionalHit.isPresent()) {
+                    double distance = eyePos.distanceToSqr(optionalHit.get());
+                    if (distance < d2 * d2) {
+                        pointedEntity = entity;
+                        d2 = Math.sqrt(distance);
+                    }
+                }
+            }
+        }
+        return pointedEntity;
     }
 
     public static <T extends Entity> List<T> getEntitiesInRange(Level world, BlockPos pos, Entity entity, Class<? extends T> classEntity, double range) {

@@ -8,6 +8,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -297,6 +298,11 @@ public class FXDispatcher {
     public void scanHighlight(BlockPos p) {
         AABB bb = getWorld().getBlockState(p).getShape(getWorld(), p).bounds();
         bb = bb.move(p);
+        scanHighlight(bb);
+    }
+
+    public void scanHighlight(Entity e) {
+        AABB bb = e.getBoundingBox();
         scanHighlight(bb);
     }
 

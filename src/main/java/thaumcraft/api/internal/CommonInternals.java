@@ -2,14 +2,17 @@ package thaumcraft.api.internal;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.crafting.IThaumcraftRecipe;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class CommonInternals {
     public static HashMap<String, ResourceLocation> jsonLocs = new HashMap<>();
+    public static ArrayList<ThaumcraftApi.EntityTags> scanEntities = new ArrayList<>();
     public static HashMap<ResourceLocation, IThaumcraftRecipe> craftingRecipeCatalog = new HashMap<>();
     public static HashMap<ResourceLocation, Object> craftingRecipeCatalogFake = new HashMap<>();
     public static ConcurrentHashMap<Integer, AspectList> objectTags = new ConcurrentHashMap<>();

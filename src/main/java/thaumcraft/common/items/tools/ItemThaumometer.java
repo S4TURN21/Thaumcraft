@@ -24,6 +24,7 @@ import thaumcraft.common.lib.SoundsTC;
 import thaumcraft.common.lib.network.PacketHandler;
 import thaumcraft.common.lib.network.misc.PacketAuraToClient;
 import thaumcraft.common.lib.research.ResearchManager;
+import thaumcraft.common.lib.utils.EntityUtils;
 import thaumcraft.common.world.aura.AuraChunk;
 import thaumcraft.common.world.aura.AuraHandler;
 
@@ -50,7 +51,11 @@ public class ItemThaumometer extends ItemTCBase {
         if (held && !pLevel.isClientSide && pEntity.tickCount % 20 == 0 && pEntity instanceof ServerPlayer) {
             updateAura(pStack, pLevel, (ServerPlayer) pEntity);
         }
-        if (held && pLevel.isClientSide && pEntity.tickCount % 5 == 0 && pEntity instanceof Player) {
+        if (held && pLevel.isClientSide && pEntity.tickCount % 5 == 0 && pEntity instanceof Player player) {
+            Entity target = EntityUtils.getPointedEntity(pLevel, pEntity, 1.0, 16.0, 5.0f, true);
+            if (target != null && ScanningManager.isThingStillScannable((Player) pEntity, target)) {
+                FXDispatcher.INSTANCE.scanHighlight(target);
+            }
             BlockHitResult mop = getRayTraceResultFromPlayerWild(pLevel, (Player) pEntity, true);
             if (mop != null && mop.getBlockPos() != null && ScanningManager.isThingStillScannable((Player) pEntity, mop.getBlockPos())) {
                 FXDispatcher.INSTANCE.scanHighlight(mop.getBlockPos());
@@ -98,11 +103,16 @@ public class ItemThaumometer extends ItemTCBase {
 
     public void doScan(Level worldIn, Player playerIn) {
         if (!worldIn.isClientSide) {
-            BlockHitResult mop = getPlayerPOVHitResult(worldIn, playerIn, ClipContext.Fluid.ANY);
-            if (mop.getType() == HitResult.Type.BLOCK) {
-                ScanningManager.scanTheThing(playerIn, mop.getBlockPos());
-            } else if (mop.getType() == HitResult.Type.MISS) {
-                ScanningManager.scanTheThing(playerIn, null);
+            Entity target = EntityUtils.getPointedEntity(worldIn, playerIn, 1.0, 9.0, 0.0f, true);
+            if (target != null) {
+                ScanningManager.scanTheThing(playerIn, target);
+            } else {
+                BlockHitResult mop = getPlayerPOVHitResult(worldIn, playerIn, ClipContext.Fluid.ANY);
+                if (mop.getType() == HitResult.Type.BLOCK) {
+                    ScanningManager.scanTheThing(playerIn, mop.getBlockPos());
+                } else if (mop.getType() == HitResult.Type.MISS) {
+                    ScanningManager.scanTheThing(playerIn, null);
+                }
             }
         }
     }

@@ -6,7 +6,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import thaumcraft.api.aspects.AspectEventProxy;
 import thaumcraft.api.aspects.AspectList;
-import thaumcraft.api.crafting.IThaumcraftRecipe;
 import thaumcraft.api.internal.CommonInternals;
 import thaumcraft.api.internal.DummyInternalMethodHandler;
 import thaumcraft.api.internal.IInternalMethodHandler;
@@ -62,7 +61,29 @@ public class ThaumcraftApi {
         (new AspectEventProxy()).registerObjectTag(tag, aspects);
     }
 
-    public static void registerComplexObjectTag(ItemStack item, AspectList aspects ) {
+    public static void registerComplexObjectTag(ItemStack item, AspectList aspects) {
         (new AspectEventProxy()).registerComplexObjectTag(item, aspects);
+    }
+
+    public static class EntityTagsNBT {
+        public EntityTagsNBT(String name, Object value) {
+            this.name = name;
+            this.value = value;
+        }
+
+        public String name;
+        public Object value;
+    }
+
+    public static class EntityTags {
+        public EntityTags(String entityName, AspectList aspects, EntityTagsNBT... nbts) {
+            this.entityName = entityName;
+            this.nbts = nbts;
+            this.aspects = aspects;
+        }
+
+        public String entityName;
+        public EntityTagsNBT[] nbts;
+        public AspectList aspects;
     }
 }

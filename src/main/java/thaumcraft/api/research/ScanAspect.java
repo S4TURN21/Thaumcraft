@@ -1,7 +1,7 @@
 package thaumcraft.api.research;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.NbtUtils;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -26,19 +26,22 @@ public class ScanAspect implements IScanThing {
         if (obj == null) return false;
 
         AspectList al = null;
+        if (obj instanceof Entity && !(obj instanceof ItemEntity)) {
+            al = AspectHelper.getEntityAspects((Entity) obj);
+        } else {
+            ItemStack is = null;
+            if (obj instanceof ItemStack)
+                is = (ItemStack) obj;
+            if (obj instanceof ItemEntity && ((ItemEntity) obj).getItem() != null)
+                is = ((ItemEntity) obj).getItem();
+            if (obj instanceof BlockPos) {
+                Block b = player.level.getBlockState((BlockPos) obj).getBlock();
+                is = new ItemStack(b, 1);
+            }
 
-        ItemStack is = null;
-        if (obj instanceof ItemStack)
-            is = (ItemStack) obj;
-        if (obj instanceof ItemEntity && ((ItemEntity) obj).getItem() != null)
-            is = ((ItemEntity) obj).getItem();
-        if (obj instanceof BlockPos) {
-            Block b = player.level.getBlockState((BlockPos) obj).getBlock();
-            is = new ItemStack(b, 1);
-        }
-
-        if (is != null) {
-            al = AspectHelper.getObjectAspects(is);
+            if (is != null) {
+                al = AspectHelper.getObjectAspects(is);
+            }
         }
 
         return al != null && al.getAmount(aspect) > 0;
