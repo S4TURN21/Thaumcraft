@@ -35,26 +35,27 @@
     {
       "key": "METALLURGY",
       "name": "research.METALLURGY.title",
-      "icons": [ "thaumcraft:textures/items/ingot_brass.png" ],
+      "icons": [ "thaumcraft:textures/item/ingot_brass.png" ],
       "category": "ALCHEMY", "location": [ 2,2 ],
       "parents": [ "BASEALCHEMY" ],
       "stages": [
         {
           "text": "research.METALLURGY.stage.1",
           "required_knowledge":["OBSERVATION;ALCHEMY;1"],
-          "recipes": ["thaumcraft:brassingot"],
-          "required_craft":["thaumcraft:ingot;1;2"]
+          "recipes": ["thaumcraft:ingot_brass"],
+          "required_craft":["thaumcraft:ingot_brass"]
         },
         {
           "text": "research.METALLURGY.stage.2",
           "required_knowledge":["THEORY;ALCHEMY;1"],
-          "recipes": ["thaumcraft:brassingot","thaumcraft:brass_stuff","thaumcraft:thaumiumingot"],
+          "recipes": ["thaumcraft:ingot_brass","thaumcraft:brass_stuff","thaumcraft:thaumiumingot"],
           "required_craft":["thaumcraft:ingot;1;0"]
         },
         {
           "text": "research.METALLURGY.stage.3",
           "recipes": ["thaumcraft:brassingot","thaumcraft:brass_stuff",
             "thaumcraft:thaumiumingot","thaumcraft:thaumium_stuff"]
+          "recipes": ["thaumcraft:ingot_brass","thaumcraft:brass_stuff",
         }
       ]
     },

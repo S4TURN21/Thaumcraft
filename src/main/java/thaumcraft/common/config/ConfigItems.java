@@ -55,6 +55,7 @@ public class ConfigItems {
         event.register("crystal_essence", (ItemsTC.crystalEssence = new ItemCrystalEssence()));
         event.register("phial", (ItemsTC.phial = new ItemPhial()));
         event.register("alumentum", (ItemsTC.alumentum = new ItemAlumentum(new Item.Properties())));
+        event.register("ingot_brass", (ItemsTC.brassIngot = new ItemTCBase(new Item.Properties())));
         event.register("scribing_tools", (ItemsTC.scribingTools = new ItemScribingTools(new Item.Properties().stacksTo(1).durability(100))));
         event.register("thaumometer", (ItemsTC.thaumometer = new ItemThaumometer(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))));
         event.register("goggles", (ItemsTC.goggles = new ItemGoggles(new Item.Properties().durability(350).tab(ConfigItems.TABTC).rarity(Rarity.RARE))));
