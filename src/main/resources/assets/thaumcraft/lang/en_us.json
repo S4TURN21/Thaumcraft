@@ -98,6 +98,8 @@
   "card.concentrate.text": "Often much can be learned by concentrating a substance into its purest form. Attempt to concentrate some %1$s essentia. Gain 15 Alchemy and 1 bonus draw. There is also a chance you will gain 1 inspiration.",
   "card.reactions.name": "Reactions",
   "card.reactions.text": "Studying the reactions between two different types of vis should prove beneficial. You should study what happens when %1$s essentia reacts with %2$s essentia. Gain 25 Alchemy. There is also a chance you will gain 1 inspiration.",
+  "card.synthesis.name": "Synthesis",
+  "card.synthesis.text": "When essentia combines to form more complex forms a number of interesting and intricate reactions take place. You will learn much by combining %1$s essentia with %2$s essentia and then studying the resulting combination. Gain 40 Alchemy. There is also a chance you will gain 1 inspiration.",
   "wandtable.text1": "Vis Cost",
   "itemGroup.thaumcraft": "Thaumcraft",
   "got.crystals": "Your fingers tingle strangely as you handle the crystal. What does that mean? Maybe some rest will inspire you.",
