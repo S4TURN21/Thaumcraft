@@ -6,6 +6,8 @@ import org.apache.commons.lang3.text.WordUtils;
 import thaumcraft.api.research.ScanAspect;
 import thaumcraft.api.research.ScanningManager;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 
 public class Aspect {
@@ -104,5 +106,17 @@ public class Aspect {
 
     public boolean isPrimal() {
         return getComponents() == null || getComponents().length != 2;
+    }
+
+    private static ArrayList<Aspect> compounds = new ArrayList<Aspect>();
+
+    public static ArrayList<Aspect> getCompoundAspects() {
+        if (compounds.isEmpty()) {
+            Collection<Aspect> pa = aspects.values();
+            for (Aspect aspect : pa) {
+                if (!aspect.isPrimal()) compounds.add(aspect);
+            }
+        }
+        return compounds;
     }
 }

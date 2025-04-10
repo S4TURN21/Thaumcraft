@@ -94,6 +94,8 @@
   "card.inspired.text": "Inspired by the progress you have made so far, your mind explores paths you have not considered before. You gain %1$s %2$s.",
   "card.celestial.name": "Celestial Studies",
   "card.celestial.text": "You take some of the celestial notes you have made and compare them for possible correlations with your primary research category. You gain 25 to 50 inspiration toward %1$s. You may gain other things as well...",
+  "card.concentrate.name": "Concentrate",
+  "card.concentrate.text": "Often much can be learned by concentrating a substance into its purest form. Attempt to concentrate some %1$s essentia. Gain 15 Alchemy and 1 bonus draw. There is also a chance you will gain 1 inspiration.",
   "wandtable.text1": "Vis Cost",
   "itemGroup.thaumcraft": "Thaumcraft",
   "got.crystals": "Your fingers tingle strangely as you handle the crystal. What does that mean? Maybe some rest will inspire you.",
