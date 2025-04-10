@@ -61,5 +61,6 @@ public class ConfigResearch {
         TheorycraftManager.registerCard(CardInspired.class);
         TheorycraftManager.registerCard(CardCelestial.class);
         TheorycraftManager.registerCard(CardConcentrate.class);
+        TheorycraftManager.registerCard(CardReactions.class);
     }
 }
