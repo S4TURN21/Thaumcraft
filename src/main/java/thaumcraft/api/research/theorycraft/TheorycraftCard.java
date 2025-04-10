@@ -1,6 +1,7 @@
 package thaumcraft.api.research.theorycraft;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
@@ -30,9 +31,9 @@ public abstract class TheorycraftCard {
         return null;
     }
 
-    public abstract String getLocalizedName();
+    public abstract MutableComponent getLocalizedName();
 
-    public abstract String getLocalizedText();
+    public abstract MutableComponent getLocalizedText();
 
     public ItemStack[] getRequiredItems() {
         return null;

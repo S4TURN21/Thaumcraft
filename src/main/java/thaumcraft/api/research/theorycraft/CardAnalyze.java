@@ -3,6 +3,7 @@ package thaumcraft.api.research.theorycraft;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
 import thaumcraft.api.capabilities.IPlayerKnowledge;
 import thaumcraft.api.capabilities.ThaumcraftCapabilities;
@@ -56,14 +57,14 @@ public class CardAnalyze extends TheorycraftCard {
     }
 
     @Override
-    public String getLocalizedName() {
-        return Component.translatable("card.analyze.name", Component.translatable("tc.research_category." + cat).withStyle(ChatFormatting.DARK_BLUE).withStyle(ChatFormatting.BOLD)).withStyle(ChatFormatting.RESET).getString();
+    public MutableComponent getLocalizedName() {
+        return Component.translatable("card.analyze.name", Component.translatable("tc.research_category." + cat).withStyle(ChatFormatting.DARK_BLUE).withStyle(ChatFormatting.BOLD)).withStyle(ChatFormatting.RESET);
     }
 
     @Override
-    public String getLocalizedText() {
+    public MutableComponent getLocalizedText() {
         return Component.translatable("card.analyze.text", Component.translatable("tc.research_category." + cat).withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.RESET),
-                Component.translatable("tc.research_category.BASICS").withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.RESET)).getString();
+                Component.translatable("tc.research_category.BASICS").withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.RESET));
     }
 
     @Override

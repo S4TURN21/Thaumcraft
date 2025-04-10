@@ -3,6 +3,7 @@ package thaumcraft.common.lib.research.theorycraft;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
@@ -91,13 +92,13 @@ public class CardCelestial extends TheorycraftCard {
     }
 
     @Override
-    public String getLocalizedName() {
-        return Component.translatable("card.celestial.name").getString();
+    public MutableComponent getLocalizedName() {
+        return Component.translatable("card.celestial.name");
     }
 
     @Override
-    public String getLocalizedText() {
-        return Component.translatable("card.celestial.text", Component.translatable("tc.research_category." + cat).withStyle(ChatFormatting.BOLD)).withStyle(ChatFormatting.RESET).getString();
+    public MutableComponent getLocalizedText() {
+        return Component.translatable("card.celestial.text", Component.translatable("tc.research_category." + cat).withStyle(ChatFormatting.BOLD)).withStyle(ChatFormatting.RESET);
     }
 
     @Override

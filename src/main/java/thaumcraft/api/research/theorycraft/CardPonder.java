@@ -1,6 +1,7 @@
 package thaumcraft.api.research.theorycraft;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
 
 public class CardPonder extends TheorycraftCard {
@@ -10,13 +11,13 @@ public class CardPonder extends TheorycraftCard {
     }
 
     @Override
-    public String getLocalizedName() {
-        return Component.translatable("card.ponder.name").getString();
+    public MutableComponent getLocalizedName() {
+        return Component.translatable("card.ponder.name");
     }
 
     @Override
-    public String getLocalizedText() {
-        return Component.translatable("card.ponder.text").getString();
+    public MutableComponent getLocalizedText() {
+        return Component.translatable("card.ponder.text");
     }
 
     @Override

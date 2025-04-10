@@ -1,6 +1,7 @@
 package thaumcraft.api.research.theorycraft;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
 import thaumcraft.api.research.ResearchCategories;
 
@@ -12,13 +13,13 @@ public class CardExperimentation extends TheorycraftCard {
     }
 
     @Override
-    public String getLocalizedName() {
-        return Component.translatable("card.experimentation.name").getString();
+    public MutableComponent getLocalizedName() {
+        return Component.translatable("card.experimentation.name");
     }
 
     @Override
-    public String getLocalizedText() {
-        return Component.translatable("card.experimentation.text").getString();
+    public MutableComponent getLocalizedText() {
+        return Component.translatable("card.experimentation.text");
     }
 
     @Override

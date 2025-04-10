@@ -3,6 +3,7 @@ package thaumcraft.api.research.theorycraft;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
 
 public class CardNotation extends TheorycraftCard {
@@ -35,15 +36,15 @@ public class CardNotation extends TheorycraftCard {
     }
 
     @Override
-    public String getLocalizedName() {
-        return Component.translatable("card.notation.name").getString();
+    public MutableComponent getLocalizedName() {
+        return Component.translatable("card.notation.name");
     }
 
     @Override
-    public String getLocalizedText() {
+    public MutableComponent getLocalizedText() {
         return Component.translatable("card.notation.text",
                 Component.translatable("tc.research_category." + cat1).withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.RESET),
-                Component.translatable("tc.research_category." + cat2).withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.RESET)).getString();
+                Component.translatable("tc.research_category." + cat2).withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.RESET));
     }
 
     @Override

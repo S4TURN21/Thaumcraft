@@ -1,6 +1,7 @@
 package thaumcraft.api.research.theorycraft;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
 
 public class CardRethink extends TheorycraftCard {
@@ -20,13 +21,13 @@ public class CardRethink extends TheorycraftCard {
     }
 
     @Override
-    public String getLocalizedName() {
-        return Component.translatable("card.rethink.name").getString();
+    public MutableComponent getLocalizedName() {
+        return Component.translatable("card.rethink.name");
     }
 
     @Override
-    public String getLocalizedText() {
-        return Component.translatable("card.rethink.text").getString();
+    public MutableComponent getLocalizedText() {
+        return Component.translatable("card.rethink.text");
     }
 
     @Override

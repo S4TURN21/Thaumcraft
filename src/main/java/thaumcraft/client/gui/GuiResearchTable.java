@@ -467,10 +467,10 @@ public class GuiResearchTable extends AbstractContainerScreen<ContainerResearchT
             pPoseStack.pushPose();
             pPoseStack.scale(0.0625f, 0.0625f, 0.0f);
             RenderSystem.setShaderColor(0.0f, 0.0f, 0.0f, alpha);
-            String name = ChatFormatting.BOLD + cardChoice.card.getLocalizedName() + ChatFormatting.RESET;
+            Component name = cardChoice.card.getLocalizedName().withStyle(ChatFormatting.RESET).withStyle(ChatFormatting.BOLD);
             int sz = font.width(name);
             font.draw(pPoseStack, name, -sz / 2, -65, 0);
-            drawSplitString(pPoseStack, font, Component.literal(cardChoice.card.getLocalizedText()), -70, -48, 140, 0);
+            drawSplitString(pPoseStack, font, cardChoice.card.getLocalizedText(), -70, -48, 140, 0);
             pPoseStack.popPose();
 
             pPoseStack.pushPose();
