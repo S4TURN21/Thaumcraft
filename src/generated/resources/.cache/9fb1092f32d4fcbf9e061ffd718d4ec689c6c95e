@@ -1,5 +1,7 @@
-// 1.19.2	2025-04-09T12:59:10.2622729	Recipes
+// 1.19.2	2025-04-10T00:56:09.3102636	Recipes
 3fc6cfe765031c52496ecffc849b27cb139faf8b data/thaumcraft/advancements/recipes/thaumcraft/alumentum.json
+4f8f7dd4e0fedb895db042e18847c9937205a05e data/thaumcraft/advancements/recipes/thaumcraft/brassblocktoingots.json
+7671a4dab2b1389bd52b4fcdf23055fea5eb73cb data/thaumcraft/advancements/recipes/thaumcraft/brassingotstoblock.json
 3fc6cfe765031c52496ecffc849b27cb139faf8b data/thaumcraft/advancements/recipes/thaumcraft/filter.json
 3fc6cfe765031c52496ecffc849b27cb139faf8b data/thaumcraft/advancements/recipes/thaumcraft/ingot_brass.json
 1caeb1fc6ff889325d127acbd82b11e6447663ce data/thaumcraft/advancements/recipes/thaumcraft/nitor_dye_black.json
@@ -67,6 +69,8 @@ b951efa85b939940c37acfd85f841b36bd44af6e data/thaumcraft/advancements/recipes/th
 3fc6cfe765031c52496ecffc849b27cb139faf8b data/thaumcraft/advancements/recipes/thaumcraft/vis_crystal_vitreus.json
 3fc6cfe765031c52496ecffc849b27cb139faf8b data/thaumcraft/advancements/recipes/thaumcraft/vis_crystal_volatus.json
 1b5213d934565b6a15ff38b93eaf0965be756760 data/thaumcraft/recipes/alumentum.json
+e01b026bd61a47896dc356195a25d985802b946a data/thaumcraft/recipes/brassblocktoingots.json
+e4e99cd842dfc782fdaf73d2e24f76701a0e1a09 data/thaumcraft/recipes/brassingotstoblock.json
 7c007acfd918156b3ee85b4f168850254f502950 data/thaumcraft/recipes/filter.json
 33cf854c65184138bf699ed36dbab780882011b9 data/thaumcraft/recipes/ingot_brass.json
 bec49c14223fb7152885bdcac8da55397775a9b8 data/thaumcraft/recipes/nitor_dye_black.json

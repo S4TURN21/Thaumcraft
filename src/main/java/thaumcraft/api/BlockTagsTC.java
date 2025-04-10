@@ -24,6 +24,7 @@ public class BlockTagsTC extends BlockTagsProvider {
         tag(SILVERWOOD_LOGS).add(BlocksTC.logSilverwood);
         tag(BlockTags.LOGS).add(BlocksTC.logSilverwood);
         tag(BlockTags.LEAVES).add(BlocksTC.leafSilverwood);
+        tag(BlockTags.BEACON_BASE_BLOCKS).add(BlocksTC.metalBlockBrass);
 
         var tag = tag(NITOR);
         for (DyeColor dye : DyeColor.values()) {
