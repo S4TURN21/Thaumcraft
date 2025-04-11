@@ -16,7 +16,7 @@ public class ItemThaumiumArmor extends ArmorItem {
 
     @Override
     public @Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-        if (stack.getItem() == ItemsTC.thaumiumHelm) {
+        if (stack.getItem() == ItemsTC.thaumiumHelm || stack.getItem() == ItemsTC.thaumiumChest) {
             return "thaumcraft:textures/models/armor/thaumium_1.png";
         }
 
