@@ -84,7 +84,9 @@ public class ConfigRecipes extends RecipeProvider {
 
     public static void initializeNormalRecipes(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
         ResourceLocation brassGroup = new ResourceLocation("thaumcraft", "brass_stuff");
+        ResourceLocation thaumiumGroup = new ResourceLocation("thaumcraft", "thaumium_stuff");
         ShapelessRecipeBuilder.shapeless(ItemsTC.nuggetQuartz, 9).requires(Items.QUARTZ).group(ConfigRecipes.defaultGroup).unlockedBy(getHasName(Items.QUARTZ), has(Items.QUARTZ)).save(pFinishedRecipeConsumer, new ResourceLocation(Thaumcraft.MODID, "quartz_to_nuggets"));
+        nineBlockStorageRecipes(pFinishedRecipeConsumer, ItemsTC.thaumiumIngot, BlocksTC.metalBlockThaumium, "thaumcraft:thaumiumingotstoblock", thaumiumGroup.toString(), "thaumcraft:thaumiumblocktoingots", thaumiumGroup.toString());
         nineBlockStorageRecipes(pFinishedRecipeConsumer, ItemsTC.brassIngot, BlocksTC.metalBlockBrass, "thaumcraft:brassingotstoblock", brassGroup.toString(), "thaumcraft:brassblocktoingots", brassGroup.toString());
         ShapedRecipeBuilder.shaped(ItemsTC.brassPlate, 3).group(brassGroup.toString()).pattern("BBB").define('B', ItemsTC.brassIngot).unlockedBy("has_brass", has(ItemsTC.brassIngot)).save(pFinishedRecipeConsumer);
         planksFromLog(pFinishedRecipeConsumer, BlocksTC.plankSilverwood, ItemTagsTC.SILVERWOOD_LOGS);

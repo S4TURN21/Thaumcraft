@@ -53,7 +53,7 @@
         <td align="center">❌</td>
     </tr>
     <tr>
-        <td rowspan="13">
+        <td rowspan="14">
             <strong>Blocks</strong>
         </td>
         <td>Crystal Block</td>
@@ -129,6 +129,12 @@
     </tr>
     <tr>
         <td>Brass Block</td>
+        <td align="center">✅</td>
+        <td align="center">❌</td>
+        <td align="center">❌</td>
+    </tr>
+    <tr>
+        <td>Thaumium Block</td>
         <td align="center">✅</td>
         <td align="center">❌</td>
         <td align="center">❌</td>
