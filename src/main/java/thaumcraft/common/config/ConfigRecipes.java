@@ -86,6 +86,7 @@ public class ConfigRecipes extends RecipeProvider {
         ResourceLocation brassGroup = new ResourceLocation("thaumcraft", "brass_stuff");
         ShapelessRecipeBuilder.shapeless(ItemsTC.nuggetQuartz, 9).requires(Items.QUARTZ).group(ConfigRecipes.defaultGroup).unlockedBy(getHasName(Items.QUARTZ), has(Items.QUARTZ)).save(pFinishedRecipeConsumer, new ResourceLocation(Thaumcraft.MODID, "quartz_to_nuggets"));
         nineBlockStorageRecipes(pFinishedRecipeConsumer, ItemsTC.brassIngot, BlocksTC.metalBlockBrass, "thaumcraft:brassingotstoblock", brassGroup.toString(), "thaumcraft:brassblocktoingots", brassGroup.toString());
+        ShapedRecipeBuilder.shaped(ItemsTC.brassPlate, 3).group(brassGroup.toString()).pattern("BBB").define('B', ItemsTC.brassIngot).unlockedBy("has_brass", has(ItemsTC.brassIngot)).save(pFinishedRecipeConsumer);
         planksFromLog(pFinishedRecipeConsumer, BlocksTC.plankSilverwood, ItemTagsTC.SILVERWOOD_LOGS);
         ShapedRecipeBuilder.shaped(BlocksTC.stoneArcane, 9).group(ConfigRecipes.defaultGroup).pattern("KKK").pattern("KCK").pattern("KKK").define('K', Items.STONE).define('C', ItemsTC.crystalEssence).unlockedBy("has_crystal", has(ItemsTC.crystalEssence)).save(pFinishedRecipeConsumer);
         ShapedRecipeBuilder.shaped(BlocksTC.stoneArcaneBrick, 4).group(ConfigRecipes.defaultGroup).pattern("KK").pattern("KK").define('K', BlocksTC.stoneArcane).unlockedBy("has_stone_arcane", has(BlocksTC.stoneArcane)).save(pFinishedRecipeConsumer);

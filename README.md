@@ -134,7 +134,7 @@
         <td align="center">❌</td>
     </tr>
     <tr>
-        <td rowspan="12">
+        <td rowspan="13">
             <strong>Items</strong>
         </td>
         <td>Vis Crystal</td>
@@ -198,6 +198,12 @@
     </tr>
     <tr>
         <td>Brass Ingot</td>
+        <td align="center">✅</td>
+        <td align="center">❌</td>
+        <td align="center">❌</td>
+    </tr>
+    <tr>
+        <td>Brass Plate</td>
         <td align="center">✅</td>
         <td align="center">❌</td>
         <td align="center">❌</td>

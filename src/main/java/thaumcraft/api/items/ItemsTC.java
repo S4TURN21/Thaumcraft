@@ -22,6 +22,7 @@ public class ItemsTC {
     public static Item brassIngot;
     public static Item nuggetQuartz;
     public static Item crystalEssence;
+    public static Item brassPlate;
     public static Item salisMundus;
     public static Item filter;
     public static Item phial;
