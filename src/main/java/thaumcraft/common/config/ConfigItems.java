@@ -4,11 +4,14 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
 import net.minecraftforge.registries.RegisterEvent;
+import thaumcraft.api.ThaumcraftMaterials;
 import thaumcraft.api.items.ItemsTC;
 import thaumcraft.common.items.ItemTCBase;
 import thaumcraft.common.items.armor.ItemGoggles;
+import thaumcraft.common.items.armor.ItemThaumiumArmor;
 import thaumcraft.common.items.consumables.ItemAlumentum;
 import thaumcraft.common.items.consumables.ItemPhial;
 import thaumcraft.common.items.curios.ItemCelestialNotes;
@@ -62,5 +65,6 @@ public class ConfigItems {
         event.register("scribing_tools", (ItemsTC.scribingTools = new ItemScribingTools(new Item.Properties().stacksTo(1).durability(100))));
         event.register("thaumometer", (ItemsTC.thaumometer = new ItemThaumometer(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))));
         event.register("goggles", (ItemsTC.goggles = new ItemGoggles(new Item.Properties().durability(350).tab(ConfigItems.TABTC).rarity(Rarity.RARE))));
+        event.register("thaumium_helm", (ItemsTC.thaumiumHelm = new ItemThaumiumArmor(ThaumcraftMaterials.ARMORMAT_THAUMIUM, EquipmentSlot.HEAD, new Item.Properties().tab(ConfigItems.TABTC).rarity(Rarity.UNCOMMON))));
     }
 }
