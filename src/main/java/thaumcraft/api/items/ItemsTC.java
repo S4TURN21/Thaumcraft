@@ -32,5 +32,6 @@ public class ItemsTC {
     public static Item goggles;
     public static Item thaumiumHelm;
     public static Item thaumiumChest;
+    public static Item thaumiumLegs;
     public static Item enchantedPlaceholder;
 }

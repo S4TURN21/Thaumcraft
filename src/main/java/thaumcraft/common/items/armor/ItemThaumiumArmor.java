@@ -9,6 +9,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import thaumcraft.api.items.ItemsTC;
 
+import java.util.Objects;
+
 public class ItemThaumiumArmor extends ArmorItem {
     public ItemThaumiumArmor(ArmorMaterial pMaterial, EquipmentSlot pSlot, Properties pProperties) {
         super(pMaterial, pSlot, pProperties);
@@ -19,7 +21,9 @@ public class ItemThaumiumArmor extends ArmorItem {
         if (stack.getItem() == ItemsTC.thaumiumHelm || stack.getItem() == ItemsTC.thaumiumChest) {
             return "thaumcraft:textures/models/armor/thaumium_1.png";
         }
-
+        if (stack.getItem() == ItemsTC.thaumiumLegs) {
+            return "thaumcraft:textures/models/armor/thaumium_2.png";
+        }
         return "thaumcraft:textures/models/armor/thaumium_1.png";
     }
 
