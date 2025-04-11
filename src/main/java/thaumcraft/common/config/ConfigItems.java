@@ -64,6 +64,7 @@ public class ConfigItems {
         event.register("ingot_brass", (ItemsTC.brassIngot = new ItemTCBase(new Item.Properties())));
         event.register("scribing_tools", (ItemsTC.scribingTools = new ItemScribingTools(new Item.Properties().stacksTo(1).durability(100))));
         event.register("thaumometer", (ItemsTC.thaumometer = new ItemThaumometer(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))));
+        event.register("thaumium_axe", (ItemsTC.thaumiumAxe = new AxeItem(ThaumcraftMaterials.TOOLMAT_THAUMIUM, 8.0f, -3.0f, new Item.Properties().tab(ConfigItems.TABTC))));
         event.register("goggles", (ItemsTC.goggles = new ItemGoggles(new Item.Properties().durability(350).tab(ConfigItems.TABTC).rarity(Rarity.RARE))));
         event.register("thaumium_helm", (ItemsTC.thaumiumHelm = new ItemThaumiumArmor(ThaumcraftMaterials.ARMORMAT_THAUMIUM, EquipmentSlot.HEAD, new Item.Properties().tab(ConfigItems.TABTC).rarity(Rarity.UNCOMMON))));
         event.register("thaumium_chest", (ItemsTC.thaumiumChest = new ItemThaumiumArmor(ThaumcraftMaterials.ARMORMAT_THAUMIUM, EquipmentSlot.CHEST, new Item.Properties().tab(ConfigItems.TABTC).rarity(Rarity.UNCOMMON))));

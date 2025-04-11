@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "thaumcraft:thaumium_stuff",
+  "key": {
+    "I": {
+      "item": "thaumcraft:ingot_thaumium"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "II",
+    "SI",
+    "S "
+  ],
+  "result": {
+    "item": "thaumcraft:thaumium_axe"
+  }
+}
