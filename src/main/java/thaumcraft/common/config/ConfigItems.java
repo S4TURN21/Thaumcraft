@@ -51,6 +51,7 @@ public class ConfigItems {
         event.register("celestial_notes_moon_8", (ItemsTC.celestialNotesMoon8 = new ItemCelestialNotes(new Item.Properties())));
         event.register("nugget_quartz", (ItemsTC.nuggetQuartz = new ItemTCBase(new Item.Properties())));
         event.register("plate_brass", (ItemsTC.brassPlate = new ItemTCBase(new Item.Properties())));
+        event.register("plate_thaumium", (ItemsTC.thaumiumPlate = new ItemTCBase(new Item.Properties())));
         event.register("filter", (ItemsTC.filter = new ItemTCBase(new Item.Properties())));
         event.register("salis_mundus", (ItemsTC.salisMundus = new ItemMagicDust(new Item.Properties().rarity(Rarity.UNCOMMON))));
         event.register("crystal_essence", (ItemsTC.crystalEssence = new ItemCrystalEssence()));
