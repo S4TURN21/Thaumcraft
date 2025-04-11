@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "thaumcraft:thaumium_stuff",
+  "key": {
+    "I": {
+      "item": "thaumcraft:ingot_thaumium"
+    }
+  },
+  "pattern": [
+    "I I",
+    "I I"
+  ],
+  "result": {
+    "item": "thaumcraft:thaumium_boots"
+  }
+}
