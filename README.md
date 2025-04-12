@@ -140,7 +140,7 @@
         <td align="center">❌</td>
     </tr>
     <tr>
-        <td rowspan="21">
+        <td rowspan="22">
             <strong>Items</strong>
         </td>
         <td>Vis Crystal</td>
@@ -264,6 +264,12 @@
     </tr>
     <tr>
         <td>Thaumium Shovel</td>
+        <td align="center">✅</td>
+        <td align="center">❌</td>
+        <td align="center">❌</td>
+    </tr>
+    <tr>
+        <td>Thaumium Pickaxe</td>
         <td align="center">✅</td>
         <td align="center">❌</td>
         <td align="center">❌</td>

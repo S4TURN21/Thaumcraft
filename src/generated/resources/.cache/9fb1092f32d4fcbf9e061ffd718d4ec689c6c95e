@@ -1,4 +1,4 @@
-// 1.19.2	2025-04-12T14:13:11.0405059	Recipes
+// 1.19.2	2025-04-12T14:40:15.2941355	Recipes
 3fc6cfe765031c52496ecffc849b27cb139faf8b data/thaumcraft/advancements/recipes/thaumcraft/alumentum.json
 4f8f7dd4e0fedb895db042e18847c9937205a05e data/thaumcraft/advancements/recipes/thaumcraft/brassblocktoingots.json
 7671a4dab2b1389bd52b4fcdf23055fea5eb73cb data/thaumcraft/advancements/recipes/thaumcraft/brassingotstoblock.json
@@ -40,6 +40,7 @@ a092ec0df98cbcf87a33a9827e85e491d0dea126 data/thaumcraft/advancements/recipes/th
 b0b6a1f326ab8d5873a018708c1f5bf4fb546cdd data/thaumcraft/advancements/recipes/thaumcraft/thaumium_chest.json
 e95683b666a0037da7ccecbd605617161d48a8d6 data/thaumcraft/advancements/recipes/thaumcraft/thaumium_helm.json
 672687bec9d9843ecd48962e9bb0898d0b9620d9 data/thaumcraft/advancements/recipes/thaumcraft/thaumium_legs.json
+d25ffcd2b41ee22b41ecf166eeab2abb2211574f data/thaumcraft/advancements/recipes/thaumcraft/thaumium_pick.json
 a6f867e9e007f3032444d4d8735722b95e24c84b data/thaumcraft/advancements/recipes/thaumcraft/thaumium_shovel.json
 c1207d587dcf8a985111ecec937781e0b7591329 data/thaumcraft/advancements/recipes/thaumcraft/thaumium_sword.json
 54eaf73dbc166642eedf157ccf929680beed1b4f data/thaumcraft/advancements/recipes/thaumcraft/thaumometer.json
@@ -121,6 +122,7 @@ c21bbf024f7f7565cbeff986e21c1e71d16487d2 data/thaumcraft/recipes/thaumium_boots.
 72e2e0222499600f005ed088ec6843d54ea73422 data/thaumcraft/recipes/thaumium_chest.json
 c8b3d008cb1ac73db960150daf73253bbf1f7258 data/thaumcraft/recipes/thaumium_helm.json
 9cf611722bfb4fd41687e8ad42f59f9d41c32eff data/thaumcraft/recipes/thaumium_legs.json
+2289bd0836691259073e00ea94f362ebf12303bd data/thaumcraft/recipes/thaumium_pick.json
 de75ccdae31dc5501a4b4e7d4577e1069f7f53b8 data/thaumcraft/recipes/thaumium_shovel.json
 715c2564357f8c023e2f50fa5f51206722e151d8 data/thaumcraft/recipes/thaumium_sword.json
 c274841627f36a8cea87943161c4cf0452c3b104 data/thaumcraft/recipes/thaumometer.json

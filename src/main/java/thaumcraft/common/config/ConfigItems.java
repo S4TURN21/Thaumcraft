@@ -67,6 +67,7 @@ public class ConfigItems {
         event.register("thaumium_axe", (ItemsTC.thaumiumAxe = new AxeItem(ThaumcraftMaterials.TOOLMAT_THAUMIUM, 5.5f, -3.0f, new Item.Properties().tab(ConfigItems.TABTC))));
         event.register("thaumium_sword", (ItemsTC.thaumiumSword = new SwordItem(ThaumcraftMaterials.TOOLMAT_THAUMIUM, 3, -2.4F, new Item.Properties().tab(ConfigItems.TABTC))));
         event.register("thaumium_shovel", (ItemsTC.thaumiumShovel = new ShovelItem(ThaumcraftMaterials.TOOLMAT_THAUMIUM, 1.5F, -3.0F, new Item.Properties().tab(ConfigItems.TABTC))));
+        event.register("thaumium_pick", (ItemsTC.thaumiumPick = new PickaxeItem(ThaumcraftMaterials.TOOLMAT_THAUMIUM, 1, -2.8F, new Item.Properties().tab(ConfigItems.TABTC))));
         event.register("goggles", (ItemsTC.goggles = new ItemGoggles(new Item.Properties().durability(350).tab(ConfigItems.TABTC).rarity(Rarity.RARE))));
         event.register("thaumium_helm", (ItemsTC.thaumiumHelm = new ItemThaumiumArmor(ThaumcraftMaterials.ARMORMAT_THAUMIUM, EquipmentSlot.HEAD, new Item.Properties().tab(ConfigItems.TABTC).rarity(Rarity.UNCOMMON))));
         event.register("thaumium_chest", (ItemsTC.thaumiumChest = new ItemThaumiumArmor(ThaumcraftMaterials.ARMORMAT_THAUMIUM, EquipmentSlot.CHEST, new Item.Properties().tab(ConfigItems.TABTC).rarity(Rarity.UNCOMMON))));
