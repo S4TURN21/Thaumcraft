@@ -52,6 +52,8 @@ public class ConfigItems {
         event.register("celestial_notes_moon_6", (ItemsTC.celestialNotesMoon6 = new ItemCelestialNotes(new Item.Properties())));
         event.register("celestial_notes_moon_7", (ItemsTC.celestialNotesMoon7 = new ItemCelestialNotes(new Item.Properties())));
         event.register("celestial_notes_moon_8", (ItemsTC.celestialNotesMoon8 = new ItemCelestialNotes(new Item.Properties())));
+        event.register("ingot_thaumium", (ItemsTC.thaumiumIngot = new ItemTCBase(new Item.Properties())));
+        event.register("ingot_brass", (ItemsTC.brassIngot = new ItemTCBase(new Item.Properties())));
         event.register("nugget_quartz", (ItemsTC.nuggetQuartz = new ItemTCBase(new Item.Properties())));
         event.register("plate_brass", (ItemsTC.brassPlate = new ItemTCBase(new Item.Properties())));
         event.register("plate_thaumium", (ItemsTC.thaumiumPlate = new ItemTCBase(new Item.Properties())));
@@ -60,8 +62,6 @@ public class ConfigItems {
         event.register("crystal_essence", (ItemsTC.crystalEssence = new ItemCrystalEssence()));
         event.register("phial", (ItemsTC.phial = new ItemPhial()));
         event.register("alumentum", (ItemsTC.alumentum = new ItemAlumentum(new Item.Properties())));
-        event.register("ingot_thaumium", (ItemsTC.thaumiumIngot = new ItemTCBase(new Item.Properties())));
-        event.register("ingot_brass", (ItemsTC.brassIngot = new ItemTCBase(new Item.Properties())));
         event.register("scribing_tools", (ItemsTC.scribingTools = new ItemScribingTools(new Item.Properties().stacksTo(1).durability(100))));
         event.register("thaumometer", (ItemsTC.thaumometer = new ItemThaumometer(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))));
         event.register("thaumium_axe", (ItemsTC.thaumiumAxe = new AxeItem(ThaumcraftMaterials.TOOLMAT_THAUMIUM, 5.5f, -3.0f, new Item.Properties().tab(ConfigItems.TABTC))));
