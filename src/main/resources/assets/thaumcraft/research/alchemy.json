@@ -61,7 +61,7 @@
     {
       "key": "METALPURIFICATION",
       "name": "research.METALPURIFICATION.title",
-      "icons": [ "thaumcraft:textures/items/cluster_iron.png" ],
+      "icons": [ "thaumcraft:textures/item/cluster_iron.png" ],
       "category": "ALCHEMY", "location": [ 2,4 ],
       "parents": [ "METALLURGY@3" ],
       "stages": [

@@ -146,7 +146,7 @@
         <td align="center">❌</td>
     </tr>
     <tr>
-        <td rowspan="24">
+        <td rowspan="25">
             <strong>Items</strong>
         </td>
         <td>Vis Crystal</td>
@@ -288,6 +288,12 @@
     </tr>
     <tr>
         <td>Quicksilver</td>
+        <td align="center">✅</td>
+        <td align="center">❌</td>
+        <td align="center">❌</td>
+    </tr>
+    <tr>
+        <td>Native Iron Cluster</td>
         <td align="center">✅</td>
         <td align="center">❌</td>
         <td align="center">❌</td>

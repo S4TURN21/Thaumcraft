@@ -13,7 +13,10 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 import thaumcraft.Thaumcraft;
@@ -23,10 +26,7 @@ import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.blocks.BlocksTC;
-import thaumcraft.api.crafting.CrucibleRecipeBuilder;
-import thaumcraft.api.crafting.IDustTrigger;
-import thaumcraft.api.crafting.IThaumcraftRecipe;
-import thaumcraft.api.crafting.ShapedArcaneRecipeBuilder;
+import thaumcraft.api.crafting.*;
 import thaumcraft.api.internal.CommonInternals;
 import thaumcraft.api.items.ItemsTC;
 import thaumcraft.common.lib.crafting.DustTriggerSimple;
@@ -62,6 +62,7 @@ public class ConfigRecipes extends RecipeProvider {
         CrucibleRecipeBuilder.smelting(new ItemStack(ItemsTC.alumentum)).research("ALUMENTUM").catalyst(ItemTags.COALS).aspects(new AspectList().merge(Aspect.ENERGY, 10).merge(Aspect.FIRE, 10).merge(Aspect.ENTROPY, 5)).save(pFinishedRecipeConsumer);
         CrucibleRecipeBuilder.smelting(new ItemStack(ItemsTC.brassIngot)).research("METALLURGY@1").catalyst(Tags.Items.INGOTS_IRON).aspects(new AspectList().merge(Aspect.TOOL, 5)).save(pFinishedRecipeConsumer);
         CrucibleRecipeBuilder.smelting(new ItemStack(ItemsTC.thaumiumIngot)).research("METALLURGY@2").catalyst(Tags.Items.INGOTS_IRON).aspects(new AspectList().merge(Aspect.MAGIC, 5).merge(Aspect.EARTH, 5)).save(pFinishedRecipeConsumer);
+        CrucibleRecipeBuilder.smelting(new ItemStack(ItemsTC.clusterIron)).research("METALPURIFICATION").catalyst(Tags.Items.RAW_MATERIALS_IRON).aspects(new AspectList().merge(Aspect.METAL, 5).merge(Aspect.ORDER, 5)).save(pFinishedRecipeConsumer, "thaumcraft:metal_purification_iron");
     }
 
     public static void initializeFakeRecipes() {
@@ -112,6 +113,8 @@ public class ConfigRecipes extends RecipeProvider {
     public static void initializeSmelting(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
         oreSmelting(pFinishedRecipeConsumer, ImmutableList.of(BlocksTC.oreCinnabar), ItemsTC.quicksilver, 1.0f, 200, "quicksilver");
         oreBlasting(pFinishedRecipeConsumer, ImmutableList.of(BlocksTC.oreCinnabar), ItemsTC.quicksilver, 1.0f, 100, "quicksilver");
+        MultiCookingRecipeBuilder.smelting(Ingredient.of(ItemsTC.clusterIron), new ItemStack(Items.IRON_INGOT, 2), 1.0f, 200).unlockedBy("has_cluster_iron", has(ItemsTC.clusterIron)).group("cluster_iron").save(pFinishedRecipeConsumer,"thaumcraft:iron_ingot_from_smelting_cluster_iron");
+        MultiCookingRecipeBuilder.blasting(Ingredient.of(ItemsTC.clusterIron), new ItemStack(Items.IRON_INGOT, 2), 1.0f, 100).unlockedBy("has_cluster_iron", has(ItemsTC.clusterIron)).group("cluster_iron").save(pFinishedRecipeConsumer,"thaumcraft:iron_ingot_from_blasting_cluster_iron");
     }
 
     public static void compileGroups() {
