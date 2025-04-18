@@ -18,6 +18,7 @@ public class ItemsTC {
     public static Item celestialNotesMoon7;
     public static Item celestialNotesMoon8;
     public static Item alumentum;
+    public static Item quicksilver;
     public static Item thaumiumIngot;
     public static Item brassIngot;
     public static Item nuggetQuartz;
