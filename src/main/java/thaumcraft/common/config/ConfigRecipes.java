@@ -1,5 +1,6 @@
 package thaumcraft.common.config;
 
+import com.google.common.collect.ImmutableList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.NonNullList;
 import net.minecraft.data.DataGenerator;
@@ -12,10 +13,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.CraftingRecipe;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.ShapelessRecipe;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 import thaumcraft.Thaumcraft;
@@ -75,6 +73,7 @@ public class ConfigRecipes extends RecipeProvider {
         ConfigRecipes.initializeNormalRecipes(pFinishedRecipeConsumer);
         ConfigRecipes.initializeArcaneRecipes(pFinishedRecipeConsumer);
         ConfigRecipes.initializeAlchemyRecipes(pFinishedRecipeConsumer);
+        ConfigRecipes.initializeSmelting(pFinishedRecipeConsumer);
     }
 
     public static void initializeArcaneRecipes(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
@@ -108,6 +107,11 @@ public class ConfigRecipes extends RecipeProvider {
         ShapelessRecipeBuilder.shapeless(ItemsTC.scribingTools).group(inkwellGroup).requires(ItemsTC.phial).requires(Items.FEATHER).requires(Tags.Items.DYES_BLACK).unlockedBy("has_dye", has(Tags.Items.DYES_BLACK)).save(pFinishedRecipeConsumer, "thaumcraft:scribingtoolscraft1");
         ShapelessRecipeBuilder.shapeless(ItemsTC.scribingTools).group(inkwellGroup).requires(Items.GLASS_BOTTLE).requires(Items.FEATHER).requires(Tags.Items.DYES_BLACK).unlockedBy("has_dye", has(Tags.Items.DYES_BLACK)).save(pFinishedRecipeConsumer, "thaumcraft:scribingtoolscraft2");
         ShapelessRecipeBuilder.shapeless(ItemsTC.scribingTools).group(inkwellGroup).requires(ItemsTC.scribingTools).requires(Tags.Items.DYES_BLACK).unlockedBy("has_scribingTools", has(ItemsTC.scribingTools)).save(pFinishedRecipeConsumer, "thaumcraft:scribingtoolsrefill");
+    }
+
+    public static void initializeSmelting(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
+        oreSmelting(pFinishedRecipeConsumer, ImmutableList.of(BlocksTC.oreCinnabar), ItemsTC.quicksilver, 1.0f, 200, "quicksilver");
+        oreBlasting(pFinishedRecipeConsumer, ImmutableList.of(BlocksTC.oreCinnabar), ItemsTC.quicksilver, 1.0f, 100, "quicksilver");
     }
 
     public static void compileGroups() {

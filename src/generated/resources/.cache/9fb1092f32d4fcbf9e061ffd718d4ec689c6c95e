@@ -1,4 +1,8 @@
-// 1.19.2	2025-04-12T14:49:08.6677008	Recipes
+// 1.19.2	2025-04-18T11:38:23.8338726	Recipes
+b8b82b4e524dee62a44a7012b1bc45c8f713c72d data/minecraft/advancements/recipes/thaumcraft/quicksilver_from_blasting_ore_cinnabar.json
+6ffadb7025b1cdca99823e536035ef6663d2fdee data/minecraft/advancements/recipes/thaumcraft/quicksilver_from_smelting_ore_cinnabar.json
+d86a94b481e672aac9107af8ff51299d7d170d6f data/minecraft/recipes/quicksilver_from_blasting_ore_cinnabar.json
+6134d02c1e439c4c722eb42a94797011d46182f1 data/minecraft/recipes/quicksilver_from_smelting_ore_cinnabar.json
 3fc6cfe765031c52496ecffc849b27cb139faf8b data/thaumcraft/advancements/recipes/thaumcraft/alumentum.json
 4f8f7dd4e0fedb895db042e18847c9937205a05e data/thaumcraft/advancements/recipes/thaumcraft/brassblocktoingots.json
 7671a4dab2b1389bd52b4fcdf23055fea5eb73cb data/thaumcraft/advancements/recipes/thaumcraft/brassingotstoblock.json

@@ -4,6 +4,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -32,6 +33,8 @@ import thaumcraft.common.blocks.world.plants.BlockSaplingTC;
 
 public class ConfigBlocks {
     public static void initBlocks(RegisterEvent.RegisterHelper<Block> event) {
+        BlocksTC.oreCinnabar = registerBlock("ore_cinnabar", new DropExperienceBlock(BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(2.0f)));
+
         BlocksTC.crystalAir = registerBlock("crystal_aer", new BlockCrystal(Aspect.AIR));
         BlocksTC.crystalFire = registerBlock("crystal_ignis", new BlockCrystal(Aspect.FIRE));
         BlocksTC.crystalWater = registerBlock("crystal_aqua", new BlockCrystal(Aspect.WATER));

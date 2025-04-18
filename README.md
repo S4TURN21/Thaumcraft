@@ -53,7 +53,7 @@
         <td align="center">❌</td>
     </tr>
     <tr>
-        <td rowspan="14">
+        <td rowspan="15">
             <strong>Blocks</strong>
         </td>
         <td>Crystal Block</td>
@@ -135,6 +135,12 @@
     </tr>
     <tr>
         <td>Thaumium Block</td>
+        <td align="center">✅</td>
+        <td align="center">❌</td>
+        <td align="center">❌</td>
+    </tr>
+    <tr>
+        <td>Cinnabar Ore</td>
         <td align="center">✅</td>
         <td align="center">❌</td>
         <td align="center">❌</td>
