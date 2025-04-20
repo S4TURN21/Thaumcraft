@@ -23,6 +23,7 @@ public class ItemsTC {
     public static Item brassIngot;
     public static Item nuggetQuartz;
     public static Item clusterIron;
+    public static Item clusterGold;
     public static Item crystalEssence;
     public static Item brassPlate;
     public static Item thaumiumPlate;
