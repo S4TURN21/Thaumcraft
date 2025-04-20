@@ -146,7 +146,7 @@
         <td align="center">❌</td>
     </tr>
     <tr>
-        <td rowspan="27">
+        <td rowspan="28">
             <strong>Items</strong>
         </td>
         <td>Vis Crystal</td>
@@ -306,6 +306,12 @@
     </tr>
     <tr>
         <td>Native Cinnabar Cluster</td>
+        <td align="center">✅</td>
+        <td align="center">❌</td>
+        <td align="center">❌</td>
+    </tr>
+    <tr>
+        <td>Native Copper Cluster</td>
         <td align="center">✅</td>
         <td align="center">❌</td>
         <td align="center">❌</td>

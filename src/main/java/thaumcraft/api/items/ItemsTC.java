@@ -24,6 +24,7 @@ public class ItemsTC {
     public static Item nuggetQuartz;
     public static Item clusterIron;
     public static Item clusterGold;
+    public static Item clusterCopper;
     public static Item clusterCinnabar;
     public static Item crystalEssence;
     public static Item brassPlate;

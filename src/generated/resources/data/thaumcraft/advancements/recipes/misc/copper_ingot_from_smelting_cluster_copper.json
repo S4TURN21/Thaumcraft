@@ -1,0 +1,21 @@
+{
+  "criteria": {
+    "has_cluster_copper": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "thaumcraft:cluster_copper"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_cluster_copper"
+    ]
+  ]
+}
