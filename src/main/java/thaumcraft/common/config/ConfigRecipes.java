@@ -64,6 +64,7 @@ public class ConfigRecipes extends RecipeProvider {
         CrucibleRecipeBuilder.smelting(new ItemStack(ItemsTC.thaumiumIngot)).research("METALLURGY@2").catalyst(Tags.Items.INGOTS_IRON).aspects(new AspectList().merge(Aspect.MAGIC, 5).merge(Aspect.EARTH, 5)).save(pFinishedRecipeConsumer);
         CrucibleRecipeBuilder.smelting(new ItemStack(ItemsTC.clusterIron)).research("METALPURIFICATION").catalyst(Tags.Items.RAW_MATERIALS_IRON).aspects(new AspectList().merge(Aspect.METAL, 5).merge(Aspect.ORDER, 5)).save(pFinishedRecipeConsumer, "thaumcraft:metal_purification_iron");
         CrucibleRecipeBuilder.smelting(new ItemStack(ItemsTC.clusterGold)).research("METALPURIFICATION").catalyst(Tags.Items.RAW_MATERIALS_GOLD).aspects(new AspectList().merge(Aspect.METAL, 5).merge(Aspect.ORDER, 5)).save(pFinishedRecipeConsumer, "thaumcraft:metal_purification_gold");
+        CrucibleRecipeBuilder.smelting(new ItemStack(ItemsTC.clusterCinnabar)).research("METALPURIFICATION").catalyst(BlocksTC.oreCinnabar).aspects(new AspectList().merge(Aspect.METAL, 5).merge(Aspect.ORDER, 5)).save(pFinishedRecipeConsumer, "thaumcraft:metal_purification_cinnabar");
     }
 
     public static void initializeFakeRecipes() {
@@ -118,6 +119,8 @@ public class ConfigRecipes extends RecipeProvider {
         MultiCookingRecipeBuilder.blasting(Ingredient.of(ItemsTC.clusterIron), new ItemStack(Items.IRON_INGOT, 2), 1.0f, 100).unlockedBy("has_cluster_iron", has(ItemsTC.clusterIron)).group("cluster_iron").save(pFinishedRecipeConsumer,"thaumcraft:iron_ingot_from_blasting_cluster_iron");
         MultiCookingRecipeBuilder.smelting(Ingredient.of(ItemsTC.clusterGold), new ItemStack(Items.GOLD_INGOT, 2), 1.0f, 200).unlockedBy("has_cluster_gold", has(ItemsTC.clusterGold)).group("cluster_gold").save(pFinishedRecipeConsumer,"thaumcraft:gold_ingot_from_smelting_cluster_gold");
         MultiCookingRecipeBuilder.blasting(Ingredient.of(ItemsTC.clusterGold), new ItemStack(Items.GOLD_INGOT, 2), 1.0f, 100).unlockedBy("has_cluster_gold", has(ItemsTC.clusterGold)).group("cluster_gold").save(pFinishedRecipeConsumer,"thaumcraft:gold_ingot_from_blasting_cluster_gold");
+        MultiCookingRecipeBuilder.smelting(Ingredient.of(ItemsTC.clusterCinnabar), new ItemStack(ItemsTC.quicksilver, 2), 1.0f, 200).unlockedBy("has_cluster_cinnabar", has(ItemsTC.clusterCinnabar)).group("cluster_cinnabar").save(pFinishedRecipeConsumer,"thaumcraft:quicksilver_from_smelting_cluster_cinnabar");
+        MultiCookingRecipeBuilder.blasting(Ingredient.of(ItemsTC.clusterCinnabar), new ItemStack(ItemsTC.quicksilver, 2), 1.0f, 100).unlockedBy("has_cluster_cinnabar", has(ItemsTC.clusterCinnabar)).group("cluster_cinnabar").save(pFinishedRecipeConsumer,"thaumcraft:quicksilver_from_blasting_cluster_cinnabar");
     }
 
     public static void compileGroups() {

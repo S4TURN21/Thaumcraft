@@ -58,6 +58,7 @@ public class ConfigItems {
         event.register("nugget_quartz", (ItemsTC.nuggetQuartz = new ItemTCBase(new Item.Properties())));
         event.register("cluster_iron", (ItemsTC.clusterIron = new ItemTCBase(new Item.Properties())));
         event.register("cluster_gold", (ItemsTC.clusterGold = new ItemTCBase(new Item.Properties())));
+        event.register("cluster_cinnabar", (ItemsTC.clusterCinnabar = new ItemTCBase(new Item.Properties())));
         event.register("plate_brass", (ItemsTC.brassPlate = new ItemTCBase(new Item.Properties())));
         event.register("plate_thaumium", (ItemsTC.thaumiumPlate = new ItemTCBase(new Item.Properties())));
         event.register("filter", (ItemsTC.filter = new ItemTCBase(new Item.Properties())));

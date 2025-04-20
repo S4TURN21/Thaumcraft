@@ -1,0 +1,21 @@
+{
+  "criteria": {
+    "has_cluster_cinnabar": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "thaumcraft:cluster_cinnabar"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_cluster_cinnabar"
+    ]
+  ]
+}

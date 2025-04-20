@@ -1,0 +1,14 @@
+{
+  "type": "thaumcraft:crucible",
+  "aspects": {
+    "metallum": 5,
+    "ordo": 5
+  },
+  "catalyst": {
+    "item": "thaumcraft:ore_cinnabar"
+  },
+  "research": "METALPURIFICATION",
+  "result": {
+    "item": "thaumcraft:cluster_cinnabar"
+  }
+}
